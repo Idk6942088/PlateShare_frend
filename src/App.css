@@ -17,9 +17,41 @@
 }
 .pagesbutton {
     display: flex;
-    gap: 10px; 
-    flex-grow: 1; 
-    justify-content: center; 
+    gap: 35px; 
+  
+    flex-grow: 1;
+    margin-left: 20px;
+    font-size: large;
+}
+
+.linkbutton {
+  display: inline-block;
+  position: relative;
+}
+
+.linkbutton {
+  display: inline-block;
+  position: relative;
+}
+
+.linkbutton::after {
+  
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+  transform-origin: bottom center;
+  transition: transform 0.25s ease-out;
+}
+
+.linkbutton:hover::after {
+  
+  transform: scaleX(1);
+  transform-origin: bottom center;
 }
 
 .signbutton {
@@ -39,3 +71,80 @@
   padding: 20px;
   border-radius: 5px;
 }
+.home {
+  position: relative;
+  width: auto;
+  height: 500px;
+  text-align: center;
+  margin: auto;
+  background-image: linear-gradient(green,brown);
+  background-attachment: fixed;
+  backdrop-filter: blur(10px);
+  color: white;
+}
+.szoveg {
+  position: absolute;
+  bottom: 10%;
+  top: 10%;
+  right: 20%;
+  left: 20%;
+  border: 1px black solid;
+  font-size: 25pt;
+}
+
+@media (max-width: 1200px) {
+  .pagesbutton {
+    gap: 20px;
+    font-size: medium;
+  }
+
+  .szoveg {
+    font-size: 22pt;
+  }
+
+  .loginpanel {
+    width: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .buttons {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .pagesbutton {
+    flex-direction: column;
+    gap: 15px;
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+
+  .szoveg {
+    right: 10%;
+    left: 10%;
+    font-size: 18pt;
+  }
+
+  .loginpanel {
+    width: 70%;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagesbutton {
+    font-size: small;
+    gap: 10px;
+  }
+
+  .szoveg {
+    font-size: 16pt;
+  }
+
+  .loginpanel {
+    width: 90%;
+    padding: 15px;
+  }
+}
+
