@@ -92,6 +92,33 @@
   font-size: 25pt;
 }
 
+/*                   Etelek.jsx                           */
+.etelek{
+  width: 70%;
+  max-width: 1000px;
+  margin:auto;
+  display: flex;
+  padding: 14px;
+  box-shadow: 0px 5px 10px rgba(138, 138, 138, 0.459);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.etelek .searchBTN{
+  width: 100%;
+  max-width: 600px;
+}
+.etelek .kereso { flex: 1;}
+.etelek .szurok { display: flex; gap: 2.2rem}
+.etelek .szurok div{
+  display: flex;
+  align-items: center; 
+  gap: 0.6rem;
+}
+.etelek .szurok div span {
+  cursor: pointer;
+}
+
+
 @media (max-width: 1200px) {
   .pagesbutton {
     gap: 20px;
