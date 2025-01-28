@@ -27,7 +27,6 @@ export function Layout() {
                             </div>
                             <Divider orientation="vertical"/>
                             <div className='pagesbutton'>
-                                <Link className='linkbutton' to="/"> Home</Link>
                                 <Link className='linkbutton' to="/etelek">Ételek</Link>
                                 <Link className='linkbutton' to="/partnereink">Partnereink</Link>
                                 <Link className='linkbutton' to="/blog">Blog</Link>
@@ -35,7 +34,7 @@ export function Layout() {
                                 <Link className='linkbutton' to="/kapcsolat">Kapcsolat</Link>
                             </div>
                             <div className='signbutton'>
-                                <Link to="/login"><Button variant="contained" color='inherit'>Login</Button></Link>
+                                <Link to="/auth/in" className='font-medium text-l logingomb'>Bejelentkezés</Link>
                             </div>
                         </div>
                     </Toolbar>

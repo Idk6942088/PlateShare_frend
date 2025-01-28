@@ -10,7 +10,7 @@ import Kapcsolat from './pages/Kapcsolat';
 import Admin from './pages/Admin';
 import Upload from './pages/Upload';
 import Notfound from './pages/Notfound';
-import Login from './pages/Login';
+import Auth from './pages/Auth';
 
 function App() {
 
@@ -24,7 +24,8 @@ function App() {
       { path: "/kapcsolat", element: <Kapcsolat /> },
       { path: "/admin", element: <Admin /> },
       { path: "/upload", element: <Upload /> },
-      { path: "/login", element: <Login /> },
+      { path: "/auth/in", element: <Auth /> },
+      { path: "/auth/up", element: <Auth /> },
       { path: "*", element: <Notfound /> }
     ]}
   ]);
