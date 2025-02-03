@@ -1,11 +1,13 @@
 import './App.css'
 import { Link, Outlet } from 'react-router-dom';
-import { AppBar, Box, Button, Divider, Drawer, IconButton, Toolbar  } from '@mui/material';
-import { FaPlateWheat } from 'react-icons/fa6';
+import { Alert, AppBar, Avatar, Box, Button, Chip, Divider, Drawer, IconButton, Snackbar, Toolbar  } from '@mui/material';
+import { FaCircleUser, FaPlateWheat } from 'react-icons/fa6';
 import { useState } from 'react';
 
 
-export function Layout() {
+export function Layout({user,logout,admin,partner}) {
+
+
     return (
     <>
        <div className='menu shadow-md'>
@@ -33,8 +35,12 @@ export function Layout() {
                                 <Link className='linkbutton' to="/charity">Charity</Link>
                                 <Link className='linkbutton' to="/kapcsolat">Kapcsolat</Link>
                             </div>
-                            <div className='signbutton'>
-                                <Link to="/auth/in" className='font-medium text-l logingomb'>Bejelentkezés</Link>
+                            <div className='signbutton flex gap-3'>
+                                {user ? <Chip avatar={<Avatar src={<FaCircleUser />}></Avatar>} label={user.email} />:null}
+                                {admin ? <Link to="/admin" className='font-medium text-l logingomb'>Admin</Link> :null}
+                                {partner ? <Link to="/upload" className='font-medium text-l logingomb'>Feltölt</Link> :null}
+                                {user ? <Link onClick={logout} className='font-medium text-l logingomb'>Kijelentkezés</Link> :<Link to="/auth/in" className='font-medium text-l logingomb' >Bejelentkezés</Link>}
+                                
                             </div>
                         </div>
                     </Toolbar>
