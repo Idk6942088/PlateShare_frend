@@ -68,6 +68,9 @@
 
 /*--------------------------------Home.jsx------------------------------------*/
 .home {
+  display: flex;
+  flex-direction: column;
+  width: auto;
 }
 .home_header_bg{
   position: relative;
@@ -137,10 +140,11 @@
   height: 250px;
   margin: 10px;
   text-align: center;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.459);
-  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.459);
+  margin: auto;
+  background-image: linear-gradient(green,brown);
+  background-attachment: fixed;
+  backdrop-filter: blur(10px);
+  color: white;
 }
 .szovegfelso {
   background-color: rgba(157, 157, 157, 0.459);
@@ -273,52 +277,8 @@
   background-color: black;
   color: white;
 }
-.loginpanel {
-  margin: 25px auto;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 35%;
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px; 
-}
-/*-------------------------------------------------------------------------------*/
-/*---------------------------------MyProfile.jsx---------------------------------*/
-
-.myprofile {
-  background-color: white;
-  padding: 10px;
-  margin: 20px auto;
-  width: 50%;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.37);
-  border-radius: 5px;
-}
-.profilkep { min-width: 45%;}
-.profiladatok { min-width: 55%;}
-.delbutton {
-  background-color: red;
-  text-align: center;
-  color:white;
-  padding: 5px;
-  border-radius: 4px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.37);
-  transition: 0.5s;
-}
-.delbutton:hover {
-  background-color: rgb(225, 1, 1);
-}
 
 
-/*-------------------------------------------------------------------------------*/
-/*----------------------------Reszponzív-----------------------------------------*/
-.feltoltes input {
-  padding: calc(var(--spacing) * 2);
-  border-style: var(--tw-border-style);
-    border-width: 2px;
-    border-color: var(--color-gray-300);
-    border-radius: var(--radius-md)
-}
 
 @media (max-width: 1200px) {
   .pagesbutton {
@@ -331,16 +291,28 @@
 }
 
 @media (max-width: 768px) {
-  .hamburgermenu { display: contents; }
-  .pagesbutton { display: none;}
-  .signbutton { display: none;}
-  .menu { justify-content: space-between;}
-  .profiladatok {  margin: auto;}
-  .myprofile {
-    display: flex;
+  .buttons {
     flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .pagesbutton {
+    flex-direction: column;
+    gap: 15px;
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+
+  .szoveg {
+    right: 10%;
+    left: 10%;
+    font-size: 18pt;
+  }
+
+  .loginpanel {
     width: 70%;
-    }
+  }
 }
 
 @media (max-width: 480px) {

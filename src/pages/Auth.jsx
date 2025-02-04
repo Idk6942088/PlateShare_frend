@@ -15,7 +15,10 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
   const [kernev,setKernev] = useState("");
   const [veznev,setVeznev] = useState("");
   const [usertype, setUsertype] = useState("");
+  const [loginError,setLoginError] = useState(false);
+  
 
+  console.log(open);
 
   const navigate = useNavigate();
   const location=useLocation()
@@ -55,6 +58,10 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
   function enter(e){
     if(isSignIn && e.key === "Enter") login();
   }
+
+ 
+
+
 
   return (
     <>
