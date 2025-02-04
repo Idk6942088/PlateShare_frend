@@ -11,7 +11,7 @@ export default function Auth({auth}) {
   const [kernev,setKernev] = useState("");
   const [veznev,setVeznev] = useState("");
   const [loginError,setLoginError] = useState(false);
-  const [open, setOpen] = useState(false);
+  
 
   console.log(open);
 
@@ -39,12 +39,7 @@ export default function Auth({auth}) {
     if(e.key === "Enter") login();
   }
 
-  const handleClose = (event, reason) => {
-  if (reason === 'clickaway') {
-  return;
-  }
-  setOpen(false);
-};
+ 
 
 
 
@@ -106,18 +101,11 @@ export default function Auth({auth}) {
         ) : (<Button variant="contained" onClick={login}>Bejelentkezés</Button>)}
        
          <Link className='m-auto font-light' to="/pwreset">Elfelejtetted a jelszód?</Link>
-         <Link className='m-auto font-light' to="/auth/up">Még nincs fiókod? Kattints ide</Link>
+         {!isSignIn ? <Link className='m-auto font-light' to="/auth/in">Van már fiókod? Kattints ide</Link>
+         : <Link className='m-auto font-light' to="/auth/up">Nincs még fiókod? Kattints ide</Link>  }
+
     </div>
-       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-       <Alert
-       onClose={handleClose}
-       severity="success"
-       variant="filled"
-       sx={{ width: '100%' }}
-       >
-       Sikeres bejelentkezés!
-       </Alert>
-      </Snackbar>
+       
     </>
   )
 }

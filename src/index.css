@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
 body {
-  background-image: linear-gradient(grey,green);
-  background-attachment: fixed;
-  margin: 0px;
+  background-color: var(--color-amber-50);
 }
