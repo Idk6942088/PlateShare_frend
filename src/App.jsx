@@ -28,7 +28,6 @@ function App() {
   const [user, setUser] = useState(null);
   const [admin, setAdmin] = useState(false);
   const [partner, setPartner] = useState(false);
-  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -62,14 +61,13 @@ function App() {
 
   async function logout() {
     await signOut(auth);
-    setRefresh(!refresh);
     
   }
 
   const router = createBrowserRouter([
     { path: "/", element: <Layout user={user} logout={logout} admin={admin} partner={partner} />, children: [
       { path: "/", element: <Home /> },
-      { path: "/etelek", element: <Etelek /> },
+      { path: "/etelek", element: <Etelek db={db}/> },
       { path: "/partnereink", element: <Partnereink /> },
       { path: "/blog", element: <Blog /> },
       { path: "/charity", element: <Charity /> },
