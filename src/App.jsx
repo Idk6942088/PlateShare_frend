@@ -69,7 +69,7 @@ function App() {
   const router = createBrowserRouter([
     { path: "/", element: <Layout user={user} logout={logout} admin={admin} partner={partner} />, children: [
       { path: "/", element: <Home /> },
-      { path: "/etelek", element: <Etelek /> },
+      { path: "/etelek", element: <Etelek db={db}/> },
       { path: "/partnereink", element: <Partnereink /> },
       { path: "/blog", element: <Blog /> },
       { path: "/charity", element: <Charity /> },

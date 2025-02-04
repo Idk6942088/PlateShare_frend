@@ -12,6 +12,7 @@ export default function Auth({auth}) {
   const [veznev,setVeznev] = useState("");
   const [loginError,setLoginError] = useState(false);
   const [open, setOpen] = useState(false);
+  
 
   console.log(open);
 
@@ -45,6 +46,7 @@ export default function Auth({auth}) {
   }
   setOpen(false);
 };
+ 
 
 
 
@@ -106,7 +108,9 @@ export default function Auth({auth}) {
         ) : (<Button variant="contained" onClick={login}>Bejelentkezés</Button>)}
        
          <Link className='m-auto font-light' to="/pwreset">Elfelejtetted a jelszód?</Link>
-         <Link className='m-auto font-light' to="/auth/up">Még nincs fiókod? Kattints ide</Link>
+         {!isSignIn ? <Link className='m-auto font-light' to="/auth/in">Van már fiókod? Kattints ide</Link>
+         : <Link className='m-auto font-light' to="/auth/up">Nincs még fiókod? Kattints ide</Link>  }
+
     </div>
        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
        <Alert
@@ -118,6 +122,7 @@ export default function Auth({auth}) {
        Sikeres bejelentkezés!
        </Alert>
       </Snackbar>
+       
     </>
   )
 }

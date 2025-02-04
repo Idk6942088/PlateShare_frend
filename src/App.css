@@ -74,24 +74,41 @@
 }
 
 .home {
-  position: relative;
+  display: flex;
+  flex-direction: column;
   width: auto;
-  height: 500px;
   text-align: center;
   margin: auto;
-  background-image: linear-gradient(green,brown);
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
   background-attachment: fixed;
   backdrop-filter: blur(10px);
+  
   color: white;
 }
-.szoveg {
-  position: absolute;
-  bottom: 10%;
-  top: 10%;
-  right: 20%;
-  left: 20%;
-  border: 1px black solid;
+.box {
+  height: fit-content;
+  height: 250px;
+  
+  margin: 10px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.459);
+  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.459);
+}
+.szovegfelso {
+  background-color: rgba(157, 157, 157, 0.459);
+  position: relative;
+  width: 80%;
+  margin: 75px auto;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.459);
   font-size: 25pt;
+  
+}
+.szovegalso {
+  width: 90%;
+  margin: 0px auto;
+  font-size: 15pt;
 }
 
 /*                   Etelek.jsx                           */
@@ -188,7 +205,17 @@
   color: white;
 }
 
+.hamburgermenu {
+  display: none;
+}
 
+.feltoltes input {
+  padding: calc(var(--spacing) * 2);
+  border-style: var(--tw-border-style);
+    border-width: 2px;
+    border-color: var(--color-gray-300);
+    border-radius: var(--radius-md)
+}
 
 @media (max-width: 1200px) {
   .pagesbutton {
@@ -206,27 +233,19 @@
 }
 
 @media (max-width: 768px) {
-  .buttons {
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 10px;
+  .hamburgermenu {
+    display: contents;
   }
-
   .pagesbutton {
-    flex-direction: column;
-    gap: 15px;
-    margin-left: 0;
-    margin-bottom: 10px;
+    display: none;
   }
 
-  .szoveg {
-    right: 10%;
-    left: 10%;
-    font-size: 18pt;
+  .signbutton {
+    display: none;
   }
 
-  .loginpanel {
-    width: 70%;
+  .menu {
+    justify-content: space-between;
   }
 }
 
