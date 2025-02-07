@@ -97,9 +97,14 @@ function App() {
       { path: "/kapcsolat", element: <Kapcsolat /> },
       { path: "/admin", element: <Admin admin={admin}/> },
       { path: "/upload", element: <Upload partner={partner} db={db}/> },
+<<<<<<< HEAD
       { path: "/myprofile", element: <Myprofile user={user} db={db}/> },
       { path: "/auth/in", element: <Auth auth={auth} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth auth={auth} db={db} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose}/> },
+=======
+      { path: "/auth/in", element: <Auth auth={auth} setUser={setUser}/> },
+      { path: "/auth/up", element: <Auth /> },
+>>>>>>> b0d0cd4 (Upload)
       { path: "*", element: <Notfound /> }
     ]}
   ]);
