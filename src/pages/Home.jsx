@@ -5,6 +5,15 @@ export function Home() {
   return (
     <>
     <div className='home'>
+      <div className="home_bg">
+        <img src="src/img/home_bg.jpg" alt="" />
+      </div>
+      <div className="home_bg_szoveg">
+        <h1>PlateShare</h1>
+        <button class="btn" >Ételek</button>
+      </div>
+      
+      
       <h1 className='font-bold text-4xl mt-3'>Mentsük meg együtt az ételeket! 🍽️♻️</h1>
       <div className='szovegfelso'>
         <p>A PlateShare egy fenntartható megoldás az élelmiszer-pazarlás ellen.</p> 
