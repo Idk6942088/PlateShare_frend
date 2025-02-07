@@ -75,7 +75,7 @@ function App() {
       { path: "/charity", element: <Charity /> },
       { path: "/kapcsolat", element: <Kapcsolat /> },
       { path: "/admin", element: <Admin admin={admin}/> },
-      { path: "/upload", element: <Upload partner={partner}/> },
+      { path: "/upload", element: <Upload partner={partner} db={db}/> },
       { path: "/auth/in", element: <Auth auth={auth} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth /> },
       { path: "*", element: <Notfound /> }
