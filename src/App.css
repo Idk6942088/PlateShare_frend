@@ -290,6 +290,26 @@
 }
 
 
+<<<<<<< HEAD
+=======
+.myprofile {
+  background-color: white;
+  padding: 10px;
+  margin: 20px auto;
+  width: 50%;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.37);
+  border-radius: 5px;
+}
+
+
+.feltoltes input {
+  padding: calc(var(--spacing) * 2);
+  border-style: var(--tw-border-style);
+    border-width: 2px;
+    border-color: var(--color-gray-300);
+    border-radius: var(--radius-md)
+}
+>>>>>>> cafc879 (Myprofile)
 
 @media (max-width: 1200px) {
   .pagesbutton {

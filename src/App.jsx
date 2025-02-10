@@ -19,9 +19,13 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import Etel from './pages/Etel.jsx';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Myprofile from './pages/Myprofile.jsx';
 =======
 >>>>>>> f2b3d7e (Etel.jsx)
+=======
+import Myprofile from './pages/Myprofile.jsx';
+>>>>>>> cafc879 (Myprofile)
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -104,10 +108,14 @@ function App() {
       { path: "/admin", element: <Admin admin={admin}/> },
       { path: "/upload", element: <Upload partner={partner} db={db}/> },
 <<<<<<< HEAD
+<<<<<<< HEAD
       { path: "/myprofile", element: <Myprofile user={user} db={db}/> },
       { path: "/auth/in", element: <Auth auth={auth} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth auth={auth} db={db} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose}/> },
 =======
+=======
+      { path: "/myprofile", element: <Myprofile user={user} db={db}/> },
+>>>>>>> cafc879 (Myprofile)
       { path: "/auth/in", element: <Auth auth={auth} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth /> },
 >>>>>>> b0d0cd4 (Upload)
