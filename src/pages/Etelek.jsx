@@ -1,4 +1,4 @@
-import { Box, Button, InputAdornment, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import { Box, Button, InputAdornment, TextField } from '@mui/material'
 import React from 'react'
 import { IoSearch, IoFilter } from "react-icons/io5";
 import { BiSort } from "react-icons/bi";
@@ -7,6 +7,7 @@ import { IoIosStar } from "react-icons/io";
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { collection, onSnapshot, query, Timestamp } from 'firebase/firestore';
+import { Link } from 'react-router-dom';
 
 export default function Etelek({db}) {
 
@@ -39,6 +40,8 @@ export default function Etelek({db}) {
         return "Ma " + (ora1 < "10" ? "0" + ora1 : ora1) + ":" + (perc1 < "10" ? "0" + perc1 : perc1) + "-től - " + (ora2 < "10" ? "0" + ora2 : ora2) + ":" + (perc2 < "10" ? "0" + perc2 : perc2) + "-ig";
     } 
   }
+
+
   
   return (
     <>
@@ -75,72 +78,28 @@ export default function Etelek({db}) {
       <div className="etelekLent">
         <Grid container spacing={2}>
           {etelek.map( e => (
-            <Grid item size={{xs: 12, sm: 6, md: 3}} className='kartya' key={e.id}>
-              <div className="kartyaKep">
-                <img src="https://static-cdn.arcanum.com/nfo-resources/pannon_pic/pannon/panny-33_3.jpg" />
-                <span className='kartyaDb'>{e.db} db</span>
-                <span className='kartyaErtekeles' title={`${e.ertekeles} értékelés`}><IoIosStar color='success' />{e.ertekeles}</span>
-              </div>
-              <div className="kartyaSzoveg">
-                <h3>{e.partnernev}</h3>
-                <p>{e.helyszin}</p>
-                <p>Étel átvehető: {convertTimestamp(e.mettol,e.meddig)}</p>
-                <Button className='kartyaGomb' variant="contained">Lefoglalás</Button>
-              </div>
-            </Grid>
-          ))}
-          <Grid item size={{xs: 12, sm: 6, md: 3}} className='kartya'>
-          <div className="kartyaKep">
-              <img src="https://static-cdn.arcanum.com/nfo-resources/pannon_pic/pannon/panny-33_3.jpg" alt="" />
-              <span className='kartyaDb'>13 db</span>
-              <span className='kartyaErtekeles' title='12 értékelés'><IoIosStar color='success' />4.4</span>
-            </div>
-            <div className="kartyaSzoveg">
-              <h3>Penny Market</h3>
-              <p>Kecskemét, Kodály Zoltán tér 8</p>
-              <p>Étel átvehető: 12:00 - 15:50</p>
-              <Button className='kartyaGomb' variant="contained">Lefoglalás</Button>
-            </div>
-          </Grid>
-          <Grid item size={{xs: 12, sm: 6, md: 3}} className='kartya'>
-            <div className="kartyaKep">
-              <img src="https://infostart.hu/images/site/articles/lead/2023/02/1676808267-S3KaO9I3z_md.jpg" alt="" />
-              <span className='kartyaDb'>3 db</span>
-              <span className='kartyaErtekeles' title='12 értékelés'><IoIosStar color='success' />4.4</span>
-            </div>
-            <div className="kartyaSzoveg">
-              <h3>Penny Market</h3>
-              <p>Kecskemét, Kodály Zoltán tér 8</p>
-              <p>Étel átvehető: 12:00 - 15:50</p>
-              <Button className='kartyaGomb' variant="contained">Lefoglalás</Button>
-            </div>
-          </Grid>
-          <Grid item size={{xs: 12, sm: 6, md: 3}} className='kartya'>
-            <div className="kartyaKep">
-                <img src="https://infostart.hu/images/site/articles/lead/2023/02/1676808267-S3KaO9I3z_md.jpg" alt="" />
-                <span className='kartyaDb'>3 db</span>
-                <span className='kartyaErtekeles' title='12 értékelés'><IoIosStar color='success' />4.4</span>
-              </div>
-              <div className="kartyaSzoveg">
-                <h3>Penny Market</h3>
-                <p>Kecskemét, Kodály Zoltán tér 8</p>
-                <p>Étel átvehető: 12:00 - 15:50</p>
-                <Button className='kartyaGomb' variant="contained">Lefoglalás</Button>
-              </div>
-          </Grid>
-          <Grid item size={{xs: 12, sm: 6, md: 3}} className='kartya'>
-            <div className="kartyaKep">
-                <img src="https://infostart.hu/images/site/articles/lead/2023/02/1676808267-S3KaO9I3z_md.jpg" alt="" />
-                <span className='kartyaDb'>3 db</span>
-                <span className='kartyaErtekeles' title='12 értékelés'><IoIosStar color='success' />4.4</span>
-              </div>
-              <div className="kartyaSzoveg">
-                <h3>Penny Market</h3>
-                <p>Kecskemét, Kodály Zoltán tér 8</p>
-                <p>Étel átvehető: 12:00 - 15:50</p>
-                <Button className='kartyaGomb' variant="contained">Lefoglalás</Button>
-              </div>
-          </Grid>
+            
+              <Grid size={{xs: 12, sm: 6, md: 3}} className='kartya' key={e.id}>
+                <Link to={`/etel/${e.id}`} >
+                  <div className="kartyaKep">
+                    <img src="https://static-cdn.arcanum.com/nfo-resources/pannon_pic/pannon/panny-33_3.jpg" />
+                    <span className='kartyaDb'>{e.db} db</span>
+                    <span className='kartyaErtekeles' title={`${e.ertekelesdb} értékelés`}><IoIosStar color='success' />{e.ertekeles}</span>
+                  </div>
+                  <div className="kartyaSzoveg">
+                    <div className="nev_ar">
+                    <h3>{e.partnernev}</h3>
+                    <span>{e.ar},-Ft</span>
+                    </div>
+
+                    <p>{e.helyszin}</p>
+                    <p>Étel átvehető: {convertTimestamp(e.mettol,e.meddig)}</p>
+                    <Button className='kartyaGomb' variant="contained">Lefoglalás</Button>
+                  </div>
+                </Link>
+              </Grid>
+           
+          ))} 
         </Grid>
       </div>
     </>
