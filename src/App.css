@@ -281,6 +281,16 @@
   display: none;
 }
 
+.myprofile {
+  background-color: white;
+  padding: 10px;
+  margin: 20px auto;
+  width: 50%;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.37);
+  border-radius: 5px;
+}
+
+
 .feltoltes input {
   padding: calc(var(--spacing) * 2);
   border-style: var(--tw-border-style);

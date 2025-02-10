@@ -155,9 +155,9 @@ export function Layout({user,logout,admin,partner}) {
                                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                     >
-                                    <MenuItem onClick={handleClose}>
-                                    <Avatar /> Profilom
-                                    </MenuItem>
+                                    <Link to="/myprofile"><MenuItem  onClick={handleClose}>
+                                    <Avatar /> Profilom 
+                                    </MenuItem></Link>
                                     <MenuItem onClick={handleClose}>
                                         Kedvencek
                                     </MenuItem>
