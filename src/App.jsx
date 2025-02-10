@@ -61,6 +61,24 @@ function App() {
 =======
 >>>>>>> f2b3d7e (Etel.jsx)
 
+
+  const [sikeres,setSikeres] = useState(false);
+  const [sikertelen,setSikertelen] = useState(false);
+
+  const sikeresClose = (event, reason) => {
+    if (reason === 'clickaway') {
+    return;
+    }
+    setSikeres(false);
+  };
+
+  const sikertelenClose = (event, reason) => {
+    if (reason === 'clickaway') {
+    return;
+    }
+    setSikertelen(false);
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -112,6 +130,7 @@ function App() {
       { path: "/myprofile", element: <Myprofile user={user} db={db}/> },
       { path: "/auth/in", element: <Auth auth={auth} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth auth={auth} db={db} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose}/> },
+<<<<<<< HEAD
 =======
 =======
       { path: "/myprofile", element: <Myprofile user={user} db={db}/> },
@@ -119,6 +138,8 @@ function App() {
       { path: "/auth/in", element: <Auth auth={auth} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth /> },
 >>>>>>> b0d0cd4 (Upload)
+=======
+>>>>>>> 2b50362 (User)
       { path: "*", element: <Notfound /> }
     ]}
   ]);

@@ -1,12 +1,18 @@
 import { Alert, Button,FormControlLabel, Radio, RadioGroup, Snackbar, TextField } from '@mui/material'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+<<<<<<< HEAD
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import React from 'react'
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+=======
+import React from 'react'
+import { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+>>>>>>> 2b50362 (User)
 
 export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikertelenClose}) {
 
@@ -17,8 +23,8 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
   const [usertype, setUsertype] = useState("");
   const [loginError,setLoginError] = useState(false);
   
+  const [usertype, setUsertype] = useState("");
 
-  console.log(open);
 
   const navigate = useNavigate();
   const location=useLocation()
@@ -51,6 +57,15 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
         setSikertelen(true);
         
     }
+<<<<<<< HEAD
+  }
+
+ 
+
+  function enter(e){
+    if(isSignIn && e.key === "Enter") login();
+=======
+>>>>>>> 2b50362 (User)
   }
 
  
@@ -58,10 +73,6 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
   function enter(e){
     if(isSignIn && e.key === "Enter") login();
   }
-
- 
-
-
 
   return (
     <>

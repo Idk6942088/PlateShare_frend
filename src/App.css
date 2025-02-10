@@ -48,6 +48,10 @@
 .hamburgermenu { display: none;}
 .menu { background-color: white;}
 /*----------------------------------------------------------------------------*/
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2b50362 (User)
 .signbutton {
     display: flex;
     align-items: center;
@@ -74,6 +78,15 @@
   display: flex;
   flex-direction: column;
   width: auto;
+<<<<<<< HEAD
+=======
+  text-align: center;
+  margin: auto;
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
+  background-attachment: fixed;
+  backdrop-filter: blur(10px);
+  color: white;
+>>>>>>> 2b50362 (User)
 }
 
 .home_bg img{
@@ -240,6 +253,7 @@
 <<<<<<< HEAD
 =======
 
+/*----------------------------------*/
 
 /*                                Etel.jsx                                */
 .etel{
@@ -253,6 +267,7 @@
   height: 350px;
   border: 1px solid red
 }
+<<<<<<< HEAD
 >>>>>>> f2b3d7e (Etel.jsx)
 
 /*----------------------------------*/
@@ -273,6 +288,12 @@
 
 /*-----------------------------------Login.jsx-----------------------------------*/
 
+=======
+/*-------------------------------------------------------------------------------*/
+
+/*-----------------------------------Login.jsx-----------------------------------*/
+
+>>>>>>> 2b50362 (User)
 .signbutton {
   display: flex;
   align-items: center;
@@ -288,7 +309,22 @@
   background-color: black;
   color: white;
 }
+<<<<<<< HEAD
 
+=======
+.loginpanel {
+  margin: 25px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 35%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px; 
+}
+/*-------------------------------------------------------------------------------*/
+/*---------------------------------MyProfile.jsx---------------------------------*/
+>>>>>>> 2b50362 (User)
 
 <<<<<<< HEAD
 =======
@@ -300,8 +336,24 @@
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.37);
   border-radius: 5px;
 }
+.profilkep { min-width: 45%;}
+.profiladatok { min-width: 55%;}
+.delbutton {
+  background-color: red;
+  text-align: center;
+  color:white;
+  padding: 5px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.37);
+  transition: 0.5s;
+}
+.delbutton:hover {
+  background-color: rgb(225, 1, 1);
+}
 
 
+/*-------------------------------------------------------------------------------*/
+/*----------------------------Reszponzív-----------------------------------------*/
 .feltoltes input {
   padding: calc(var(--spacing) * 2);
   border-style: var(--tw-border-style);
@@ -322,6 +374,7 @@
 }
 
 @media (max-width: 768px) {
+<<<<<<< HEAD
   .buttons {
     flex-direction: column;
     align-items: flex-start;
@@ -344,6 +397,18 @@
   .loginpanel {
     width: 70%;
   }
+=======
+  .hamburgermenu { display: contents; }
+  .pagesbutton { display: none;}
+  .signbutton { display: none;}
+  .menu { justify-content: space-between;}
+  .profiladatok {  margin: auto;}
+  .myprofile {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    }
+>>>>>>> 2b50362 (User)
 }
 
 @media (max-width: 480px) {
