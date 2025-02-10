@@ -17,6 +17,8 @@ import { collection, getDocs, getFirestore, query, where } from "firebase/firest
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect } from 'react';
 import { useState } from 'react';
+import Etel from './pages/Etel.jsx';
+import Myprofile from './pages/Myprofile.jsx';
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -29,6 +31,7 @@ function App() {
   const [admin, setAdmin] = useState(false);
   const [partner, setPartner] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [etelurl, setEtelurl] = useState('');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -70,12 +73,14 @@ function App() {
     { path: "/", element: <Layout user={user} logout={logout} admin={admin} partner={partner} />, children: [
       { path: "/", element: <Home /> },
       { path: "/etelek", element: <Etelek db={db}/> },
+      { path: "/etel/:id", element: <Etel db={db}/> },
       { path: "/partnereink", element: <Partnereink /> },
       { path: "/blog", element: <Blog /> },
       { path: "/charity", element: <Charity /> },
       { path: "/kapcsolat", element: <Kapcsolat /> },
       { path: "/admin", element: <Admin admin={admin}/> },
-      { path: "/upload", element: <Upload partner={partner}/> },
+      { path: "/upload", element: <Upload partner={partner} db={db}/> },
+      { path: "/myprofile", element: <Myprofile user={user} db={db}/> },
       { path: "/auth/in", element: <Auth auth={auth} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth /> },
       { path: "*", element: <Notfound /> }
@@ -84,7 +89,7 @@ function App() {
 
   return (
     <div className='app'>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </div>
   )
 }
