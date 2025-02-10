@@ -18,6 +18,7 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Etel from './pages/Etel.jsx';
+import Myprofile from './pages/Myprofile.jsx';
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -79,6 +80,7 @@ function App() {
       { path: "/kapcsolat", element: <Kapcsolat /> },
       { path: "/admin", element: <Admin admin={admin}/> },
       { path: "/upload", element: <Upload partner={partner} db={db}/> },
+      { path: "/myprofile", element: <Myprofile user={user} db={db}/> },
       { path: "/auth/in", element: <Auth auth={auth} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth /> },
       { path: "*", element: <Notfound /> }
