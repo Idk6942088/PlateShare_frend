@@ -17,6 +17,7 @@ import { collection, getDocs, getFirestore, query, where } from "firebase/firest
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect } from 'react';
 import { useState } from 'react';
+import Myprofile from './pages/Myprofile.jsx';
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -74,6 +75,7 @@ function App() {
       { path: "/kapcsolat", element: <Kapcsolat /> },
       { path: "/admin", element: <Admin admin={admin}/> },
       { path: "/upload", element: <Upload partner={partner} db={db}/> },
+      { path: "/myprofile", element: <Myprofile user={user} db={db}/> },
       { path: "/auth/in", element: <Auth auth={auth} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth /> },
       { path: "*", element: <Notfound /> }
