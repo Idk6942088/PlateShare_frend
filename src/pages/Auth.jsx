@@ -1,21 +1,58 @@
-import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Radio, RadioGroup, TextField } from '@mui/material'
+import { Alert, Button,FormControlLabel, Radio, RadioGroup, Snackbar, TextField } from '@mui/material'
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import React from 'react'
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, replace, useLocation, useNavigate } from 'react-router-dom'
 
-export default function Auth() {
+export default function Auth({auth}) {
 
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [kernev,setKernev] = useState("");
   const [veznev,setVeznev] = useState("");
+  const [loginError,setLoginError] = useState(false);
+  const [open, setOpen] = useState(false);
+  
+
+  console.log(open);
+
+  const navigate = useNavigate();
 
   const location=useLocation()
   console.log(location.pathname);
   const isSignIn=location.pathname=='/auth/in';
 
+  async function login() {
+    try{
+      await signInWithEmailAndPassword(auth, email, password);
+       setEmail(""); setPassword("");
+       navigate('/',{replace:true});
+       setLoginError(false);
+       setOpen(true);
+       
+    } catch(error){
+      console.error(error);
+      setLoginError(true);
+    }
+  }
+
+  function enter(e){
+    if(e.key === "Enter") login();
+  }
+
+  const handleClose = (event, reason) => {
+  if (reason === 'clickaway') {
+  return;
+  }
+  setOpen(false);
+};
+ 
+
+
+
   return (
-    <div className='loginpanel m-auto drop-shadow-xl'>
+    <>
+    <div className='loginpanel m-auto drop-shadow-xl' onKeyDown={e => enter(e)}>
         
         <h3 className='border-b-2 pb-3  border-gray-400 text-center text-2xl font-bold mb-1 '>{isSignIn ? "Bejelentkezés" : "Regisztráció"}</h3>
         
@@ -36,14 +73,14 @@ export default function Auth() {
          className='w-1/2'
          required
          label="Vezetéknév"
-         value={email}
+         value={veznev}
          onChange={e => setVeznev(e.target.value)}
        />
           <TextField
           className='w-1/2'
           required
           label="Keresztnév"
-          value={email}
+          value={kernev}
           onChange={e => setKernev(e.target.value)}
         />
         </div>
@@ -52,12 +89,14 @@ export default function Auth() {
        )}
         
           <TextField
+          error={loginError}
           required
           label="Email"
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
         <TextField
+            error={loginError}
             required
             label="Jelszó"
             type="password"
@@ -66,10 +105,24 @@ export default function Auth() {
         />
         {!isSignIn ? (
         <Button variant="contained" >Regisztráció</Button>
-        ) : (<Button variant="contained" >Bejelentkezés</Button>)}
-        
+        ) : (<Button variant="contained" onClick={login}>Bejelentkezés</Button>)}
+       
          <Link className='m-auto font-light' to="/pwreset">Elfelejtetted a jelszód?</Link>
-         <Link className='m-auto font-light' to="/auth/up">Még nincs fiókod? Kattints ide</Link>
+         {!isSignIn ? <Link className='m-auto font-light' to="/auth/in">Van már fiókod? Kattints ide</Link>
+         : <Link className='m-auto font-light' to="/auth/up">Nincs még fiókod? Kattints ide</Link>  }
+
     </div>
+       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+       <Alert
+       onClose={handleClose}
+       severity="success"
+       variant="filled"
+       sx={{ width: '100%' }}
+       >
+       Sikeres bejelentkezés!
+       </Alert>
+      </Snackbar>
+       
+    </>
   )
 }

@@ -60,6 +60,9 @@
 }
 .menu {
   background-color: white;
+  z-index: 3;
+  position: sticky;
+  width: 100%;
 }
 .loginpanel {
   margin: 25px auto;
@@ -74,24 +77,95 @@
 }
 
 .home {
-  position: relative;
+  display: flex;
+  flex-direction: column;
   width: auto;
-  height: 500px;
   text-align: center;
   margin: auto;
-  background-image: linear-gradient(green,brown);
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
   background-attachment: fixed;
   backdrop-filter: blur(10px);
+  
   color: white;
 }
-.szoveg {
+
+.home_bg img{
+  position: relative;
+  width: 100%;
+  max-height: 100%;
+  filter: blur(10px);
+}
+.home_bg_szoveg h1{
   position: absolute;
-  bottom: 10%;
-  top: 10%;
-  right: 20%;
-  left: 20%;
-  border: 1px black solid;
+  top: 5%; left:50%;
+  font-family: "Quicksand", serif;
+  color: black;
+  font-size: 50px;  
+  transform: translate(-50%, -50%);
+}
+/*gomb*/
+.btn {
+  position: absolute;
+  top: 55%; left: 50%;
+  font-size: 17px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1em 2.5em;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 6em;
+  transition: all 0.2s;
+  border: none;
+  font-weight: 500;
+  color: black;
+  background-color: white;
+  transform: translate(-50%, -50%);
+}
+.btn:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+.btn::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all 0.4s;
+}
+.btn::after { background-color: #fff; }
+.btn:hover::after { transform: scaleX(1.4) scaleY(1.6); opacity: 0; }
+
+
+
+
+.box {
+  height: fit-content;
+  height: 250px;
+  
+  margin: 10px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.459);
+  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.459);
+}
+.szovegfelso {
+  background-color: rgba(157, 157, 157, 0.459);
+  /*position: relative;*/
+  width: 80%;
+  margin: 75px auto;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.459);
   font-size: 25pt;
+  
+}
+.szovegalso {
+  width: 90%;
+  margin: 0px auto;
+  font-size: 15pt;
 }
 
 /*                   Etelek.jsx                           */
@@ -173,6 +247,21 @@
   width: 100%;
   height: 30px;
 }
+.nev_ar{ display: flex; justify-content: space-between; }
+
+
+/*                                Etel.jsx                                */
+.etel{
+  width: 50%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);;
+  margin: 30px auto;
+  padding: 20px;
+}
+.etel img{
+  width: 500px;
+  height: 350px;
+  border: 1px solid red
+}
 
 
 .logingomb {
@@ -188,7 +277,27 @@
   color: white;
 }
 
+.hamburgermenu {
+  display: none;
+}
 
+.myprofile {
+  background-color: white;
+  padding: 10px;
+  margin: 20px auto;
+  width: 50%;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.37);
+  border-radius: 5px;
+}
+
+
+.feltoltes input {
+  padding: calc(var(--spacing) * 2);
+  border-style: var(--tw-border-style);
+    border-width: 2px;
+    border-color: var(--color-gray-300);
+    border-radius: var(--radius-md)
+}
 
 @media (max-width: 1200px) {
   .pagesbutton {
@@ -206,27 +315,19 @@
 }
 
 @media (max-width: 768px) {
-  .buttons {
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 10px;
+  .hamburgermenu {
+    display: contents;
   }
-
   .pagesbutton {
-    flex-direction: column;
-    gap: 15px;
-    margin-left: 0;
-    margin-bottom: 10px;
+    display: none;
   }
 
-  .szoveg {
-    right: 10%;
-    left: 10%;
-    font-size: 18pt;
+  .signbutton {
+    display: none;
   }
 
-  .loginpanel {
-    width: 70%;
+  .menu {
+    justify-content: space-between;
   }
 }
 

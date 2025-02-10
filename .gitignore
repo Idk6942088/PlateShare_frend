@@ -7,7 +7,9 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+firebaseConfig.js
 node_modules
+firebaseConfig.js
 dist
 dist-ssr
 *.local
