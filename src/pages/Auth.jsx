@@ -1,47 +1,61 @@
 import { Alert, Button,FormControlLabel, Radio, RadioGroup, Snackbar, TextField } from '@mui/material'
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import React from 'react'
 import { useState } from 'react'
-import { Link, replace, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
-export default function Auth({auth}) {
+export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikertelenClose}) {
 
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [kernev,setKernev] = useState("");
   const [veznev,setVeznev] = useState("");
+  const [usertype, setUsertype] = useState("");
+
   const [loginError,setLoginError] = useState(false);
   
 
   console.log(open);
 
   const navigate = useNavigate();
-
   const location=useLocation()
   console.log(location.pathname);
   const isSignIn=location.pathname=='/auth/in';
 
   async function login() {
+    
     try{
       await signInWithEmailAndPassword(auth, email, password);
        setEmail(""); setPassword("");
        navigate('/',{replace:true});
-       setLoginError(false);
-       setOpen(true);
-       
+       setSikeres(true);
     } catch(error){
       console.error(error);
-      setLoginError(true);
+      setSikertelen(true);
     }
   }
 
-  function enter(e){
-    if(e.key === "Enter") login();
+  async function register() {
+
+    try {
+        
+        await createUserWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, "users", auth.currentUser.reloadUserInfo.localId), {email:email, veznev:veznev, kernev:kernev, tipus:usertype});
+        setEmail(""); setPassword("");
+        
+    } catch (error) {
+        console.log(error);
+        setSikertelen(true);
+        
+    }
   }
 
  
 
-
+  function enter(e){
+    if(isSignIn && e.key === "Enter") login();
+  }
 
   return (
     <>
@@ -57,8 +71,8 @@ export default function Auth({auth}) {
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="usertype"
           >
-           <FormControlLabel value="maganszemely" control={<Radio />} label="Magánszemély" />
-           <FormControlLabel value="partner" control={<Radio />} label="Partner" />
+           <FormControlLabel value="mszemely" control={<Radio   onClick={e => setUsertype(e.target.value)} />} label="Magánszemély" />
+           <FormControlLabel value="partner" control={<Radio  onClick={e => setUsertype(e.target.value)}/>} label="Partner" />
           </RadioGroup>
 
          <div className='flex gap-3  border-t-2 pt-3  border-gray-400'>
@@ -70,6 +84,7 @@ export default function Auth({auth}) {
          onChange={e => setVeznev(e.target.value)}
        />
           <TextField
+          
           className='w-1/2'
           required
           label="Keresztnév"
@@ -82,14 +97,14 @@ export default function Auth({auth}) {
        )}
         
           <TextField
-          error={loginError}
+    
           required
           label="Email"
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
         <TextField
-            error={loginError}
+           
             required
             label="Jelszó"
             type="password"
@@ -97,7 +112,7 @@ export default function Auth({auth}) {
           onChange={e => setPassword(e.target.value)}
         />
         {!isSignIn ? (
-        <Button variant="contained" >Regisztráció</Button>
+        <Button variant="contained" onClick={register} >Regisztráció</Button>
         ) : (<Button variant="contained" onClick={login}>Bejelentkezés</Button>)}
        
          <Link className='m-auto font-light' to="/pwreset">Elfelejtetted a jelszód?</Link>
@@ -105,6 +120,27 @@ export default function Auth({auth}) {
          : <Link className='m-auto font-light' to="/auth/up">Nincs még fiókod? Kattints ide</Link>  }
 
     </div>
+    {!isSignIn ? <Snackbar open={sikertelen} autoHideDuration={6000} onClose={sikertelenClose}>
+       <Alert
+       onClose={sikertelenClose}
+       severity="error"
+       variant="filled"
+       sx={{ width: '100%' }}
+       >
+       Sikertelen regisztráció!
+       </Alert>
+      </Snackbar> :
+      <Snackbar open={sikertelen} autoHideDuration={6000} onClose={sikertelenClose}>
+      <Alert
+      onClose={sikertelenClose}
+      severity="error"
+      variant="filled"
+      sx={{ width: '100%' }}
+      >
+      Sikertelen bejelentkezés!
+      </Alert>
+     </Snackbar>}
+    
        
     </>
   )
