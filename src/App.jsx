@@ -69,6 +69,7 @@ function App() {
     { path: "/", element: <Layout user={user} logout={logout} admin={admin} partner={partner} />, children: [
       { path: "/", element: <Home /> },
       { path: "/etelek", element: <Etelek db={db}/> },
+      { path: "/etel/:id", element: <Etel db={db}/> },
       { path: "/partnereink", element: <Partnereink /> },
       { path: "/blog", element: <Blog /> },
       { path: "/charity", element: <Charity /> },
@@ -84,7 +85,7 @@ function App() {
 
   return (
     <div className='app'>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </div>
   )
 }
