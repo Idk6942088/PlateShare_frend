@@ -18,7 +18,10 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Etel from './pages/Etel.jsx';
+<<<<<<< HEAD
 import Myprofile from './pages/Myprofile.jsx';
+=======
+>>>>>>> f2b3d7e (Etel.jsx)
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -32,6 +35,7 @@ function App() {
   const [partner, setPartner] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [etelurl, setEtelurl] = useState('');
+<<<<<<< HEAD
 
 
   const [sikeres,setSikeres] = useState(false);
@@ -50,6 +54,8 @@ function App() {
     }
     setSikertelen(false);
   };
+=======
+>>>>>>> f2b3d7e (Etel.jsx)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {

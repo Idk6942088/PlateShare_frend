@@ -7,9 +7,12 @@ import { IoIosStar } from "react-icons/io";
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { collection, onSnapshot, query, Timestamp } from 'firebase/firestore';
+<<<<<<< HEAD
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { collection, onSnapshot, query, Timestamp } from 'firebase/firestore';
+=======
+>>>>>>> f2b3d7e (Etel.jsx)
 import { Link } from 'react-router-dom';
 
 export default function Etelek({db}) {
@@ -45,7 +48,11 @@ export default function Etelek({db}) {
   }
 
 
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> f2b3d7e (Etel.jsx)
   return (
     <>
       <div className='etelekFent'>

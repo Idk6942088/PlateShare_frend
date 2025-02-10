@@ -237,6 +237,23 @@
   height: 30px;
 }
 .nev_ar{ display: flex; justify-content: space-between; }
+<<<<<<< HEAD
+=======
+
+
+/*                                Etel.jsx                                */
+.etel{
+  width: 50%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);;
+  margin: 30px auto;
+  padding: 20px;
+}
+.etel img{
+  width: 500px;
+  height: 350px;
+  border: 1px solid red
+}
+>>>>>>> f2b3d7e (Etel.jsx)
 
 /*----------------------------------*/
 
