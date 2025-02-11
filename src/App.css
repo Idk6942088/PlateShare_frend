@@ -48,6 +48,7 @@
 .hamburgermenu { display: none;}
 .menu { background-color: white;}
 /*----------------------------------------------------------------------------*/
+
 .signbutton {
     display: flex;
     align-items: center;
@@ -84,6 +85,8 @@
 }
 /*--------------------------------Home.jsx------------------------------------*/
 
+.home {
+}
 .home_header_bg{
   position: relative;
   top: 0; left: 0;
