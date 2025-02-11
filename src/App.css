@@ -50,11 +50,15 @@
 /*----------------------------------------------------------------------------*/
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 2b50362 (User)
 =======
 >>>>>>> ca0d8e0 (javitas)
+=======
+
+>>>>>>> ab70ccf (fix home page)
 .signbutton {
     display: flex;
     align-items: center;
@@ -101,6 +105,8 @@
 }
 /*--------------------------------Home.jsx------------------------------------*/
 
+.home {
+}
 .home_header_bg{
   position: relative;
   top: 0; left: 0;
