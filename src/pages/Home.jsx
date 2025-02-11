@@ -1,20 +1,28 @@
 
 import { Alert, Snackbar } from '@mui/material'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export function Home({sikeres,sikeresClose}) {
   return (
     <>
     <div className='home'>
-      <div className="home_bg">
-        <img src="src/img/home_bg.jpg" alt="" />
+      <div className="home_header_bg">
+        <div className="home_bg">
+          <img src="src/img/home_bg.jpg" alt="" />
+        </div>
+        <div className="home_bg_szoveg">
+          <h1>PlateShare</h1>
+          <Link to="/etelek"><button class="btn" >Ételek</button></Link>
+        </div>
       </div>
-      <div className="home_bg_szoveg">
-        <h1>PlateShare</h1>
-        <button class="btn" >Ételek</button>
-      </div>
-      
-      
+     
+      <h1 className='font-bold text-4xl mt-3'>Mentsük meg együtt az ételeket! 🍽️♻️</h1>
+      <h1 className='font-bold text-4xl mt-3'>Mentsük meg együtt az ételeket! 🍽️♻️</h1>
+      <h1 className='font-bold text-4xl mt-3'>Mentsük meg együtt az ételeket! 🍽️♻️</h1>
+
+
+      {/*
       <h1 className='font-bold text-4xl mt-3'>Mentsük meg együtt az ételeket! 🍽️♻️</h1>
       <div className='szovegfelso'>
         <p>A PlateShare egy fenntartható megoldás az élelmiszer-pazarlás ellen.</p> 
@@ -49,7 +57,7 @@ export function Home({sikeres,sikeresClose}) {
         </div>
      
        
-      </div>
+      </div>*/}
     </div>
      <Snackbar open={sikeres} autoHideDuration={6000} onClose={sikeresClose}>
            <Alert
