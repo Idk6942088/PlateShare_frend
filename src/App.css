@@ -86,27 +86,43 @@
   background-attachment: fixed;
   backdrop-filter: blur(10px);
   color: white;
+<<<<<<< HEAD
 >>>>>>> 2b50362 (User)
+=======
+/*--------------------------------Home.jsx------------------------------------*/
+>>>>>>> 85e976f (fix home page)
 }
-
-.home_bg img{
+.home_header_bg{
   position: relative;
-  width: 100%;
-  max-height: 100%;
-  filter: blur(10px);
+  top: 0; left: 0;
+  background-color: red;
+  height: 90vh;
+  overflow: hidden;
+}
+.home_bg{
+  position: absolute;
+  top: 0; left: 0;
+}
+.home_bg img {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+.home_bg_szoveg{
+  /*position: absolute;*/
 }
 .home_bg_szoveg h1{
   position: absolute;
-  top: 5%; left:50%;
   font-family: "Quicksand", serif;
   color: black;
-  font-size: 50px;  
-  transform: translate(-50%, -50%);
+  font-size: 50px; 
+  left: 50%;
+  transform: translate(-50%, 0%);
 }
-/*gomb*/
-.btn {
+.home_bg_szoveg .btn{
   position: absolute;
-  top: 55%; left: 50%;
+  bottom:0 ;left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 17px;
   text-transform: uppercase;
   text-decoration: none;
@@ -119,7 +135,6 @@
   font-weight: 500;
   color: black;
   background-color: white;
-  transform: translate(-50%, -50%);
 }
 .btn:hover {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -138,8 +153,6 @@
 }
 .btn::after { background-color: #fff; }
 .btn:hover::after { transform: scaleX(1.4) scaleY(1.6); opacity: 0; }
-
-
 
 
 .box {
