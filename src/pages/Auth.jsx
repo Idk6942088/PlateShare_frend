@@ -1,8 +1,11 @@
 import { Alert, Button,FormControlLabel, Radio, RadioGroup, Snackbar, TextField } from '@mui/material'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import React from 'react'
 import { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikertelenClose}) {
@@ -13,10 +16,6 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
   const [veznev,setVeznev] = useState("");
   const [usertype, setUsertype] = useState("");
 
-  const [loginError,setLoginError] = useState(false);
-  
-
-  console.log(open);
 
   const navigate = useNavigate();
   const location=useLocation()
