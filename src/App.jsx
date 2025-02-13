@@ -33,6 +33,24 @@ function App() {
   const [refresh, setRefresh] = useState(false);
   const [etelurl, setEtelurl] = useState('');
 
+
+  const [sikeres,setSikeres] = useState(false);
+  const [sikertelen,setSikertelen] = useState(false);
+
+  const sikeresClose = (event, reason) => {
+    if (reason === 'clickaway') {
+    return;
+    }
+    setSikeres(false);
+  };
+
+  const sikertelenClose = (event, reason) => {
+    if (reason === 'clickaway') {
+    return;
+    }
+    setSikertelen(false);
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -71,7 +89,7 @@ function App() {
 
   const router = createBrowserRouter([
     { path: "/", element: <Layout user={user} logout={logout} admin={admin} partner={partner} />, children: [
-      { path: "/", element: <Home /> },
+      { path: "/", element: <Home sikeres={sikeres} sikeresClose={sikeresClose}/> },
       { path: "/etelek", element: <Etelek db={db}/> },
       { path: "/etel/:id", element: <Etel db={db}/> },
       { path: "/partnereink", element: <Partnereink /> },
@@ -81,8 +99,8 @@ function App() {
       { path: "/admin", element: <Admin admin={admin}/> },
       { path: "/upload", element: <Upload partner={partner} db={db}/> },
       { path: "/myprofile", element: <Myprofile user={user} db={db}/> },
-      { path: "/auth/in", element: <Auth auth={auth} setUser={setUser}/> },
-      { path: "/auth/up", element: <Auth /> },
+      { path: "/auth/in", element: <Auth auth={auth} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose} setUser={setUser}/> },
+      { path: "/auth/up", element: <Auth auth={auth} db={db} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose}/> },
       { path: "*", element: <Notfound /> }
     ]}
   ]);

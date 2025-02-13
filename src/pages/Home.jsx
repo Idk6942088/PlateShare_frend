@@ -1,7 +1,8 @@
 
+import { Alert, Snackbar } from '@mui/material'
 import React from 'react'
 
-export function Home() {
+export function Home({sikeres,sikeresClose}) {
   return (
     <>
     <div className='home'>
@@ -50,6 +51,16 @@ export function Home() {
        
       </div>
     </div>
+     <Snackbar open={sikeres} autoHideDuration={6000} onClose={sikeresClose}>
+           <Alert
+           onClose={sikeresClose}
+           severity="success"
+           variant="filled"
+           sx={{ width: '100%' }}
+           >
+           Sikeres bejelentkezés!
+           </Alert>
+          </Snackbar>
     </>
   )
 }
