@@ -48,8 +48,6 @@
 .hamburgermenu { display: none;}
 .menu { background-color: white;}
 /*----------------------------------------------------------------------------*/
-
-<<<<<<< HEAD
 .signbutton {
     display: flex;
     align-items: center;
@@ -69,13 +67,10 @@
   background-color: white;
   padding: 20px;
   border-radius: 5px;
-  
 }
 
-<<<<<<< HEAD
-=======
 /*--------------------------------Home.jsx------------------------------------*/
->>>>>>> e91db2345350efb2b12642f0dcda2e5667238aab
+
 .home {
   display: flex;
   flex-direction: column;
@@ -86,11 +81,9 @@
   background-attachment: fixed;
   backdrop-filter: blur(10px);
   color: white;
-=======
-/*--------------------------------Home.jsx------------------------------------*/
-.home {
->>>>>>> 2884cb4 (fix home page)
 }
+/*--------------------------------Home.jsx------------------------------------*/
+
 .home_header_bg{
   position: relative;
   top: 0; left: 0;
