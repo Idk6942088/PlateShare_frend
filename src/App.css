@@ -48,6 +48,7 @@
 .hamburgermenu { display: none;}
 .menu { background-color: white;}
 /*----------------------------------------------------------------------------*/
+
 .signbutton {
     display: flex;
     align-items: center;
