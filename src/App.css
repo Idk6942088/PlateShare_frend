@@ -49,9 +49,12 @@
 .menu { background-color: white;}
 /*----------------------------------------------------------------------------*/
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 2b50362 (User)
+=======
+>>>>>>> ca0d8e0 (javitas)
 .signbutton {
     display: flex;
     align-items: center;
@@ -74,6 +77,7 @@
 }
 
 /*--------------------------------Home.jsx------------------------------------*/
+
 .home {
   display: flex;
   flex-direction: column;
@@ -87,11 +91,16 @@
   backdrop-filter: blur(10px);
   color: white;
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 2b50362 (User)
 =======
 /*--------------------------------Home.jsx------------------------------------*/
 >>>>>>> 85e976f (fix home page)
+=======
+>>>>>>> ca0d8e0 (javitas)
 }
+/*--------------------------------Home.jsx------------------------------------*/
+
 .home_header_bg{
   position: relative;
   top: 0; left: 0;
