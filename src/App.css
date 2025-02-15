@@ -45,7 +45,9 @@
   transform: scaleX(1);
   transform-origin: bottom center;
 }
-
+.hamburgermenu { display: none;}
+.menu { background-color: white;}
+/*----------------------------------------------------------------------------*/
 .signbutton {
     display: flex;
     align-items: center;
@@ -62,8 +64,9 @@
   background-color: white;
   padding: 20px;
   border-radius: 5px;
-  
 }
+
+/*--------------------------------Home.jsx------------------------------------*/
 
 .home {
   display: flex;
@@ -76,8 +79,9 @@
   backdrop-filter: blur(10px);
   color: white;
 }
+/*--------------------------------Home.jsx------------------------------------*/
 
-.home_bg img{
+.home_header_bg{
   position: relative;
   width: 100%;
   max-height: 100%;
