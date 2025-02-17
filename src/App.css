@@ -260,14 +260,47 @@
 /*                                Etel.jsx                                */
 .etel{
   width: 50%;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);
   margin: 30px auto;
   padding: 20px;
+  border-radius: 10px;
 }
 .etel img{
   width: 500px;
-  height: 350px;
-  border: 1px solid red
+  height: 100%;
+  border: 1px solid red;
+  border-radius: 7px;
+}
+#etel_kateg { letter-spacing: 2px; }
+#etel_partnev{
+  display: flex;
+  margin: 15px auto 0px auto;
+  font-size: 19px;
+  text-align: center;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+}
+#etel_cim{
+  display: flex;
+  margin: auto;
+  font-size: 15px;
+  text-align: center;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+}
+.etel_leiras_terkep{
+  display: flex;
+  margin: 35px auto;
+  gap: 5px
+}
+.etel_leiras_terkep iframe{
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px black;
+}
+#etel_gomb{
+  width: 100%;
 }
 /*-------------------------------------------------------------------------------*/
 
