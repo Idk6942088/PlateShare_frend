@@ -18,6 +18,7 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Myprofile from './pages/Myprofile.jsx';
+import Etel from './pages/Etel.jsx';
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
