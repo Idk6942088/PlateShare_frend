@@ -71,6 +71,9 @@
   
 }
 
+
+
+/*--------------------------------Home.jsx------------------------------------*/
 .home {
   display: flex;
   flex-direction: column;
@@ -83,7 +86,10 @@
   color: white;
 }
 /*--------------------------------Home.jsx------------------------------------*/
+<<<<<<< HEAD
 
+=======
+>>>>>>> BaloghNandor
 .home_header_bg{
   position: relative;
   top: 0; left: 0;
@@ -260,6 +266,7 @@
 /*                                Etel.jsx                                */
 .etel{
   width: 50%;
+<<<<<<< HEAD
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);
   margin: 30px auto;
   padding: 20px;
@@ -301,6 +308,16 @@
 }
 #etel_gomb{
   width: 100%;
+=======
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);;
+  margin: 30px auto;
+  padding: 20px;
+}
+.etel img{
+  width: 500px;
+  height: 350px;
+  border: 1px solid red
+>>>>>>> BaloghNandor
 }
 /*-------------------------------------------------------------------------------*/
 

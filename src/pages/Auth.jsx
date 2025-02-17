@@ -13,6 +13,7 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
   const [veznev,setVeznev] = useState("");
   const [loginError,setLoginError] = useState(false);
   
+  const [usertype, setUsertype] = useState("");
 
 
   const navigate = useNavigate();
@@ -117,6 +118,27 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
          : <Link className='m-auto font-light' to="/auth/up">Nincs még fiókod? Kattints ide</Link>  }
 
     </div>
+    {!isSignIn ? <Snackbar open={sikertelen} autoHideDuration={6000} onClose={sikertelenClose}>
+       <Alert
+       onClose={sikertelenClose}
+       severity="error"
+       variant="filled"
+       sx={{ width: '100%' }}
+       >
+       Sikertelen regisztráció!
+       </Alert>
+      </Snackbar> :
+      <Snackbar open={sikertelen} autoHideDuration={6000} onClose={sikertelenClose}>
+      <Alert
+      onClose={sikertelenClose}
+      severity="error"
+      variant="filled"
+      sx={{ width: '100%' }}
+      >
+      Sikertelen bejelentkezés!
+      </Alert>
+     </Snackbar>}
+    
        
     </>
   )
