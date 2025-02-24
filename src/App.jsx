@@ -17,8 +17,8 @@ import { collection, getDocs, getFirestore, query, where } from "firebase/firest
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect } from 'react';
 import { useState } from 'react';
-import Etel from './pages/Etel.jsx';
 import Myprofile from './pages/Myprofile.jsx';
+import Etel from './pages/Etel.jsx';
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -30,8 +30,6 @@ function App() {
   const [user, setUser] = useState(null);
   const [admin, setAdmin] = useState(false);
   const [partner, setPartner] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-  const [etelurl, setEtelurl] = useState('');
 
 
   const [sikeres,setSikeres] = useState(false);
@@ -83,7 +81,6 @@ function App() {
 
   async function logout() {
     await signOut(auth);
-    setRefresh(!refresh);
     
   }
 

@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 export default function Etelek({db}) {
 
   const [etelek, setEtelek] = useState([]);
+  const [userInput,setuserInput] = useState("");
 
   useEffect(() => {
     const q = query(collection(db, "etelek"));
@@ -19,17 +20,24 @@ export default function Etelek({db}) {
       setEtelek(snapshot.docs.map(doc => ({ ...doc.data(), id:doc.id })));
     });
     return () => unsubscribe();
+   
   }, []);
-  console.log(etelek[0]);
-  console.log(Timestamp.now().toDate());
 
+  const filteredEtelek = etelek.filter((el) => {
+    
+    if (userInput === '') {
+        return el;
+    }
+    else {
+        return el.partnernev.toLowerCase().includes(userInput.toLowerCase());
+    }
+})
   const convertTimestamp = ( mettol,meddig ) => {
     let ma = Timestamp.now().toDate().toDateString();
     let atveheto = mettol.toDate();
     let atvehetodate = atveheto.toDateString();
     let atveheto1 = meddig.toDate();
     let atvehetodate1 = atveheto1.toDateString();
-    console.log(atveheto.getMinutes());
     let ora1 = atveheto.getHours();
     let perc1 = atveheto.getMinutes();
     let ora2 = atveheto1.getHours();
@@ -53,6 +61,8 @@ export default function Etelek({db}) {
               color="dark"
               variant="standard"
               placeholder='Search..'
+              value={userInput}
+              onChange={e => setuserInput(e.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -70,15 +80,14 @@ export default function Etelek({db}) {
           </div>
           <div className="rendezes">
             <p>Sort by:</p>
-            <span><BiSort /> </span>
+            <span ><BiSort /> </span>
           </div>
         </div>
       </div>
 
       <div className="etelekLent">
         <Grid container spacing={2}>
-          {etelek.map( e => (
-            
+          {filteredEtelek.map( e => (  
               <Grid size={{xs: 12, sm: 6, md: 3}} className='kartya' key={e.id}>
                 <Link to={`/etel/${e.id}`} >
                   <div className="kartyaKep">
