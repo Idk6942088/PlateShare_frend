@@ -68,10 +68,12 @@
   background-color: white;
   padding: 20px;
   border-radius: 5px;
+  
 }
 
-/*--------------------------------Home.jsx------------------------------------*/
 
+
+/*--------------------------------Home.jsx------------------------------------*/
 .home {
   display: flex;
   flex-direction: column;
@@ -85,8 +87,6 @@
 }
 /*--------------------------------Home.jsx------------------------------------*/
 
-.home {
-}
 .home_header_bg{
   position: relative;
   top: 0; left: 0;
@@ -263,16 +263,142 @@
 /*                                Etel.jsx                                */
 .etel{
   width: 50%;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);
   margin: 30px auto;
   padding: 20px;
+  border-radius: 10px;
 }
 .etel img{
   width: 500px;
-  height: 350px;
+  height: 100%;
+  border: 1px solid red;
+  border-radius: 7px;
+}
+#etel_kateg { letter-spacing: 2px; }
+#etel_partnev{
+  display: flex;
+  margin: 15px auto 0px auto;
+  font-size: 19px;
+  text-align: center;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+}
+#etel_cim{
+  display: flex;
+  margin: auto;
+  font-size: 15px;
+  text-align: center;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+}
+.etel_leiras{
+  margin-top: 20px;
+}
+.etel_ertelekes{
+  display: flex;
+}
+.etel_ar_db{
+  display: flex;
+  margin: 35px auto;
+  width: 300px;
+  gap: 5px;
+  justify-content: space-between;
+  text-align: center;
+}
+.etel_ar_db p::after {
+  content: "";
+  margin: 0px 15px;
+  border-right: 1px solid rgb(209, 205, 191);
+}
+.etel_ar_db div {
+  align-items: center;
+  font-size: 17px;
+  display: flex;
+  margin: auto;
+}
+.etel_ar_db div span { cursor: pointer; }
+/*.etel_terkep iframe{
+  border-radius: 5px;
+  margin-top: 10px;
+  box-shadow: 0px 0px 5px black;
+  width: 100%;
+  height: 200px;
+}*/
+#etel_gomb{
+  width: 100%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);;
+  padding: 10px;
+  background-color: rgba(255,251,235);
+  color: black;
+}
+#etel_gomb:hover {
+  background-color: greenyellow;
+}
+.etel img{
+  width: 500px;
+  height: 100%;
+  min-height:  350px;
   border: 1px solid red
 }
 /*-------------------------------------------------------------------------------*/
+
+/*-----------------------------------Kapcsolat.jsx-----------------------------------*/
+  .kapcsolat {
+    display: flex;
+    background-color: white;
+    width: 70%;
+    margin: 20px auto;
+    padding: 14px;
+    box-shadow: 0px 5px 10px rgba(138, 138, 138, 0.459);
+    border-radius: 10px;
+  }
+  .kapcsolat h1 {
+    font-size: 35px;
+    font-weight: bold;
+    letter-spacing: 3px;
+  }
+  .uzenetKuldes { width: 500px; }
+  .uzenetKuldes input{
+    display: block;
+    padding: 10px;
+    margin: 10px 0;
+    font-weight: 500;
+    width: 100%;
+    border-bottom: 1px solid rgb(172, 172, 172);
+  }
+ 
+  .uzenetKuldes textarea{
+    width: 100%;
+    min-height: 200px;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid rgb(172, 172, 172);
+    border-radius: 5px;
+    font-weight: 500;
+  }
+  .kapcsolatInfo{
+    border: 1px solid blue;
+    padding: 10px;
+  }
+  .kapcsolat_img { display: flex; }
+  .kapcsolat_img img{
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    margin: 0px 10px;
+    filter: grayscale(1);
+    transition: 0.3s;
+    cursor: pointer;
+  }
+  .kapcsolat_img img:hover {
+    filter: grayscale(0);
+  }
+
+
+/*-------------------------------------------------------------------------------*/
+
 
 /*-----------------------------------Login.jsx-----------------------------------*/
 
