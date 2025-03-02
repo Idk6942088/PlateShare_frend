@@ -53,11 +53,12 @@ export default function Etel({db}) {
                             <Grid size={{xs: 12, sm: 12, md: 4}}><p>{etel.db} darab</p></Grid>
                             <Grid size={{xs: 12, sm: 12, md: 4}}>
                                 <div className='etel_ertelekes'>
-                                    <span><CiStar /></span>
-                                    <span><CiStar /></span>
-                                    <span><CiStar /></span>
-                                    <span><CiStar /></span>
-                                    <span><CiStar /></span>
+                                    <span className='cursor-pointer'><CiStar /></span>
+                                    <span className='cursor-pointer'><CiStar /></span>
+                                    <span className='cursor-pointer'><CiStar /></span>
+                                    <span className='cursor-pointer'><CiStar /></span>
+                                    <span className='cursor-pointer'><CiStar /></span>
+                                    <span className='ml-2 cursor-default'>{etel.ertekeles}</span>
                                 </div>  
                             </Grid>
                         </Grid>

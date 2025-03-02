@@ -209,6 +209,7 @@
 .kartya{
   position: relative;
   top: 0; left: 0;
+  background-color: white;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);
   border-radius: 5px;
   cursor: default;
@@ -261,8 +262,24 @@
 /*----------------------------------*/
 
 /*                                Etel.jsx                                */
+@media screen and (min-width: 1300px) {
+  .etel {
+    width: 50%; /* The width is 100%, when the viewport is 800px or smaller */
+  }
+}
+@media screen and (min-width: 767px) and (max-width: 1300px)   {
+  .etel {
+    width: 80%; /* The width is 100%, when the viewport is 800px or smaller */
+  }
+}
+@media screen and (max-width: 767px) {
+  .etel {
+    width: 90%; /* The width is 100%, when the viewport is 800px or smaller */
+  }
+}
+
 .etel{
-  width: 50%;
+  background-color: white;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);
   margin: 30px auto;
   padding: 20px;
@@ -318,7 +335,6 @@
   display: flex;
   margin: auto;
 }
-.etel_ar_db div span { cursor: pointer; }
 /*.etel_terkep iframe{
   border-radius: 5px;
   margin-top: 10px;
@@ -330,7 +346,7 @@
   width: 100%;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);;
   padding: 10px;
-  background-color: rgba(255,251,235);
+  background-color: white;
   color: black;
 }
 #etel_gomb:hover {
@@ -340,15 +356,26 @@
   width: 500px;
   height: 100%;
   min-height:  350px;
+  margin: auto;
   border: 1px solid red
 }
 /*-------------------------------------------------------------------------------*/
 
 /*-----------------------------------Kapcsolat.jsx-----------------------------------*/
+@media screen and (min-width: 800px) {
+  .kapcsolat {
+    width: fit-content;
+  }
+}
+@media screen and (max-width: 800px) {
+  .kapcsolat {
+    width: 90%;
+  }
+}
   .kapcsolat {
     display: flex;
+    justify-content: space-between;
     background-color: white;
-    width: 70%;
     margin: 20px auto;
     padding: 14px;
     box-shadow: 0px 5px 10px rgba(138, 138, 138, 0.459);
@@ -359,16 +386,20 @@
     font-weight: bold;
     letter-spacing: 3px;
   }
-  .uzenetKuldes { width: 500px; }
+  .uzenetKuldes { 
+    width: 400px; 
+    max-width: 100%; 
+   /* border: 1px solid red */
+  }
   .uzenetKuldes input{
     display: block;
+    width: 100%;
+    max-width: 100%;
     padding: 10px;
     margin: 10px 0;
     font-weight: 500;
-    width: 100%;
     border-bottom: 1px solid rgb(172, 172, 172);
   }
- 
   .uzenetKuldes textarea{
     width: 100%;
     min-height: 200px;
@@ -379,21 +410,32 @@
     font-weight: 500;
   }
   .kapcsolatInfo{
-    border: 1px solid blue;
+    /*border: 1px solid blue;*/
+    font-weight: 500;
     padding: 10px;
+    width: 400px; 
+    max-width: 100%; 
   }
-  .kapcsolat_img { display: flex; }
+  .kapcsolatInfo ul { margin: 10px 0; }
+  .kapcsolatInfo ul li{
+    display: flex;
+    margin: 5px 0;
+    align-items: center;
+    gap: 5px;
+  }
+  .kapcsolat_img { display: flex; margin-top: 40px; align-items: center;  }
   .kapcsolat_img img{
     width: 36px;
     height: 36px;
     border-radius: 10px;
-    margin: 0px 10px;
+    margin:  0 10px;
     filter: grayscale(1);
     transition: 0.3s;
     cursor: pointer;
   }
   .kapcsolat_img img:hover {
     filter: grayscale(0);
+    transform: scale(1.1);
   }
 
 

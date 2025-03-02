@@ -76,7 +76,7 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
          <div className='flex gap-3  border-t-2 pt-3  border-gray-400'>
          <TextField
          className='w-1/2'
-         required
+         required 
          label="Vezetéknév"
          value={veznev}
          onChange={e => setVeznev(e.target.value)}
