@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*----------------------------------Navbar-------------------------------------*/
 .buttons {
   display: flex;
@@ -452,6 +453,9 @@
   }
 }
 =======
+=======
+/* background-color: rgba(255,251,235,255) */
+>>>>>>> b8b6442 (footer kezdetleges)
 /*----------------------------------Navbar-------------------------------------*/
 .buttons {
   display: flex;
@@ -500,7 +504,7 @@
   transform-origin: bottom center;
 }
 .hamburgermenu { display: none;}
-.menu { background-color: white;}
+.menu { background-color: white; }
 /*----------------------------------------------------------------------------*/
 
 .signbutton {
@@ -518,26 +522,51 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 35%;
   background-color: white;
   padding: 20px;
-  border-radius: 5px;
   
+}
+
+/*--------------------------------Layout.jsx--footer--------------------------*/
+footer {
+  position: relative;
+  width: 100%;
+  top: 300px;
+  background-color: red;
+  padding: 50px 50px 10px 50px;
+}
+
+footer .footer_linkek .footer_link {
+ display: block;
+}
+footer iframe {
+  min-width: 250px;
+  height: 250px;
+}
+footer .footer_img {
+  display: flex; margin-top: 40px; align-items: center; 
+}
+footer .footer_img img {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  margin:  0 5px;
+  transition: 0.3s;
+  cursor: pointer;
 }
 
 
 
-/*--------------------------------Home.jsx------------------------------------*/
+/*--------------------------------Home.jsx----------------------black;-------------*/
 .home {
   display: flex;
   flex-direction: column;
   width: auto;
   text-align: center;
   margin: auto;
-  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
+  background-color: rgba(255,251,235,255);
   background-attachment: fixed;
   backdrop-filter: blur(10px);
-  color: white;
 }
 /*--------------------------------Home.jsx------------------------------------*/
 
@@ -716,21 +745,7 @@
 /*----------------------------------*/
 
 /*                                Etel.jsx                                */
-@media screen and (min-width: 1300px) {
-  .etel {
-    width: 50%; /* The width is 100%, when the viewport is 800px or smaller */
-  }
-}
-@media screen and (min-width: 767px) and (max-width: 1300px)   {
-  .etel {
-    width: 80%; /* The width is 100%, when the viewport is 800px or smaller */
-  }
-}
-@media screen and (max-width: 767px) {
-  .etel {
-    width: 90%; /* The width is 100%, when the viewport is 800px or smaller */
-  }
-}
+
 
 .etel{
   background-color: white;
@@ -994,5 +1009,24 @@
     padding: 15px;
   }
 }
+<<<<<<< HEAD
 >>>>>>> f2da40c (Kapcsolat.jsx, Etel.jsx fix)
+=======
+
+@media screen and (min-width: 1300px) {
+  .etel {
+    width: 50%; 
+  }
+}
+@media screen and (min-width: 767px) and (max-width: 1300px)   {
+  .etel {
+    width: 80%; 
+  }
+}
+@media screen and (max-width: 767px) {
+  .etel {
+    width: 90%; 
+  }
+}
+>>>>>>> b8b6442 (footer kezdetleges)
 /*-------------------------------------------------------------------------------*/
