@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*----------------------------------Navbar-------------------------------------*/
 .buttons {
   display: flex;
@@ -456,6 +457,9 @@
 =======
 /* background-color: rgba(255,251,235,255) */
 >>>>>>> b8b6442 (footer kezdetleges)
+=======
+/* background-color: rgb(255,251,235) */
+>>>>>>> f7205e7 (footer 1.1)
 /*----------------------------------Navbar-------------------------------------*/
 .buttons {
   display: flex;
@@ -530,25 +534,32 @@
 /*--------------------------------Layout.jsx--footer--------------------------*/
 footer {
   position: relative;
-  width: 100%;
+  /*width: 100%;*/
   top: 300px;
-  background-color: red;
+  background-image: linear-gradient(rgb(255,251,235), rgb(255, 227, 114) );
   padding: 50px 50px 10px 50px;
 }
-
+footer .footer_container{ text-align: center; }
 footer .footer_linkek .footer_link {
- display: block;
+  position: relative;
+  top: 0; left: 0;
+  transition: 0.2s;
 }
+footer .footer_linkek .footer_link::after {
+  content: "";
+  margin: 0px 15px;
+  border-right: 1px solid rgb(209, 205, 191);
+}
+footer .footer_linkek .footer_link:hover { top: -5px; padding-bottom: 5px; }
 footer iframe {
   min-width: 250px;
   height: 250px;
 }
-footer .footer_img {
-  display: flex; margin-top: 40px; align-items: center; 
+footer .footer_imgs {
+  display: flex; margin: 20px 0; align-items: center; 
 }
-footer .footer_img img {
-  width: 36px;
-  height: 36px;
+footer .footer_img {
+  font-size: 30px;
   border-radius: 10px;
   margin:  0 5px;
   transition: 0.3s;
@@ -1017,16 +1028,37 @@ footer .footer_img img {
   .etel {
     width: 50%; 
   }
+  .footer_container {
+    width: 70%;
+  }
 }
 @media screen and (min-width: 767px) and (max-width: 1300px)   {
   .etel {
     width: 80%; 
   }
+  .footer_container {
+    width: 100%;
+    margin: auto;
+  }
+  .footer_jobb{
+    margin-top: 20px;
+  }
 }
 @media screen and (max-width: 767px) {
   .etel {
-    width: 90%; 
+    width: 80%; 
+  }
+  .footer_container {
+    width: 100%;
+  }
+  .footer_jobb{
+    margin-top: 20px;
   }
 }
+<<<<<<< HEAD
 >>>>>>> b8b6442 (footer kezdetleges)
+=======
+
+
+>>>>>>> f7205e7 (footer 1.1)
 /*-------------------------------------------------------------------------------*/
