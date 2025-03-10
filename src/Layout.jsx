@@ -5,6 +5,12 @@ import Grid from '@mui/material/Grid2';
 import { FaBars, FaCircleUser, FaPlateWheat } from 'react-icons/fa6';
 import { useState } from 'react';
 import { Fragment } from 'react';
+import { FaGithub } from "react-icons/fa";
+import { FaSquareInstagram } from "react-icons/fa6";
+import { FaFacebookSquare } from "react-icons/fa";
+import { AiFillTikTok } from "react-icons/ai";
+
+
 
 
 export function Layout({ user, logout, admin, partner }) {
@@ -188,8 +194,8 @@ export function Layout({ user, logout, admin, partner }) {
       </div>
 
       <footer> 
-        <Grid container className='block m-auto w-5xl'>
-          <Grid size={{ xs: 12, sm: 6, md: 6 }} >
+        <Grid container className='block m-auto footer_container '>
+          <Grid size={{ xs: 12, sm: 12, md: 6 }}>
             <div className="footer_linkek">
               <Link className='footer_link' to="/etelek">Ételek</Link>
               <Link className='footer_link' to="/partnereink">Partnereink</Link>
@@ -199,14 +205,14 @@ export function Layout({ user, logout, admin, partner }) {
             </div>
             
           </Grid>
-          <Grid size={{ xs: 12, sm: 6, md: 6 }} >
-          <Link to='https://kkando.hu/' target='_blank'>Kecskeméti SZC Kandó Kálmán Technikum</Link>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d969.5256336943253!2d19.686849955554067!3d46.917324874538735!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1shu!2shu!4v1741427248599!5m2!1shu!2shu" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <Grid size={{ xs: 12, sm: 12, md: 6 }} className='footer_jobb'>
+            <Link to='https://kkando.hu/' target='_blank'>Kecskeméti SZC Kandó Kálmán Technikum</Link>
             <p>Kecskemét, Bethlen krt. 63, 6000</p>
-            <div className="footer_img">
-              <img src="src/img/instagram.png" alt="" />
-              <img src="src/img/facebook.png" alt="" />
-              <img src="src/img/tiktok.png" alt="" />
+            <div className="footer_imgs">
+              <a className='footer_img' href="https://github.com/Idk6942088/PlateShare_frend" target='_blank'><FaGithub /></a>
+              <a className='footer_img' href=""><FaSquareInstagram /></a>
+              <a className='footer_img' href=""><FaFacebookSquare /></a>
+              <a className='footer_img' href=""><AiFillTikTok /></a>
             </div>
           </Grid>
         </Grid>
