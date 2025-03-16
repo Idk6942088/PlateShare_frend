@@ -121,10 +121,6 @@ export default function Etel({db}) {
                         <span><IoLocationSharp /></span>
                         <span>{etel.helyszin}</span>
                     </div>
-                   {/* <div className="etel_terkep">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2725.6175707875213!2d19.6725469767841!3d46.91023903580413!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4743da09b9541f2d%3A0xb5e3ab94217084e5!2zS2Vjc2tlbcOpdCwgTnnDrXJpIMO6dCAzOCwgNjAwMA!5e0!3m2!1shu!2shu!4v1739799221615!5m2!1shu!2shu" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                    */}
                     
                     <div className="etel_ar_db">
                         <Grid container>

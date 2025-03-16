@@ -391,7 +391,7 @@ export function Layout({ user, logout, admin, partner }) {
       <footer> 
         <Grid container className='block m-auto footer_container '>
           <Grid size={{ xs: 12, sm: 12, md: 6 }}>
-            <div className="footer_linkek">
+            <div className="footer_links">
               <Link className='footer_link' to="/etelek">Ételek</Link>
               <Link className='footer_link' to="/partnereink">Partnereink</Link>
               <Link className='footer_link' to="/blog">Blog</Link>

@@ -91,6 +91,8 @@ export function Home({sikeres,sikeresClose}) {
 import { Alert, Snackbar } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Grid from '@mui/material/Grid2';
+
 
 export function Home({sikeres,sikeresClose}) {
   return (
@@ -105,14 +107,26 @@ export function Home({sikeres,sikeresClose}) {
           <Link to="/etelek"><button class="btn" >Ételek</button></Link>
         </div>
       </div>
-     
-      <h1 className='font-bold text-4xl mt-3'>Mentsük meg együtt az ételeket! 🍽️♻️</h1>
-      <h1 className='font-bold text-4xl mt-3'>Mentsük meg együtt az ételeket! 🍽️♻️</h1>
-      <h1 className='font-bold text-4xl mt-3'>Mentsük meg együtt az ételeket! 🍽️♻️</h1>
 
+      <Grid container spacing={2} className='home_szoveg'>
+        <Grid size={{ xs: 12, sm: 12, md: 6 }} >
+          <h1 className='font-bold text-4xl mt-5 mb-8 tracking-wide'>Mentsük meg együtt az ételeket!</h1>
+          <p className=''>
+              <span className='underline decoration-double font-bold italic'>Ne hagyd veszni az értékes élelmiszereket! </span> <br />
+              Vásárolj kedvenc boltjaid kínálatából akár   
+              <b className='text-green-400'> 60-80% kedvezménnyel</b> 
+              , és élvezd a minőségi ételeket fenntartható módon. Különböző csomagok várnak rád – spórolj, segíts a környezetnek, és fedezd fel a legjobb ajánlatokat egy 
+              <Link to='/etelek' className='bg-green-400 ml-1 rounded-sm italic'> kattintással!</Link>
+            </p>
+        </Grid>
+        <Grid size={{ xs: 12, sm: 12, md: 6 }} >
+          <img className='home_img' src="src/img/usingPhone.jpg" alt="" />
+        </Grid>
+      </Grid>
+     
 
       {/*
-      <h1 className='font-bold text-4xl mt-3'>Mentsük meg együtt az ételeket! 🍽️♻️</h1>
+      <h1 className='font-bold text-4xl mt-3'>Mentsük meg együtt az ételeket! → → →🍽️♻️</h1>
       <div className='szovegfelso'>
         <p>A PlateShare egy fenntartható megoldás az élelmiszer-pazarlás ellen.</p> 
         <p>Partnereink – éttermek, pékségek, boltok – feltöltik a feleslegessé vált, de még tökéletes állapotú ételeket, amelyeket te kedvezményesen vagy ingyenesen igényelhetsz.</p> 
