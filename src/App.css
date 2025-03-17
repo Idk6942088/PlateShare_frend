@@ -46,7 +46,13 @@
   transform-origin: bottom center;
 }
 .hamburgermenu { display: none;}
-.menu { background-color: white;}
+.menu {
+  background-color: white;
+  z-index: 3;
+  position: sticky;
+  width: 100%;
+  background-color: white;
+}
 /*----------------------------------------------------------------------------*/
 
 /*                   Etelek.jsx                           */
@@ -240,27 +246,81 @@
   }
 }
 
+@media screen and (min-width: 767px) and (max-width: 1300px)   {
+  .etel {
+    width: 80%; 
+  }
+  .footer_container {
+    width: 100%;
+    margin: auto;
+  }
+  .footer_jobb{
+    margin-top: 20px;
+  }
+  .home_img {
+    margin-top: 30px;
+  }
+  .partner_list img {
+    height: 3vh;
+  }
+  .etel, .partnereink, .partnereink p, .home_szoveg, .footer_container {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+
+  .etel {
+    width: 80%; 
+  }
+  footer .footer_links{
+    width: 100%;
+  }
+  footer .footer_links .footer_link{
+    font-size: 15px; display: block;
+  }
+  footer .footer_links .footer_link::after {
+    content: "";
+    margin: 0px;
+    border-right: none
+    }
+  .footer_container {
+    width: 100%;
+  }
+  .footer_jobb{
+    margin-top: 20px;
+  }
+  .footer_container {
+    width: 100%;
+  }
+  .etel, .partnereink, .partnereink p, .home_szoveg{
+    width:90%;
+    
+  }
+  .partner_list  {
+    display: flex;
+    flex-direction: column;
+
+  }
+  .partner_list img {
+    height: 7vh;
+    margin: 20px auto;
+  }
+  .home_img {
+    margin-top: 30px;
+  }
+}
+
+/*-------------------------------------------------------------------------------*/
+
 /* background-color: rgba(255,251,235,255) */
 
 /* background-color: rgb(255,251,235) */
 
 .page { min-height: 80vh; }
 
-.menu {
-  background-color: white;
-  z-index: 3;
-  position: sticky;
-  width: 100%;
-}
-.loginpanel {
-  margin: 25px auto;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  background-color: white;
-  padding: 20px;
-  
-}
+
+
 
 /*--------------------------------Layout.jsx--footer--------------------------*/
 footer {
