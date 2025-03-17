@@ -6,8 +6,9 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { auth } from '../App';
 import { Navigate, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-export default function Myprofile({db,user}) {
+export default function Myprofile({db,user,userpfp,setUserpfp}) {
 
     const [felhasznalok, setFelhasznalok] = useState([]);
     const [disabled, setDisabled] = useState(true);
@@ -16,9 +17,9 @@ export default function Myprofile({db,user}) {
     const [kernev, setKernev] = useState("");
     const [email, setEmail] = useState("");
     const [jelszo, setJelszo] = useState("");
+    const [fajl, setFajl] = useState(null);
     const navigate = useNavigate();
     const location=useLocation();
-    console.log(navigate);
 
     useEffect(() => {
          if(user!= null) {
@@ -34,11 +35,24 @@ export default function Myprofile({db,user}) {
             feltolt();
         }
     }, [felhasznalok]);
-   
+   console.log(felhasznalok);
     function feltolt(){
       setVeznev(felhasznalok[0].veznev);
       setKernev(felhasznalok[0].kernev);
       setEmail(felhasznalok[0].email);
+    }
+
+    async function pfpupload() {
+        const formData = new FormData();
+        formData.append("fajl",fajl)
+        formData.append("publicID",felhasznalok[0].pfpID);
+        const resp = await axios.post("http://localhost:88/pfp",formData);
+        console.log(resp.data)
+        const version=(resp.data.url.split("/")[6]);
+        const kepnev=(resp.data.url.split("/")[7].split(".")[0]); 
+        await updateDoc(doc(db, "users", user.reloadUserInfo.localId), { pfpID:resp.data.url });
+        setUserpfp(resp.data.url);
+        console.log(resp.data.public_id);
     }
 
     async function fioktorles() {
@@ -67,10 +81,15 @@ export default function Myprofile({db,user}) {
     {felhasznalok.length == 0 ? <p>Betöltés...</p> :
     <div className='myprofile flex'>
         <div className='profilkep flex flex-col gap-1  text-center m-auto '>
-            <Avatar className='m-auto'/>
+            <Avatar src={userpfp} className='m-auto'/>
             <p className='text-xl font-medium'>{felhasznalok[0].veznev} {felhasznalok[0].kernev}</p>
             <p className='text-gray-400 text-sm'>{felhasznalok[0].tipus =="mszemely" ? "Magánszemély": felhasznalok[0].tipus}</p>
-            
+            <div className='flex gap-5 text-center flex-col m-auto my-5'>
+            <input type="file" name="" id="fileinput" accept='.jpg,.png,.jpeg' onChange={e => setFajl(e.target.files[0])}/>
+            <label htmlFor="fileinput" className='filebutton'>Profilkép módosítása</label>  
+            {fajl && <input type="button" className='filebutton1' value="Feltölt"  onClick={pfpupload}/> }
+            </div>
+           
         </div> 
         <div className='profiladatok flex gap-5 justify-between'>
             <div className='flex flex-col gap-3'>

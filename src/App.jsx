@@ -13,12 +13,13 @@ import Notfound from './pages/Notfound';
 import Auth from './pages/Auth';
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./firebaseConfig.js";
-import { collection, getDocs, getFirestore, query, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, getFirestore, query, where } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Myprofile from './pages/Myprofile.jsx';
 import Etel from './pages/Etel.jsx';
+import axios from 'axios';
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -30,11 +31,29 @@ function App() {
   const [user, setUser] = useState(null);
   const [admin, setAdmin] = useState(false);
   const [partner, setPartner] = useState(false);
+  const [userpfp,setUserpfp] = useState("");
 
 
   const [sikeres,setSikeres] = useState(false);
   const [sikertelen,setSikertelen] = useState(false);
 
+  useEffect(()=> {
+    async function getpfp() {
+      if(user) {
+        const snap = await getDoc(doc(db, "users", user.reloadUserInfo.localId));
+        if (snap.exists()) console.log(snap.data());
+        if(!snap.data().pfpID == "") {
+          setUserpfp(snap.data().pfpID);
+        } else {
+          setUserpfp("");
+        }
+    }
+  }
+    getpfp();
+  },[user]);
+
+ 
+  
   const sikeresClose = (event, reason) => {
     if (reason === 'clickaway') {
     return;
@@ -75,8 +94,6 @@ function App() {
         setPartner(true);
         setAdmin(false);
       }
-    
-   
   }
 
   async function logout() {
@@ -85,7 +102,7 @@ function App() {
   }
 
   const router = createBrowserRouter([
-    { path: "/", element: <Layout user={user} logout={logout} admin={admin} partner={partner} />, children: [
+    { path: "/", element: <Layout user={user} userpfp={userpfp} logout={logout} admin={admin} partner={partner} />, children: [
       { path: "/", element: <Home sikeres={sikeres} sikeresClose={sikeresClose}/> },
       { path: "/etelek", element: <Etelek db={db}/> },
       { path: "/etel/:id", element: <Etel db={db}/> },
@@ -95,7 +112,7 @@ function App() {
       { path: "/kapcsolat", element: <Kapcsolat /> },
       { path: "/admin", element: <Admin admin={admin}/> },
       { path: "/upload", element: <Upload partner={partner} db={db}/> },
-      { path: "/myprofile", element: <Myprofile user={user} db={db}/> },
+      { path: "/myprofile", element: <Myprofile user={user} setUserpfp={setUserpfp} db={db} userpfp={userpfp}/> },
       { path: "/auth/in", element: <Auth auth={auth} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth auth={auth} db={db} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose}/> },
       { path: "*", element: <Notfound /> }

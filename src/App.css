@@ -86,10 +86,6 @@
   color: white;
 }
 /*--------------------------------Home.jsx------------------------------------*/
-<<<<<<< HEAD
-
-=======
->>>>>>> BaloghNandor
 .home_header_bg{
   position: relative;
   top: 0; left: 0;
@@ -266,7 +262,6 @@
 /*                                Etel.jsx                                */
 .etel{
   width: 50%;
-<<<<<<< HEAD
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);
   margin: 30px auto;
   padding: 20px;
@@ -308,16 +303,14 @@
 }
 #etel_gomb{
   width: 100%;
-=======
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);
   margin: 30px auto;
   padding: 20px;
 }
 .etel img{
   width: 500px;
   height: 350px;
-  border: 1px solid red
->>>>>>> BaloghNandor
+  border: 1px solid red;
 }
 /*-------------------------------------------------------------------------------*/
 
@@ -373,7 +366,28 @@
 .delbutton:hover {
   background-color: rgb(225, 1, 1);
 }
-
+#fileinput {
+  display: none;
+}
+.filebutton {
+  background-color: blue;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.37);
+  transition: 0.5s;
+}
+.filebutton1 {
+  background-color: rgb(6, 206, 6);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.37);
+  transition: 0.5s;
+}
+.filebutton1:hover {
+  background-color: rgb(4, 152, 4);
+}
 
 /*-------------------------------------------------------------------------------*/
 /*----------------------------Reszponzív-----------------------------------------*/

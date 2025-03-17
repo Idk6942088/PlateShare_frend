@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Fragment } from 'react';
 
 
-export function Layout({user,logout,admin,partner}) {
+export function Layout({user,logout,admin,partner,userpfp}) {
 
     const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -22,7 +22,7 @@ export function Layout({user,logout,admin,partner}) {
          {user && (
             <><ListItem button component={Link} to="/myprofile">
                   <ListItemIcon>
-                      <Avatar />
+                      <Avatar src={userpfp} />
                   </ListItemIcon>
                   <ListItemText primary={user.email} />
               </ListItem><Divider></Divider></>
@@ -114,7 +114,7 @@ export function Layout({user,logout,admin,partner}) {
                                         aria-haspopup="true"
                                         aria-expanded={open ? 'true' : undefined}
                                     >
-                                        <Avatar sx={{ width: 32, height: 32 }}></Avatar>
+                                        <Avatar src={userpfp} sx={{ width: 32, height: 32 }}></Avatar>
                                     </IconButton>
                                     </Tooltip>
                                 </Box>
@@ -156,7 +156,7 @@ export function Layout({user,logout,admin,partner}) {
                                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                     >
                                     <Link to="/myprofile"><MenuItem  onClick={handleClose}>
-                                    <Avatar /> Profilom 
+                                    <Avatar src={userpfp} /> Profilom 
                                     </MenuItem></Link>
                                     <MenuItem onClick={handleClose}>
                                         Kedvencek
