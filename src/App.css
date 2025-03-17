@@ -433,4 +433,465 @@
     padding: 15px;
   }
 }
+
+@media screen and (min-width: 767px) and (max-width: 1300px)   {
+  .etel {
+    width: 80%; 
+  }
+  .footer_container {
+    width: 100%;
+    margin: auto;
+  }
+  .footer_jobb{
+    margin-top: 20px;
+  }
+  .home_img {
+    margin-top: 30px;
+  }
+  .partner_list img {
+    height: 3vh;
+  }
+  .etel, .partnereink, .partnereink p, .home_szoveg, .footer_container {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+
+  .etel {
+    width: 80%; 
+  }
+  footer .footer_links{
+    width: 100%;
+  }
+  footer .footer_links .footer_link{
+    font-size: 15px; display: block;
+  }
+  footer .footer_links .footer_link::after {
+    content: "";
+    margin: 0px;
+    border-right: none
+    }
+  .footer_container {
+    width: 100%;
+  }
+  .footer_jobb{
+    margin-top: 20px;
+  }
+  .footer_container {
+    width: 100%;
+  }
+  .etel, .partnereink, .partnereink p, .home_szoveg{
+    width:90%;
+    
+  }
+  .partner_list  {
+    display: flex;
+    flex-direction: column;
+
+  }
+  .partner_list img {
+    height: 7vh;
+    margin: 20px auto;
+  }
+  .home_img {
+    margin-top: 30px;
+  }
+}
+
+/*-------------------------------------------------------------------------------*/
+
+/* background-color: rgba(255,251,235,255) */
+
+/* background-color: rgb(255,251,235) */
+
+.page { min-height: 80vh; }
+
+
+
+
+/*--------------------------------Layout.jsx--footer--------------------------*/
+footer {
+  position: relative;
+  /*width: 100%;*/
+  /*top: 300px;*/
+  background-image: linear-gradient(rgb(255,251,235), rgb(255, 227, 114) );
+  padding: 50px 50px 10px 50px;
+}
+footer .footer_container{ text-align: center; width: 60%; }
+footer .footer_links .footer_link {
+  position: relative;
+  top: 0; left: 0;
+  transition: 0.2s;
+}
+footer .footer_links .footer_link::after {
+  content: "";
+  margin: 0px 15px;
+  border-right: 1px solid rgb(209, 205, 191);
+}
+footer .footer_links .footer_link:hover { top: -5px; padding-bottom: 5px; }
+footer iframe {
+  min-width: 250px;
+  height: 250px;
+}
+footer .footer_imgs {
+  display: flex; margin: 20px auto; width: fit-content ;align-items: center;
+}
+footer .footer_img {
+  font-size: 30px;
+  border-radius: 10px;
+  margin:  0 5px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+/*--------------------------------Home.jsx------------------------------------*/
+
+.home {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  text-align: center;
+  margin: auto;
+  background-color: rgba(255,251,235,255);
+  background-attachment: fixed;
+  backdrop-filter: blur(10px);
+}
+
+.home_header_bg{
+  position: relative;
+  top: 0; left: 0;
+  background-color: red;
+  height: 95vh;
+  overflow: hidden;
+}
+.home_bg{
+  position: absolute;
+  top: 0; left: 0;
+}
+.home_bg img {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+.home_szoveg{
+  position: relative;
+  width: 60%;
+  margin: 50px auto; 
+  padding: 50px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.37);
+  border-radius: 3px;
+}
+.home_szoveg h1{
+  position: absolute;
+  top: -45px; left: 0;
+  background-color: rgb(255,251,235);
+}
+.home_img {
+  border-radius: 100px 20px 40px 20px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.37);
+}
+.home_szoveg p{
+  margin-top: 30px;
+  font-size: 18px;
+  font-weight: 500;
+}
+.home_bg_szoveg h1{
+  position: absolute;
+  font-family: "Quicksand", serif;
+  color: black;
+  font-size: 50px; 
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+.home_bg_szoveg .btn{
+  position: absolute;
+  bottom:0 ;left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 17px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+  padding: 1em 2.5em;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 6em;
+  transition: all 0.2s;
+  border: none;
+  font-weight: 500;
+  color: black;
+  background-color: white;
+}
+.btn:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+.btn::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all 0.4s;
+}
+.btn::after { background-color: #fff; }
+.btn:hover::after { transform: scaleX(1.4) scaleY(1.6); opacity: 0; }
+
+
+.box {
+  height: fit-content;
+  height: 250px;
+  margin: 10px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.459);
+  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.459);
+}
+.szovegfelso {
+  background-color: rgba(157, 157, 157, 0.459);
+  /*position: relative;*/
+  width: 80%;
+  margin: 75px auto;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.459);
+  font-size: 25pt;
+}
+.szovegalso {
+  width: 90%;
+  margin: 0px auto;
+  font-size: 15pt;
+}
+/*----------------------------------------------------------------------------*/
+
+/*                                Etel.jsx                                */
+
+.etel{
+  width: 50%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 10px;
+}
+.etel img{
+  width: 500px;
+  height: 100%;
+  border: 1px solid red;
+  border-radius: 7px;
+}
+#etel_kateg { letter-spacing: 2px; }
+#etel_partnev{
+  display: flex;
+  margin: 15px auto 0px auto;
+  font-size: 19px;
+  text-align: center;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+}
+#etel_cim{
+  display: flex;
+  margin: auto;
+  font-size: 15px;
+  text-align: center;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+}
+.etel_leiras{
+  margin-top: 20px;
+}
+.etel_ertelekes{
+  display: flex;
+}
+.etel_ar_db{
+  display: flex;
+  margin: 35px auto;
+  width: 300px;
+  gap: 5px;
+  justify-content: space-between;
+  text-align: center;
+}
+.etel_ar_db p::after {
+  content: "";
+  margin: 0px 15px;
+  border-right: 1px solid rgb(209, 205, 191);
+}
+.etel_ar_db div {
+  align-items: center;
+  font-size: 17px;
+  display: flex;
+  margin: auto;
+}
+#etel_gomb{
+  width: 100%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);;
+  padding: 10px;
+  background-color: white;
+  color: black;
+}
+#etel_gomb:hover {
+  background-color: greenyellow;
+}
+.etel img{
+  width: 500px;
+  height: 100%;
+  min-height:  350px;
+  margin: auto;
+  border: 1px solid red
+}
+/*-------------------------------------------------------------------------------*/
+
+/*-----------------------------------Partnereink.jsx-----------------------------------*/
+.partnereink {
+  text-align: center;
+  width: 60%;
+  margin: 30px auto;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);
+  border-radius: 10px;
+  padding: 20px;
+}
+.partnereink h1 {
+  font-size: 25px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+}
+.partnereink h3 {
+  font-size: 20px;
+  margin: 30px 0px 5px 0px;
+  font-weight: 500;
+}
+.partnereink p {
+  width: 55%;
+  margin: auto;
+}
+.partnereink .partner_benefits{
+  display: flex;
+  gap: 15px;
+  margin-top:20px;
+}
+.partnereink .partner_benefits .partner_benefit{
+  display: grid;
+  align-items: center;
+  padding: 5px;
+  min-height: 110px;
+  cursor: default;
+  border-radius: 4px;
+  background-color: rgba(0, 247, 12, 0.329);
+  box-shadow:  0px 0px 10px rgba(0, 129, 6, 0.658);
+}
+.partner_join {
+  position: relative;
+  padding: 10px 20px;
+  top: 0; left: 0;
+  border-radius: 5px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  background-color: rgb(90, 214, 255);
+  transition: 0.2s;
+}
+.partner_join:hover {
+  top: -5px;
+  padding-bottom: 15px;
+  background-color: rgb(0, 191, 255);
+}
+.partner_list {
+  width: 80%;
+  margin: auto;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.partner_list img{
+  height: 5vh;
+  transition: 0.3s;
+  cursor: pointer;  
+  
+}
+
+/*-----------------------------------Kapcsolat.jsx-----------------------------------*/
+@media screen and (min-width: 800px) {
+  .kapcsolat {
+    width: fit-content;
+  }
+}
+@media screen and (max-width: 800px) {
+  .kapcsolat {
+    width: 90%;
+  }
+}
+  .kapcsolat {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    margin: 20px auto;
+    padding: 14px;
+    box-shadow: 0px 5px 10px rgba(138, 138, 138, 0.459);
+    border-radius: 10px;
+  }
+  .kapcsolat h1 {
+    font-size: 35px;
+    font-weight: bold;
+    letter-spacing: 3px;
+  }
+  .uzenetKuldes { 
+    width: 400px; 
+    max-width: 100%; 
+   /* border: 1px solid red */
+  }
+  .uzenetKuldes input{
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    font-weight: 500;
+    border-bottom: 1px solid rgb(172, 172, 172);
+  }
+  .uzenetKuldes textarea{
+    width: 100%;
+    min-height: 200px;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid rgb(172, 172, 172);
+    border-radius: 5px;
+    font-weight: 500;
+  }
+  .kapcsolatInfo{
+    /*border: 1px solid blue;*/
+    font-weight: 500;
+    padding: 10px;
+    width: 400px; 
+    max-width: 100%; 
+  }
+  .kapcsolatInfo ul { margin: 10px 0; }
+  .kapcsolatInfo ul li{
+    display: flex;
+    margin: 5px 0;
+    align-items: center;
+    gap: 5px;
+  }
+  .kapcsolat_img { display: flex; margin-top: 40px; align-items: center;  }
+  .kapcsolat_img img{
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    margin:  0 10px;
+    filter: grayscale(1);
+    transition: 0.3s;
+    cursor: pointer;
+  }
+  .kapcsolat_img img:hover {
+    filter: grayscale(0);
+    transform: scale(1.1);
+  }
+
+
 /*-------------------------------------------------------------------------------*/
