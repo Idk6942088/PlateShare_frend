@@ -35,22 +35,15 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
   }
 
   async function register() {
-
-    try {
-        
+    try {    
         await createUserWithEmailAndPassword(auth, email, password);
         await setDoc(doc(db, "users", auth.currentUser.reloadUserInfo.localId), {email:email, veznev:veznev, kernev:kernev, tipus:usertype});
-        setEmail(""); setPassword("");
-        
+        setEmail(""); setPassword("");    
     } catch (error) {
         console.log(error);
-        setSikertelen(true);
-        
+        setSikertelen(true);  
     }
   }
-
- 
-
   function enter(e){
     if(isSignIn && e.key === "Enter") login();
   }
