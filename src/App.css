@@ -235,6 +235,9 @@
 .szoveg {font-size: 22pt;}
 .loginpanel {  width: 50%;}
 .profilkep { min-width: 40%;}
+.adminmenu {
+  min-width: 60%;
+}
 }
 
 @media (max-width: 768px) {
@@ -248,12 +251,27 @@
     flex-direction: column;
     width: 70%;
     }
+    .admincontent table {
+      
+      overflow-x: auto; /* Enable horizontal scrolling */
+      white-space: nowrap; /* Prevent table from wrapping */
+    }
+  
+    .admincontent td,th {
+      display: block;
+      min-width: 100%; /* Make table cells block elements */
+    } 
+    
+    .admincontent tr {
+      display: block;
+      margin: 10px ; 
+    }
     .adminmenu_content {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
     }
-    table {
-      display: none;
+    .adminmenu {
+      min-width: 60%;
     }
 }
 
@@ -679,6 +697,7 @@ footer .footer_img {
   .uzenetKuldes { 
     width: 400px; 
     max-width: 100%; 
+    
    /* border: 1px solid red */
   }
   .uzenetKuldes input{
@@ -739,26 +758,47 @@ footer .footer_img {
 }
 .adminmenu {
   background-color: white;
-  margin: 0px auto;
-  width: 60%;
+  margin: 10px auto;
+  width: 40%;
   border-radius: 10px;
   box-shadow: 0px 5px 10px rgba(138, 138, 138, 0.459);
 }
 .admincontent {
   background-color: antiquewhite;
+  display: flex;
+  
 }
-table {
+.admincontent table {
   margin: 10px;
+ 
 }
-td {
+.admincontent td,th {
   border: 1px solid black;
   padding: 10px;
 }
 .useremail {
-  width: 300px;
+  min-width: 200px;
 }
 .usertorol {
   width: 50px;
 }
+.usertorol:hover {
+  cursor: pointer;
+}
+.uzenetbox {
+  background-color: white;
+  display: block;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+.uzenetcontent {
+  text-align: left;
+}
+
 
 /*-------------------------------------------------------------------------------*/
