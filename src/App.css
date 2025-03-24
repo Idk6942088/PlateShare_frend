@@ -1,4 +1,5 @@
 /* background-color: rgb(255,251,235) */
+html { scroll-behavior: smooth; }
 .page { min-height: 80vh; }
 /*----------------------------------Navbar-------------------------------------*/
 .buttons {
@@ -48,7 +49,9 @@
   transform-origin: bottom center;
 }
 .hamburgermenu { display: none;}
-.menu { background-color: white; }
+.menu { 
+  background-color: white;
+}
 /*----------------------------------------------------------------------------*/
 
 .signbutton {
@@ -59,8 +62,10 @@
   background-color: white;
   z-index: 3;
   position: sticky;
+  /*box-shadow: 0px 0px 10px black;*/
   width: 100%;
 }
+
 .loginpanel {
   margin: 25px auto;
   display: flex;
@@ -106,6 +111,25 @@ footer .footer_img {
   cursor: pointer;
 }
 
+.up {
+  position: fixed;
+  bottom: 20px; right: 20px;
+  height: 4vh;
+  width: 4vh;
+  margin: auto;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.315);
+  transition: 0.3s;
+}
+.upIcon {
+  height: 100%;
+  color: grey;
+  margin: auto;
+}
+.up:hover {
+  bottom: 25px;
+}
 
 
 /*--------------------------------Home.jsx----------------------black;-------------*/
@@ -489,7 +513,8 @@ footer .footer_img {
   .uzenetKuldes { 
     width: 400px; 
     max-width: 100%; 
-   /* border: 1px solid red */
+    /*border: 1px solid red;*/
+    padding: 0px 10px;
   }
   .uzenetKuldes input{
     display: block;
@@ -512,7 +537,7 @@ footer .footer_img {
   .kapcsolatInfo{
     /*border: 1px solid blue;*/
     font-weight: 500;
-    padding: 10px;
+    padding: 0px 10px;
     width: 400px; 
     max-width: 100%; 
   }
@@ -665,8 +690,9 @@ footer .footer_img {
   .partner_list img {
     height: 3vh;
   }
-  .etel, .partnereink, .partnereink p, .home_szoveg, .footer_container {
+  .etel, .partnereink, .partnereink p, .home_szoveg {
     width: 80%;
+    
   }
 }
 @media screen and (max-width: 767px) {

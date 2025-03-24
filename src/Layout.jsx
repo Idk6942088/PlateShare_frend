@@ -1,5 +1,5 @@
 import './App.css'
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Alert, AppBar, Avatar, Box, Button, Chip, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Menu, MenuItem, Snackbar, Toolbar, Tooltip, Typography  } from '@mui/material';
 import { FaBars, FaCircleUser, FaGithub, FaPlateWheat, FaSquareInstagram } from 'react-icons/fa6';
 import Grid from '@mui/material/Grid2';
@@ -7,11 +7,17 @@ import { useState } from 'react';
 import { Fragment } from 'react';
 import { FaFacebookSquare } from 'react-icons/fa';
 import { AiFillTikTok } from 'react-icons/ai';
+import { FaChevronUp } from "react-icons/fa";
+import { useEffect } from 'react';
+
 
 
 export function Layout({user,logout,admin,partner}) {
 
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const navigate = useNavigate();
+    const location=useLocation()
+    console.log(location.pathname);
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -76,8 +82,30 @@ export function Layout({user,logout,admin,partner}) {
       setAnchorEl(null);
     };
 
+    const { pathname } = useLocation(); 
+      useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [pathname]);
+    function scrollUp(){
+      window.scrollTo(0, 0);
+    }
+
+    /*
+    var pScroll = window.pageYOffset
+    window.onscroll = function() {
+      var currentScrollPos = window.pageYOffset;
+      if(pScroll > currentScrollPos) {
+        document.getElementById('as').style.top = '0';
+      } else {
+        document.getElementById('as').style.top = '-80px';
+      }
+      pScroll = currentScrollPos
+    }*/
+    
+
     return (
     <>
+  
        <div className='menu shadow-md'>
        <Box>
                     <div className='menu'>
@@ -215,9 +243,12 @@ export function Layout({user,logout,admin,partner}) {
 
        <p className='text-center'>© 2025 PlateShare</p>
       </footer>
+      <div className="up">
+        <Link to={pathname} onClick={scrollUp}><FaChevronUp className='upIcon' /></Link>
+      </div>
     </>
     );
-
+   
 }
 
 
