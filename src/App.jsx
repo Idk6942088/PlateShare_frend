@@ -120,7 +120,7 @@ function App() {
       { path: "/admin/felhasznalok", element: <Admin admin={admin} db={db}/> },
       { path: "/admin/uzenetek", element: <Admin admin={admin} db={db}/> },
       { path: "/admin/uzenetek/uzenet", element: <Admin admin={admin} db={db}/> },
-      { path: "/upload", element: <Upload partner={partner} db={db}/> },
+      { path: "/upload", element: <Upload partner={partner} db={db} user={user}/> },
       { path: "/myprofile", element: <Myprofile user={user} setUserpfp={setUserpfp} db={db} userpfp={userpfp}/> },
       { path: "/auth/in", element: <Auth auth={auth} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth auth={auth} db={db} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose}/> },
