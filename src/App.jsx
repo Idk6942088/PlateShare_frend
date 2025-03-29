@@ -5,7 +5,7 @@ import { Home } from './pages/Home';
 import Etelek from './pages/Etelek';
 import Partnereink from './pages/Partnereink';
 import Blog from './pages/Blog';
-import Charity from './Charity';
+import Charity from './pages/Charity';
 import Kapcsolat from './pages/Kapcsolat';
 import Admin from './pages/Admin';
 import Upload from './pages/Upload';
@@ -13,12 +13,16 @@ import Notfound from './pages/Notfound';
 import Auth from './pages/Auth';
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./firebaseConfig.js";
-import { collection, getDocs, getFirestore, query, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, getFirestore, query, where } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect } from 'react';
 import { useState } from 'react';
-import Etel from './pages/Etel.jsx';
 import Myprofile from './pages/Myprofile.jsx';
+import Etel from './pages/Etel.jsx';
+import axios from 'axios';
+import ReceptUpload from './pages/ReceptUpload.jsx';
+import Receptek from './pages/Receptek.jsx';
+import ReceptRészlet from './pages/ReceptRészlet.jsx';
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -30,13 +34,29 @@ function App() {
   const [user, setUser] = useState(null);
   const [admin, setAdmin] = useState(false);
   const [partner, setPartner] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-  const [etelurl, setEtelurl] = useState('');
+  const [userpfp,setUserpfp] = useState("");
 
 
   const [sikeres,setSikeres] = useState(false);
   const [sikertelen,setSikertelen] = useState(false);
 
+  useEffect(()=> {
+    async function getpfp() {
+      if(user) {
+        const snap = await getDoc(doc(db, "users", user.reloadUserInfo.localId));
+        if (snap.exists()) console.log(snap.data());
+        if(!snap.data().pfpID == "") {
+          setUserpfp(snap.data().pfpID);
+        } else {
+          setUserpfp("");
+        }
+    }
+  }
+    getpfp();
+  },[user]);
+
+ 
+  
   const sikeresClose = (event, reason) => {
     if (reason === 'clickaway') {
     return;
@@ -77,28 +97,31 @@ function App() {
         setPartner(true);
         setAdmin(false);
       }
-    
-   
   }
 
   async function logout() {
     await signOut(auth);
-    setRefresh(!refresh);
     
   }
 
   const router = createBrowserRouter([
-    { path: "/", element: <Layout user={user} logout={logout} admin={admin} partner={partner} />, children: [
+    { path: "/", element: <Layout user={user} userpfp={userpfp} logout={logout} admin={admin} partner={partner} />, children: [
       { path: "/", element: <Home sikeres={sikeres} sikeresClose={sikeresClose}/> },
       { path: "/etelek", element: <Etelek db={db}/> },
       { path: "/etel/:id", element: <Etel db={db}/> },
       { path: "/partnereink", element: <Partnereink /> },
       { path: "/blog", element: <Blog /> },
+      { path: "/blog/receptupload", element: <ReceptUpload /> },
+      { path: "/blog/receptek", element: <Receptek /> },
+      { path: "/blog/recipe/:id", element: <ReceptRészlet /> },
       { path: "/charity", element: <Charity /> },
-      { path: "/kapcsolat", element: <Kapcsolat /> },
-      { path: "/admin", element: <Admin admin={admin}/> },
+      { path: "/kapcsolat", element: <Kapcsolat user={user} db={db} /> },
+      { path: "/admin", element: <Admin admin={admin} db={db}/> },
+      { path: "/admin/felhasznalok", element: <Admin admin={admin} db={db}/> },
+      { path: "/admin/uzenetek", element: <Admin admin={admin} db={db}/> },
+      { path: "/admin/uzenetek/uzenet", element: <Admin admin={admin} db={db}/> },
       { path: "/upload", element: <Upload partner={partner} db={db}/> },
-      { path: "/myprofile", element: <Myprofile user={user} db={db}/> },
+      { path: "/myprofile", element: <Myprofile user={user} setUserpfp={setUserpfp} db={db} userpfp={userpfp}/> },
       { path: "/auth/in", element: <Auth auth={auth} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth auth={auth} db={db} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose}/> },
       { path: "*", element: <Notfound /> }

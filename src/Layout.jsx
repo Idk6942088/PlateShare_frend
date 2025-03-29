@@ -1,12 +1,15 @@
 import './App.css'
 import { Link, Outlet } from 'react-router-dom';
 import { Alert, AppBar, Avatar, Box, Button, Chip, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Menu, MenuItem, Snackbar, Toolbar, Tooltip, Typography  } from '@mui/material';
-import { FaBars, FaCircleUser, FaPlateWheat } from 'react-icons/fa6';
+import { FaBars, FaCircleUser, FaGithub, FaPlateWheat, FaSquareInstagram } from 'react-icons/fa6';
+import {Grid} from "@mui/material";
 import { useState } from 'react';
 import { Fragment } from 'react';
+import { FaFacebookSquare } from 'react-icons/fa';
+import { AiFillTikTok } from 'react-icons/ai';
 
 
-export function Layout({user,logout,admin,partner}) {
+export function Layout({user,logout,admin,partner,userpfp}) {
 
     const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -22,7 +25,7 @@ export function Layout({user,logout,admin,partner}) {
          {user && (
             <><ListItem button component={Link} to="/myprofile">
                   <ListItemIcon>
-                      <Avatar />
+                      <Avatar src={userpfp} />
                   </ListItemIcon>
                   <ListItemText primary={user.email} />
               </ListItem><Divider></Divider></>
@@ -114,7 +117,7 @@ export function Layout({user,logout,admin,partner}) {
                                         aria-haspopup="true"
                                         aria-expanded={open ? 'true' : undefined}
                                     >
-                                        <Avatar sx={{ width: 32, height: 32 }}></Avatar>
+                                        <Avatar src={userpfp} sx={{ width: 32, height: 32 }}></Avatar>
                                     </IconButton>
                                     </Tooltip>
                                 </Box>
@@ -156,7 +159,7 @@ export function Layout({user,logout,admin,partner}) {
                                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                     >
                                     <Link to="/myprofile"><MenuItem  onClick={handleClose}>
-                                    <Avatar /> Profilom 
+                                    <Avatar src={userpfp} /> Profilom 
                                     </MenuItem></Link>
                                     <MenuItem onClick={handleClose}>
                                         Kedvencek
@@ -183,8 +186,35 @@ export function Layout({user,logout,admin,partner}) {
             
         </div>
         <div className='page'>
-            <Outlet/>
+            <Outlet/>    
         </div>  
+        <footer> 
+        <Grid container className='block m-auto footer_container '>
+          <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+            <div className="footer_links">
+              <Link className='footer_link' to="/etelek">Ételek</Link>
+              <Link className='footer_link' to="/partnereink">Partnereink</Link>
+              <Link className='footer_link' to="/blog">Blog</Link>
+              <Link className='footer_link' to="/charity">Charity</Link>
+              <Link className='footer_link' to="/kapcsolat">Kapcsolat</Link>
+            </div>
+
+          </Grid>
+          <Grid size={{ xs: 12, sm: 12, md: 6 }} className='footer_jobb'>
+            <Link to='https://kkando.hu/' target='_blank'>Kecskeméti SZC Kandó Kálmán Technikum</Link>
+            <p>Kecskemét, Bethlen krt. 63, 6000</p>
+            <div className="footer_imgs">
+              <a className='footer_img' href="https://github.com/Idk6942088/PlateShare_frend" target='_blank'><FaGithub /></a>
+              <a className='footer_img' href=""><FaSquareInstagram /></a>
+              <a className='footer_img' href=""><FaFacebookSquare /></a>
+              <a className='footer_img' href=""><AiFillTikTok /></a>
+            </div>
+          </Grid>
+        </Grid>
+
+
+       <p className='text-center'>© 2025 PlateShare</p>
+      </footer>
     </>
     );
 

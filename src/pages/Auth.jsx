@@ -12,6 +12,8 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
   const [kernev,setKernev] = useState("");
   const [veznev,setVeznev] = useState("");
   const [usertype, setUsertype] = useState("");
+  const [loginError,setLoginError] = useState(false);
+  
 
 
   const navigate = useNavigate();
@@ -49,6 +51,16 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
 
  
 
+  async function register() {
+    try {    
+        await createUserWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, "users", auth.currentUser.reloadUserInfo.localId), {email:email, veznev:veznev, kernev:kernev, tipus:usertype});
+        setEmail(""); setPassword("");    
+    } catch (error) {
+        console.log(error);
+        setSikertelen(true);  
+    }
+  }
   function enter(e){
     if(isSignIn && e.key === "Enter") login();
   }
