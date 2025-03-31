@@ -30,7 +30,7 @@ export default function Etel({db}) {
         <div className='etel'>
             <Grid container spacing={2} key={etel.id}>
                 <Grid size={{xs: 12, sm: 12, md: 6}}>
-                    <img src="" alt="" />
+                    <img className='etelkep' src={etel.kepurl}/>
                 </Grid>
                 <Grid size={{xs: 12, sm: 12, md: 6}}>
                     <p className='font-bold uppercase text-4xl text-center' id='etel_kateg'>{etel.kategoria}</p>
@@ -65,7 +65,7 @@ export default function Etel({db}) {
                     </div>
                     <Button id='etel_gomb' variant="contained" endIcon={<FaShoppingBag />}>Vásárlás</Button>
                     <div className="etel_leiras">
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid iste sint dolores quibusdam laborum nam fugit eos, magnam est maxime, blanditiis saepe nemo. Minus sint maxime, quam enim cumque consequatur Lorem ipsum dolor sit amet consectetur, adipisicing elit. !</p>
+                        <p>{etel.leiras}</p>
                     </div>
                     
                 </Grid>

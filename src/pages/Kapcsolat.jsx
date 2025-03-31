@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Alert, Button, Snackbar } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import React from 'react'
 import { MdEmail } from "react-icons/md";
@@ -14,6 +14,15 @@ export default function Kapcsolat({user,db}) {
   const [uzenet,setUzenet] = useState("");
   const [uzenetdb,setUzenetdb] = useState([]);
 
+  const [sikeres,setSikeres] = useState(false);
+
+  const sikeresClose = (event, reason) => {
+    if (reason === 'clickaway') {
+    return;
+    }
+    setSikeres(false);
+  };
+
   useEffect(() => {
     if(user!=null) {
       async function getUser() {
@@ -25,12 +34,28 @@ export default function Kapcsolat({user,db}) {
     } 
   },[user]);
 
+  console.log(user);
+
   async function kuldes() {
-    
+    if(uzenet=="")  {
+      return(
+        <Snackbar open={true} autoHideDuration={6000} onClose={sikeresClose}>
+            <Alert
+            onClose={sikeresClose}
+            severity="error"
+            variant="filled"
+            sx={{ width: '100%' }}
+            >
+            Az üzenet nem lehet üres!
+            </Alert>
+           </Snackbar>
+      );
+    }
     const snap = await getDoc(doc(db, "uzenetek", user.uid));
     if (snap.exists()) setUzenetdb(snap.data());
     let uzenetid="uzenet"+uzenetdb.length;
     await setDoc(doc(db, "uzenetek", user.uid), {uzenet:uzenet});
+    setSikeres(true);
   }
 
   return (
@@ -92,7 +117,16 @@ export default function Kapcsolat({user,db}) {
           </div>
         </Grid>
       </Grid>)}
-      
+      <Snackbar open={sikeres} autoHideDuration={6000} onClose={sikeresClose}>
+            <Alert
+            onClose={sikeresClose}
+            severity="success"
+            variant="filled"
+            sx={{ width: '100%' }}
+            >
+            Üzenet elküldve!
+            </Alert>
+           </Snackbar>
     </div>
   )
 }
