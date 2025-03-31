@@ -39,7 +39,7 @@ export default function Kapcsolat({user,db}) {
         <Grid size={{ xs: 12, sm: 6, md: 6 }} >
           <div className="uzenetKuldes">
             <h1>Üzenet küldés</h1>
-            
+             <p className='text-xl font-medium text-center align-middle my-15'>Kérlek jelentkezz be az üzenet küldéshez!</p>
               
           </div>
         </Grid>
@@ -64,7 +64,7 @@ export default function Kapcsolat({user,db}) {
           <div className="uzenetKuldes">
             <h1>Üzenet küldés</h1>
             
-            {useradat.length==0 ? "":
+            {useradat.length==0 ?"":
               <>
               <input type="text" placeholder={useradat.veznev+" "+useradat.kernev}  disabled/>
               <input type="text" placeholder={useradat.email} disabled/>

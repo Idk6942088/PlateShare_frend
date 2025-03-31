@@ -251,25 +251,7 @@
     flex-direction: column;
     width: 70%;
     }
-    .admincontent table {
-      
-      overflow-x: auto; /* Enable horizontal scrolling */
-      white-space: nowrap; /* Prevent table from wrapping */
-    }
-  
-    .admincontent td,th {
-      display: block;
-      min-width: 100%; /* Make table cells block elements */
-    } 
     
-    .admincontent tr {
-      display: block;
-      margin: 10px ; 
-    }
-    .adminmenu_content {
-      display: flex;
-      flex-direction: column;
-    }
     .adminmenu {
       min-width: 60%;
     }
@@ -721,7 +703,7 @@ footer .footer_img {
   .kapcsolatInfo{
     /*border: 1px solid blue;*/
     font-weight: 500;
-    padding: 10px;
+    padding: 0px 10px;
     width: 400px; 
     max-width: 100%; 
   }
@@ -767,14 +749,6 @@ footer .footer_img {
   background-color: antiquewhite;
   display: flex;
   
-}
-.admincontent table {
-  margin: 10px;
- 
-}
-.admincontent td,th {
-  border: 1px solid black;
-  padding: 10px;
 }
 .useremail {
   min-width: 200px;
