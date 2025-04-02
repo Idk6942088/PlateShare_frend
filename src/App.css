@@ -218,14 +218,30 @@
 }
 
 /*-------------------------------------------------------------------------------*/
-/*----------------------------Reszponzív-----------------------------------------*/
-.feltoltes input {
+/*---------------------------------Upload----------------------------------------*/
+
+.feltoltes input, .etelkepupload {
   padding: calc(var(--spacing) * 2);
   border-style: var(--tw-border-style);
     border-width: 2px;
     border-color: var(--color-gray-300);
     border-radius: var(--radius-md)
 }
+.feltoltes .etelkepupload {
+  cursor: pointer;
+  
+}
+.feltoltes .uploadgomb {
+  transition: 0.5s;
+}
+
+.feltoltes .uploadgomb:hover {
+  background-color: var(--color-amber-600);
+  
+}
+/*-------------------------------------------------------------------------------*/
+/*----------------------------Reszponzív-----------------------------------------*/
+
 
 @media (max-width: 1200px) {
   .pagesbutton {

@@ -1,4 +1,5 @@
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, Snackbar } from '@mui/material';
+import axios from 'axios';
 import { addDoc, collection, onSnapshot, query, Timestamp, where } from 'firebase/firestore';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
@@ -21,7 +22,15 @@ export default function Upload({partner,db,user}) {
   const[vege,setVege] = useState(Timestamp.now().toDate().toJSON().split("T")[0]);
   const[lejarat,setLejarat] = useState(Timestamp.now().toDate().toJSON().split("T")[0]);
   const [felhasznalo, setFelhasznalo] = useState([]);
-  const kepurl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg69V8A5pBYoXQtFI960GrW8jvP2JeX8SOkA&s";
+
+   async function elelmiszerkepupload() {
+          const formData = new FormData();
+          formData.append("fajl",file);
+          const resp = await axios.post("http://localhost:88/etel",formData);
+          console.log(resp.data)
+          await addDoc(collection(db, "etelek"), {ar:ar,db:mennyiseg,helyszin:helyszin,mettol:kezdetdatum,meddig:vegedatum,lejarat:lejaratdatum,kategoria:kategoria,leiras:leiras,kepurl:resp.data.url,partnernev:felhasznalo[0].partnernev}); // AutoID 
+          console.log(resp.data.public_id);
+      }
 
   useEffect(() => {
            if(user!= null) {
@@ -56,16 +65,16 @@ export default function Upload({partner,db,user}) {
       console.log("Nincs kitöltve minden")
       setOpen(true);
     } else {
-      await addDoc(collection(db, "etelek"), {ar:ar,db:mennyiseg,helyszin:helyszin,mettol:kezdetdatum,meddig:vegedatum,lejarat:lejaratdatum,kategoria:kategoria,leiras:leiras,kepurl:kepurl,partnernev:felhasznalo[0].partnernev}); // AutoID
+      elelmiszerkepupload();
+      
       console.log("uploading...");
     }
    
     
     console.log(ar,meddig,mennyiseg,leiras,nev,lejarat,helyszin,kategoria,file);
-    
-    // upload the file
   }
 
+  console.log(file)
 
   const [open, setOpen] = React.useState(false);
 
@@ -118,9 +127,9 @@ export default function Upload({partner,db,user}) {
          
         </div>
         <input type="text" required placeholder='Élelmiszer helyszíne' value={helyszin} onChange={ e => setHelyszin(e.target.value)}/>
-        
-        <input type="file" />
-        <button className='bg-amber-500 text-white p-2 rounded-md cursor-pointer' onClick={upload}>Feltöltés</button>
+        <label htmlFor="fileinput" className='etelkepupload'>Kép feltöltése az élelmiszerről {file.name}</label>
+        <input type="file"  id="fileinput" accept='.jpg,.png,.jpeg'onChange={e => setFile(e.target.files[0])}/>
+        <button className='bg-amber-500 text-white p-2 rounded-md cursor-pointer uploadgomb' onClick={upload}>Feltöltés</button>
     </div>
     <Dialog
       open={open}

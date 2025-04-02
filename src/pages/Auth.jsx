@@ -3,15 +3,16 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fire
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import React from 'react'
 import { useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 
-export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikertelenClose}) {
+export default function Auth({db,user,auth,sikertelen,setSikeres,setSikertelen,sikertelenClose}) {
 
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [kernev,setKernev] = useState("");
   const [veznev,setVeznev] = useState("");
   const [usertype, setUsertype] = useState("");
+  const [partnernev, setPartnernev] = useState("");
   const [loginError,setLoginError] = useState(false);
   
 
@@ -37,8 +38,9 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
   async function register() {
     try {    
         await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(db, "users", auth.currentUser.reloadUserInfo.localId), {email:email, veznev:veznev, kernev:kernev, tipus:usertype});
+        await setDoc(doc(db, "users", auth.currentUser.reloadUserInfo.localId), {email:email, veznev:veznev, kernev:kernev,pfpURL:"",tipus:usertype});
         setEmail(""); setPassword("");    
+        navigate('/auth/in',{replace:true});
     } catch (error) {
         console.log(error);
         setSikertelen(true);  
@@ -50,8 +52,9 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
 
   return (
     <>
+    {user ? <Navigate to="/"/>: ""}
     <div className='loginpanel m-auto drop-shadow-xl' onKeyDown={e => enter(e)}>
-        
+
         <h3 className='border-b-2 pb-3  border-gray-400 text-center text-2xl font-bold mb-1 '>{isSignIn ? "Bejelentkezés" : "Regisztráció"}</h3>
         
         {!isSignIn && (
@@ -83,7 +86,13 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
           onChange={e => setKernev(e.target.value)}
         />
         </div>
-       
+        <TextField
+        className=''
+        required
+        label="Partnernév"
+        value={partnernev}
+        onChange={e => setPartnernev(e.target.value)}
+      />
          </>
        )}
         
