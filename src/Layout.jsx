@@ -2,7 +2,7 @@ import './App.css'
 import { Link, Outlet } from 'react-router-dom';
 import { Alert, AppBar, Avatar, Box, Button, Chip, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Menu, MenuItem, Snackbar, Toolbar, Tooltip, Typography  } from '@mui/material';
 import { FaBars, FaCircleUser, FaGithub, FaPlateWheat, FaSquareInstagram } from 'react-icons/fa6';
-import {Grid} from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { useState } from 'react';
 import { Fragment } from 'react';
 import { FaFacebookSquare } from 'react-icons/fa';
