@@ -1,25 +1,17 @@
 import './App.css'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Alert, AppBar, Avatar, Box, Button, Chip, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Menu, MenuItem, Snackbar, Toolbar, Tooltip, Typography } from '@mui/material';
-import { FaBars, FaCircleUser, FaGithub, FaPlateWheat, FaSquareInstagram } from 'react-icons/fa6';
 import Grid from '@mui/material/Grid2';
 import './App.css';
-import { Link, Outlet } from 'react-router-dom';
 import { Alert, AppBar, Avatar, Box, Button, Chip, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Menu, MenuItem, Snackbar, Toolbar, Tooltip, Typography, Badge } from '@mui/material';
 import { FaBars, FaCircleUser, FaGithub, FaPlateWheat, FaSquareInstagram } from 'react-icons/fa6';
 import { FaShoppingCart } from 'react-icons/fa';
-import { Grid } from "@mui/material";
 import { useState } from 'react';
 import { Fragment } from 'react';
 import { FaFacebookSquare } from 'react-icons/fa';
 import { AiFillTikTok } from 'react-icons/ai';
 import { FaChevronUp } from "react-icons/fa";
 import { useEffect } from 'react';
-
-
-
-export function Layout({ user, logout, admin, partner, userpfp }) {
-    import { useCart } from './pages/useCart';
+import { useCart } from './pages/useCart';
 
     export function Layout({ user, logout, admin, partner, userpfp }) {
         const [drawerOpen, setDrawerOpen] = useState(false);
