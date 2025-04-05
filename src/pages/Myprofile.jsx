@@ -40,17 +40,16 @@ export default function Myprofile({db,user,userpfp,setUserpfp}) {
       setVeznev(felhasznalok[0].veznev);
       setKernev(felhasznalok[0].kernev);
       setEmail(felhasznalok[0].email);
+      setUserpfp(felhasznalok[0].pfpURL);
     }
 
     async function pfpupload() {
         const formData = new FormData();
         formData.append("fajl",fajl)
-        formData.append("publicID",felhasznalok[0].pfpID);
+        formData.append("publicID",felhasznalok[0].id);
         const resp = await axios.post("http://localhost:88/pfp",formData);
         console.log(resp.data)
-        const version=(resp.data.url.split("/")[6]);
-        const kepnev=(resp.data.url.split("/")[7].split(".")[0]); 
-        await updateDoc(doc(db, "users", user.reloadUserInfo.localId), { pfpID:resp.data.url });
+        await updateDoc(doc(db, "users", user.reloadUserInfo.localId), { pfpURL:resp.data.url });
         setUserpfp(resp.data.url);
         console.log(resp.data.public_id);
     }
@@ -81,7 +80,7 @@ export default function Myprofile({db,user,userpfp,setUserpfp}) {
     {felhasznalok.length == 0 ? <p>Betöltés...</p> :
     <div className='myprofile flex'>
         <div className='profilkep flex flex-col gap-1  text-center m-auto '>
-            <Avatar src={userpfp} className='m-auto'/>
+            <Avatar src={userpfp} className='m-auto' sx={{ width: 100, height: 100 }}/>
             <p className='text-xl font-medium'>{felhasznalok[0].veznev} {felhasznalok[0].kernev}</p>
             <p className='text-gray-400 text-sm'>{felhasznalok[0].tipus =="mszemely" ? "Magánszemély": felhasznalok[0].tipus}</p>
             <div className='flex gap-5 text-center flex-col m-auto my-5'>

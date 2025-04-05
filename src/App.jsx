@@ -46,8 +46,8 @@ export default function App() {
       if(user) {
         const snap = await getDoc(doc(db, "users", user.reloadUserInfo.localId));
         if (snap.exists()) console.log(snap.data());
-        if(!snap.data().pfpID == "") {
-          setUserpfp(snap.data().pfpID);
+        if(!snap.data().pfpURL == "") {
+          setUserpfp(snap.data().pfpURL);
         } else {
           setUserpfp("");
         }
@@ -123,10 +123,10 @@ export default function App() {
       { path: "/admin/felhasznalok", element: <Admin admin={admin} db={db}/> },
       { path: "/admin/uzenetek", element: <Admin admin={admin} db={db}/> },
       { path: "/admin/uzenetek/uzenet", element: <Admin admin={admin} db={db}/> },
-      { path: "/upload", element: <Upload partner={partner} db={db}/> },
+      { path: "/upload", element: <Upload partner={partner} db={db} user={user}/> },
       { path: "/myprofile", element: <Myprofile user={user} setUserpfp={setUserpfp} db={db} userpfp={userpfp}/> },
-      { path: "/auth/in", element: <Auth auth={auth} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose} setUser={setUser}/> },
-      { path: "/auth/up", element: <Auth auth={auth} db={db} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose}/> },
+      { path: "/auth/in", element: <Auth auth={auth} user={user} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose} setUser={setUser}/> },
+      { path: "/auth/up", element: <Auth auth={auth} user={user} db={db} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose}/> },
       { path: "*", element: <Notfound /> }
     ]}
   ]);

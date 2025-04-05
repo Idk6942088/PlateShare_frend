@@ -1,20 +1,24 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Stack } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import { deleteUser } from 'firebase/auth';
+import { collection, deleteDoc, doc, getDoc, getDocs } from 'firebase/firestore';
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { FaUserEdit } from 'react-icons/fa';
 import { MdDeleteForever } from 'react-icons/md';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 
 export default function Admin({admin,db}) {
 
   const [users,setUsers] = useState([]);
+  const [userlist,setUserlist] = useState([]);
   const [messages,setMessages] = useState([]);
   const [uzenet,setUzenet] = useState(null);
-  const [rowid,setRowid] = useState(null);
-  
+  const [rowSelectionModel, setRowSelectionModel] = useState([]);
+
   let nextId=0;
+  let nextIdmessages=0;
 
   useEffect(() => {
     async function getMessages() {
@@ -27,32 +31,39 @@ export default function Admin({admin,db}) {
 },[]);
 
 useEffect(() => {
+  async function getUserList() {
+    const snap = await getDocs(collection(db, "users"));
+    const ls = snap.docs.map(doc => ({ ...doc.data(),userid:doc.id}));
+    for(let a of ls) {
+      if(a.tipus=="mszemely") a.tipus="Magánszemély";
+      a.nev=a.veznev+" "+a.kernev;
+      a.id=nextId++;
+    }
+    setUserlist(ls);
+  }
+  getUserList();
+
   async function getUsers() {
     let lst =[]
     for(let a of messages) {
       const snap = await getDoc(doc(db, "users", a.id));
       if (snap.exists()){
         lst.push(snap.data());
-        lst[nextId].nev=lst[nextId].veznev+" "+lst[nextId].kernev;
-        lst[nextId].id=nextId++;
+        lst[nextIdmessages].nev=lst[nextIdmessages].veznev+" "+lst[nextIdmessages].kernev;
+        lst[nextIdmessages].id=nextIdmessages++;
       }
     }
     setUsers(lst);
   }
   getUsers();
 
-},[messages]);
+},[userlist.length]);
 
-
-const navigate = useNavigate();
   const location=useLocation()
   const userspage=location.pathname=='/admin/felhasznalok';
   const messagespage=location.pathname=='/admin/uzenetek';
   const messagepage=location.pathname=='/admin/uzenetek/uzenet';
-  const orders=location.pathname=='/admin/rendelesek';
-  const termekek=location.pathname=='/admin/termekek';
   
-
   const paginationModel = { page: 0, pageSize: 5 };
 
   const [open, setOpen] = useState(false);
@@ -60,50 +71,34 @@ const navigate = useNavigate();
   const handleClickOpen = (e,row) => {
     setOpen(true);
     e.stopPropagation();
-    setRowid(row.id);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  async function DeleteUser(index) {
+    for(let i=0;i<index.length;i++) {
+      
+      console.log(index[i]+" "+userlist[index[i]].userid+" "+userlist.length);
+      userlist.splice(index[i],1);
+      await deleteDoc(doc(db, "users", userlist[index[i]].userid));
+      
+    }
+    setOpen(false);
 
+  }
+
+  
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'id', headerName: 'ID', width: 70,},
     { field: 'email', headerName: 'Email', width: 200 },
     { field: 'nev', headerName: 'Név', width: 100 },
     { field: 'tipus', headerName: 'Felhasználó típus', width: 130 },
-    { field: 'delete', headerName: '', width: 115, renderCell: (params) => {
-      return (
-        <>
-        <MdDeleteForever className='bg-red-500 m-auto p-1 my-2  text-white text-4xl rounded-md' onClick={(e) => handleClickOpen(e,params.row)}/>
-        <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"FELHASZNÁLÓI FIÓK TÖRLÉSE"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Biztosan törölni szeretéd ezt a felhasználót?<br/>
-            {rowid!=null?users[rowid].nev:""}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Mégse</Button>
-          <Button onClick={handleClose} autoFocus>
-            Törlés
-          </Button>
-        </DialogActions>
-      </Dialog>
-        </>
-      );
-    } },
   ];
+
   
+
   return (
     <div className='adminpage'>{admin ? 
       <div>
@@ -115,20 +110,60 @@ const navigate = useNavigate();
           </div>
           <div className='admincontent'>
             {userspage ? 
-                <>
-                  <Paper sx={{ height: 350, width: '100%'}}>
+            <>
+              <Box sx={{ width: '100%' }}>
+              
+              <Paper sx={{ height: 350, width: '100%'}}>
                   <DataGrid
-                    rows={users}
+                    rows={userlist}
                     columns={columns}
                     initialState={{ pagination: { paginationModel } }}
                     pageSizeOptions={[5, 10]}
                     checkboxSelection
-                    
-                    sx={{ border: 0 }}
+                    disableRowSelectionOnClick
+                    onRowSelectionModelChange={(newRowSelectionModel) => {
+                      setRowSelectionModel(newRowSelectionModel);
+                    }}
+                    rowSelectionModel={rowSelectionModel}
+                    sx={{ border: 1,borderColor:"white", borderRadius:"0px" }}
                   />
                   </Paper>
-                  </>
-            
+                  <Stack direction="row" spacing={1} sx={{padding:'10px',backgroundColor:'white',borderBottomLeftRadius:'10px',borderBottomRightRadius:'10px'}}>
+                <Button size="small" sx={{backgroundColor:"blue",color:'white',fontWeight:"bold",padding:'5px'}} >
+                  <FaUserEdit className=' m-auto my-0.1 text-white text-2xl rounded-md'/>
+                </Button>
+                  
+                <Button size="small" sx={{backgroundColor:"red",color:'white',fontWeight:"bold",padding:'5px'}}>
+                  <MdDeleteForever className=' m-auto text-white text-2xl rounded-md' onClick={(e) => handleClickOpen(e)}/>
+                </Button>
+                
+              </Stack>
+            </Box>
+            <Dialog
+              open={open}
+              onClose={()=>setOpen(false)}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                 {"FELHASZNÁLÓI FIÓK TÖRLÉSE"}
+              </DialogTitle>
+              <DialogContent key={rowSelectionModel}>
+                 <DialogContentText key={rowSelectionModel} id="alert-dialog-description">
+                    {rowSelectionModel.length==0?"Nincs kijelölve felhasználó!":(<>
+                      {rowSelectionModel.length>1?"Biztosan törölni szeretéd ezeket a felhasználókat?"
+                   :"Biztosan törölni szeretéd ezt a felhasználót?"}
+                   <br/></>)}
+                   {rowSelectionModel.length!=0?(rowSelectionModel.map((x)=><p>{userlist[x].nev}</p>)):""}
+                 </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                 <Button onClick={()=>setOpen(false)}>Mégse</Button>
+                 {rowSelectionModel.length==0?"":<Button onClick={(e)=>DeleteUser(rowSelectionModel)} autoFocus>Törlés</Button>}
+                 
+              </DialogActions>
+            </Dialog>
+          </> 
             : ""}
             {messagespage && messages.length==0 ? "Nincsenek üzenetek" : 
             <div className=''> {messagespage && users.map((x,i)=> <div className='uzenetbox'><span>{x.veznev} {x.kernev}</span> <span>{x.email}</span> {<Link to="/admin/uzenetek/uzenet"><Button variant="contained" onClick={()=>setUzenet(i)} >Megnyitás</Button></Link>} {<Button variant="contained" color='error'>Lezárás</Button>}</div>  )} </div>}

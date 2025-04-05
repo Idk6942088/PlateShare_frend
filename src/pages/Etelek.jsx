@@ -6,8 +6,9 @@ import Grid from '@mui/material/Grid2';
 import { IoIosStar } from "react-icons/io";
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { collection, onSnapshot, query, Timestamp } from 'firebase/firestore';
+import { collection, deleteDoc, doc, onSnapshot, query, Timestamp } from 'firebase/firestore';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Etelek({db}) {
 
@@ -23,21 +24,45 @@ export default function Etelek({db}) {
    
   }, []);
 
+  async function deleteExpiredEtelek() {
+    
+    for(let x of etelek) {
+        if(Timestamp.now().toDate()> x.meddig.toDate()) {
+          console.log(x.id);
+          const resp = await axios.delete("http://localhost:88/del/"+x.id);
+          await deleteDoc(doc(db, "etelek", x.id));
+          console.log(resp.data)
+        }
+      }
+  }
+  
+
+  useEffect( () => {
+    deleteExpiredEtelek();
+  },[etelek.length]);
+
+  console.log(etelek);
   const filteredEtelek = etelek.filter((el) => {
     
     if (userInput === '') {
         return el;
     }
     else {
-        return el.partnernev.toLowerCase().includes(userInput.toLowerCase());
+        return el.partnernev.toLowerCase().includes(userInput.toLowerCase())
+        || el.helyszin.toLowerCase().includes(userInput.toLowerCase())
+        || el.kategoria.toLowerCase().includes(userInput.toLowerCase())
+        || el.leiras.toLowerCase().includes(userInput.toLowerCase());
     }
 })
+
+
   const convertTimestamp = ( mettol,meddig ) => {
     let ma = Timestamp.now().toDate().toDateString();
     let atveheto = mettol.toDate();
     let atvehetodate = atveheto.toDateString();
+    let atvehetodate2 = atveheto;
     let atveheto1 = meddig.toDate();
-    let atvehetodate1 = atveheto1.toDateString();
+    let atvehetodate1 = atveheto1.getMonth();
     let ora1 = atveheto.getHours();
     let perc1 = atveheto.getMinutes();
     let ora2 = atveheto1.getHours();
@@ -45,7 +70,7 @@ export default function Etelek({db}) {
     if(atvehetodate!=ma) {
       return "Lejárt";
     }else {
-        return "Ma " + (ora1 < "10" ? "0" + ora1 : ora1) + ":" + (perc1 < "10" ? "0" + perc1 : perc1) + "-től - " + (ora2 < "10" ? "0" + ora2 : ora2) + ":" + (perc2 < "10" ? "0" + perc2 : perc2) + "-ig";
+        return mettol.toDate().toLocaleDateString()+" " + (ora1 < "10" ? "0" + ora1 : ora1) + ":" + (perc1 < "10" ? "0" + perc1 : perc1) + "-től - " + meddig.toDate().toLocaleDateString()+" " + (ora2 < "10" ? "0" + ora2 : ora2) + ":" + (perc2 < "10" ? "0" + perc2 : perc2) + "-ig";
     } 
   }
 
@@ -60,7 +85,7 @@ export default function Etelek({db}) {
               className="searchBTN"
               color="dark"
               variant="standard"
-              placeholder='Search..'
+              placeholder='Keresés... (Élelmiszer neve, helyszín, kategória)'
               value={userInput}
               onChange={e => setuserInput(e.target.value)}
               InputProps={{
@@ -86,12 +111,12 @@ export default function Etelek({db}) {
       </div>
 
       <div className="etelekLent">
-        <Grid container spacing={2}>
+        {filteredEtelek.length!=0? <Grid container spacing={2}>
           {filteredEtelek.map( e => (  
               <Grid size={{xs: 12, sm: 6, md: 3}} className='kartya' key={e.id}>
                 <Link to={`/etel/${e.id}`} >
                   <div className="kartyaKep">
-                    <img src="https://static-cdn.arcanum.com/nfo-resources/pannon_pic/pannon/panny-33_3.jpg" />
+                    <img src={e.kepurl} />
                     <span className='kartyaDb'>{e.db} db</span>
                     <span className='kartyaErtekeles' title={`${e.ertekelesdb} értékelés`}><IoIosStar color='success' />{e.ertekeles}</span>
                   </div>
@@ -102,7 +127,7 @@ export default function Etelek({db}) {
                     </div>
 
                     <p>{e.helyszin}</p>
-                    <p>Étel átvehető: {convertTimestamp(e.mettol,e.meddig)}</p>
+                    <p>Élelmiszer átvehető: {convertTimestamp(e.mettol,e.meddig)}</p>
                     <Button className='kartyaGomb' variant="contained">Lefoglalás</Button>
                   </div>
                 </Link>
@@ -110,6 +135,8 @@ export default function Etelek({db}) {
            
           ))} 
         </Grid>
+        :<div className='pt-25'><h1 className='text-center text-6xl'>Nem található élelmiszer!</h1></div>}
+       
       </div>
     </>
   )
