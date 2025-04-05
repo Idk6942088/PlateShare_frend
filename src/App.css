@@ -222,6 +222,9 @@
 .szoveg {font-size: 22pt;}
 .loginpanel {  width: 50%;}
 .profilkep { min-width: 40%;}
+.adminmenu {
+  min-width: 60%;
+}
 }
 
 @media (max-width: 768px) {
@@ -234,6 +237,28 @@
     display: flex;
     flex-direction: column;
     width: 70%;
+    }
+    .admincontent table {
+      
+      overflow-x: auto; /* Enable horizontal scrolling */
+      white-space: nowrap; /* Prevent table from wrapping */
+    }
+  
+    .admincontent td,th {
+      display: block;
+      min-width: 100%; /* Make table cells block elements */
+    } 
+    
+    .admincontent tr {
+      display: block;
+      margin: 10px ; 
+    }
+    .adminmenu_content {
+      display: flex;
+      flex-direction: column;
+    }
+    .adminmenu {
+      min-width: 60%;
     }
 }
 
@@ -272,7 +297,7 @@
 }
 
 @media screen and (max-width: 767px) {
-
+  
   .etel {
     width: 80%; 
   }
@@ -360,9 +385,8 @@ footer .footer_img {
   cursor: pointer;
 }
 
+/*--------------------------------Home.jsx------------------------------------*/
 
-
-/*--------------------------------Home.jsx----------------------black;-------------*/
 .home {
   display: flex;
   flex-direction: column;
@@ -732,6 +756,7 @@ footer .footer_img {
   .uzenetKuldes { 
     width: 400px; 
     max-width: 100%; 
+    
    /* border: 1px solid red */
   }
   .uzenetKuldes input{
@@ -949,3 +974,264 @@ footer .footer_img {
 }
 
 /*-------------------------------------------------------------------------------*/
+
+/*----------------------------------Admin.jsx------------------------------------*/
+
+.adminpage {
+  margin-top: 10px;
+  text-align: center; 
+}
+.adminmenu {
+  background-color: white;
+  margin: 10px auto;
+  width: 40%;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px rgba(138, 138, 138, 0.459);
+}
+.admincontent {
+  background-color: antiquewhite;
+  display: flex;
+  
+}
+.admincontent table {
+  margin: 10px;
+ 
+}
+.admincontent td,th {
+  border: 1px solid black;
+  padding: 10px;
+}
+.useremail {
+  min-width: 200px;
+}
+.usertorol {
+  width: 50px;
+}
+.usertorol:hover {
+  cursor: pointer;
+}
+.uzenetbox {
+  background-color: white;
+  display: block;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+.uzenetcontent {
+  text-align: left;
+}
+
+
+/*-------------------------------------------------------------------------------*/
+
+/*-----------------------------------Charity.jsx-----------------------------------*/
+.charity-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 20px;
+  padding: 20px;
+}
+
+.charity-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 300px;
+  text-align: center;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.charity-card:hover {
+  transform: scale(1.05);
+}
+
+.charity-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.charity-card h2 {
+  font-size: 1.5em;
+  margin: 10px 0;
+}
+
+.charity-card p {
+  padding: 0 20px;
+  font-size: 1em;
+  color: #666;
+  flex-grow: 1;
+}
+
+.charity-button {
+  margin-top: auto;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px 20px;
+  background: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.charity-button:hover {
+  background: #0056b3;
+}
+/*-------------------------------------------------------------------------------*/
+
+/*-----------------------------------Receptek.jsx-----------------------------------*/
+/* Recept kártyák konténere */
+.recipe-container {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+  justify-content: center !important;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.recipe-card {
+  background-color: white;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+.recipe-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.recipe-category {
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.recipe-button {
+  margin-top: auto;
+  padding: 0.75rem 1.5rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.recipe-button:hover {
+  background-color: #2563eb;
+}
+
+/*-------------------------------------------------------------------------------*/
+
+/*-----------------------------------Receptupload.jsx-----------------------------------*/
+
+.file-input-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.custom-file-button {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 0.375rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.custom-file-button:hover {
+  background-color: #2563eb;
+}
+
+.file-name {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #555;
+}
+
+/*-------------------------------------------------------------------------------*/
+
+/*-----------------------------------ReceptRészlet.jsx-----------------------------------*/
+
+/* Like és Dislike gombok */
+.reactions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem; /* Gombok közötti tér */
+  justify-content: center; /* Gombok középre igazítása */
+}
+
+.reactions button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reactions button:first-child {
+  background-color: #3b82f6; /* Like gomb színe */
+  color: white;
+}
+
+.reactions button:last-child {
+  background-color: #ef4444; /* Dislike gomb színe */
+  color: white;
+}
+
+.reactions button:hover {
+  opacity: 0.9;
+}
+/*-------------------------------------------------------------------------------*/
+
+/*-----------------------------------NotFound.jsx-----------------------------------*/
+
+.notfound-cimsor{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+.notfound-betumeret{
+  font-size: 80px;
+}
+.notfound-button{
+  margin-top: 20px;
+}

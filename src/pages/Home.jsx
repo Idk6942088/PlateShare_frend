@@ -12,7 +12,7 @@ export function Home({sikeres,sikeresClose}) {
         </div>
         <div className="home_bg_szoveg">
           <h1>PlateShare</h1>
-          <Link to="/etelek"><button class="btn" >Ételek</button></Link>
+          <Link to="/etelek"><button className="btn" >Ételek</button></Link>
         </div>
       </div>
      

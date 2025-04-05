@@ -5,7 +5,7 @@ import { Home } from './pages/Home';
 import Etelek from './pages/Etelek';
 import Partnereink from './pages/Partnereink';
 import Blog from './pages/Blog';
-import Charity from './Charity';
+import Charity from './pages/Charity';
 import Kapcsolat from './pages/Kapcsolat';
 import Admin from './pages/Admin';
 import Upload from './pages/Upload';
@@ -20,6 +20,9 @@ import { useState } from 'react';
 import Myprofile from './pages/Myprofile.jsx';
 import Etel from './pages/Etel.jsx';
 import axios from 'axios';
+import ReceptUpload from './pages/ReceptUpload.jsx';
+import Receptek from './pages/Receptek.jsx';
+import ReceptRészlet from './pages/ReceptRészlet.jsx';
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -108,9 +111,15 @@ function App() {
       { path: "/etel/:id", element: <Etel db={db}/> },
       { path: "/partnereink", element: <Partnereink /> },
       { path: "/blog", element: <Blog /> },
+      { path: "/blog/receptupload", element: <ReceptUpload /> },
+      { path: "/blog/receptek", element: <Receptek /> },
+      { path: "/blog/recipe/:id", element: <ReceptRészlet /> },
       { path: "/charity", element: <Charity /> },
-      { path: "/kapcsolat", element: <Kapcsolat /> },
-      { path: "/admin", element: <Admin admin={admin}/> },
+      { path: "/kapcsolat", element: <Kapcsolat user={user} db={db} /> },
+      { path: "/admin", element: <Admin admin={admin} db={db}/> },
+      { path: "/admin/felhasznalok", element: <Admin admin={admin} db={db}/> },
+      { path: "/admin/uzenetek", element: <Admin admin={admin} db={db}/> },
+      { path: "/admin/uzenetek/uzenet", element: <Admin admin={admin} db={db}/> },
       { path: "/upload", element: <Upload partner={partner} db={db}/> },
       { path: "/myprofile", element: <Myprofile user={user} setUserpfp={setUserpfp} db={db} userpfp={userpfp}/> },
       { path: "/auth/in", element: <Auth auth={auth} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose} setUser={setUser}/> },
