@@ -1,6 +1,6 @@
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, Snackbar } from '@mui/material';
 import axios from 'axios';
-import { addDoc, collection, onSnapshot, query, Timestamp, where } from 'firebase/firestore';
+import { addDoc, collection, doc, onSnapshot, query, Timestamp, updateDoc, where } from 'firebase/firestore';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom'
@@ -25,11 +25,13 @@ export default function Upload({partner,db,user}) {
 
    async function elelmiszerkepupload() {
           const formData = new FormData();
-          formData.append("fajl",file);
-          const resp = await axios.post("http://localhost:88/etel",formData);
-          console.log(resp.data)
-          await addDoc(collection(db, "etelek"), {ar:ar,db:mennyiseg,helyszin:helyszin,mettol:kezdetdatum,meddig:vegedatum,lejarat:lejaratdatum,kategoria:kategoria,leiras:leiras,kepurl:resp.data.url,partnernev:felhasznalo[0].partnernev}); // AutoID 
-          console.log(resp.data.public_id);
+          const add =await addDoc(collection(db, "etelek"), {ar:ar,db:mennyiseg,helyszin:helyszin,mettol:kezdetdatum,meddig:vegedatum,lejarat:lejaratdatum,kategoria:kategoria,leiras:leiras,kepurl:"",partnernev:felhasznalo[0].partnernev}); // AutoID 
+          if(add!= null) {
+            formData.append("fajl",file);
+            formData.append("publicID",add._key.path.segments[1]);
+            const resp = await axios.post("http://localhost:88/etel",formData);
+            await updateDoc(doc(db, "etelek", add._key.path.segments[1]), { kepurl:resp.data.url });
+          }
       }
 
   useEffect(() => {
@@ -69,12 +71,8 @@ export default function Upload({partner,db,user}) {
       
       console.log("uploading...");
     }
-   
     
-    console.log(ar,meddig,mennyiseg,leiras,nev,lejarat,helyszin,kategoria,file);
   }
-
-  console.log(file)
 
   const [open, setOpen] = React.useState(false);
 

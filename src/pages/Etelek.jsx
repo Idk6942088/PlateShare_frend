@@ -6,8 +6,9 @@ import Grid from '@mui/material/Grid2';
 import { IoIosStar } from "react-icons/io";
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { collection, onSnapshot, query, Timestamp } from 'firebase/firestore';
+import { collection, deleteDoc, doc, onSnapshot, query, Timestamp } from 'firebase/firestore';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Etelek({db}) {
 
@@ -23,15 +24,38 @@ export default function Etelek({db}) {
    
   }, []);
 
+  async function deleteExpiredEtelek() {
+    
+    for(let x of etelek) {
+        if(Timestamp.now().toDate()> x.meddig.toDate()) {
+          console.log(x.id);
+          const resp = await axios.delete("http://localhost:88/del/"+x.id);
+          await deleteDoc(doc(db, "etelek", x.id));
+          console.log(resp.data)
+        }
+      }
+  }
+  
+
+  useEffect( () => {
+    deleteExpiredEtelek();
+  },[etelek.length]);
+
+  console.log(etelek);
   const filteredEtelek = etelek.filter((el) => {
     
     if (userInput === '') {
         return el;
     }
     else {
-        return el.partnernev.toLowerCase().includes(userInput.toLowerCase());
+        return el.partnernev.toLowerCase().includes(userInput.toLowerCase())
+        || el.helyszin.toLowerCase().includes(userInput.toLowerCase())
+        || el.kategoria.toLowerCase().includes(userInput.toLowerCase())
+        || el.leiras.toLowerCase().includes(userInput.toLowerCase());
     }
 })
+
+
   const convertTimestamp = ( mettol,meddig ) => {
     let ma = Timestamp.now().toDate().toDateString();
     let atveheto = mettol.toDate();
@@ -61,7 +85,7 @@ export default function Etelek({db}) {
               className="searchBTN"
               color="dark"
               variant="standard"
-              placeholder='Search..'
+              placeholder='Keresés... (Élelmiszer neve, helyszín, kategória)'
               value={userInput}
               onChange={e => setuserInput(e.target.value)}
               InputProps={{
@@ -87,7 +111,7 @@ export default function Etelek({db}) {
       </div>
 
       <div className="etelekLent">
-        <Grid container spacing={2}>
+        {filteredEtelek.length!=0? <Grid container spacing={2}>
           {filteredEtelek.map( e => (  
               <Grid size={{xs: 12, sm: 6, md: 3}} className='kartya' key={e.id}>
                 <Link to={`/etel/${e.id}`} >
@@ -111,6 +135,8 @@ export default function Etelek({db}) {
            
           ))} 
         </Grid>
+        :<div className='pt-25'><h1 className='text-center text-6xl'>Nem található élelmiszer!</h1></div>}
+       
       </div>
     </>
   )
