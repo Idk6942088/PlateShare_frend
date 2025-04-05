@@ -12,7 +12,6 @@ import { Link } from 'react-router-dom';
 export default function Etelek({db}) {
 
   const [etelek, setEtelek] = useState([]);
-  const [userInput,setuserInput] = useState("");
 
   useEffect(() => {
     const q = query(collection(db, "etelek"));

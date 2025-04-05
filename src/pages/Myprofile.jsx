@@ -89,9 +89,7 @@ export default function Myprofile({db,user}) {
                         </div>} 
             </div>
         </div>
-        
     </div>}
-    
     </>
   )
 }

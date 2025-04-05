@@ -1,6 +1,6 @@
 import './App.css'
 import { Layout } from './Layout';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, useLocation } from 'react-router-dom';
 import { Home } from './pages/Home';
 import Etelek from './pages/Etelek';
 import Partnereink from './pages/Partnereink';
@@ -17,19 +17,22 @@ import { collection, getDocs, getFirestore, query, where } from "firebase/firest
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect } from 'react';
 import { useState } from 'react';
-import Myprofile from './pages/Myprofile.jsx';
 import Etel from './pages/Etel.jsx';
+import Myprofile from './pages/Myprofile.jsx';
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 
-function App() {
+
+export default function App() {
 
   const [user, setUser] = useState(null);
   const [admin, setAdmin] = useState(false);
   const [partner, setPartner] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [etelurl, setEtelurl] = useState('');
 
 
   const [sikeres,setSikeres] = useState(false);
@@ -48,6 +51,7 @@ function App() {
     }
     setSikertelen(false);
   };
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -84,6 +88,8 @@ function App() {
     
   }
 
+  
+  
   const router = createBrowserRouter([
     { path: "/", element: <Layout user={user} logout={logout} admin={admin} partner={partner} />, children: [
       { path: "/", element: <Home sikeres={sikeres} sikeresClose={sikeresClose}/> },
@@ -98,15 +104,15 @@ function App() {
       { path: "/myprofile", element: <Myprofile user={user} db={db}/> },
       { path: "/auth/in", element: <Auth auth={auth} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth auth={auth} db={db} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose}/> },
+      { path: "/auth/in", element: <Auth auth={auth} setUser={setUser}/> },
+      { path: "/auth/up", element: <Auth /> },
       { path: "*", element: <Notfound /> }
     ]}
   ]);
 
   return (
     <div className='app'>
-      <RouterProvider router={router} />
+       <RouterProvider path="/" router={router} />
     </div>
   )
 }
-
-export default App

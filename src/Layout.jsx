@@ -1,21 +1,23 @@
 import './App.css'
-import { Link, Outlet } from 'react-router-dom';
-import { Alert, AppBar, Avatar, Box, Button, Chip, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Menu, MenuItem, Snackbar, Toolbar, Tooltip, Typography } from '@mui/material';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Alert, AppBar, Avatar, Box, Button, Chip, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Menu, MenuItem, Snackbar, Toolbar, Tooltip, Typography  } from '@mui/material';
+import { FaBars, FaCircleUser, FaGithub, FaPlateWheat, FaSquareInstagram } from 'react-icons/fa6';
 import Grid from '@mui/material/Grid2';
-import { FaBars, FaCircleUser, FaPlateWheat } from 'react-icons/fa6';
 import { useState } from 'react';
 import { Fragment } from 'react';
-import { FaGithub } from "react-icons/fa";
-import { FaSquareInstagram } from "react-icons/fa6";
-import { FaFacebookSquare } from "react-icons/fa";
-import { AiFillTikTok } from "react-icons/ai";
+import { FaFacebookSquare } from 'react-icons/fa';
+import { AiFillTikTok } from 'react-icons/ai';
+import { FaChevronUp } from "react-icons/fa";
+import { useEffect } from 'react';
 
 
 
+export function Layout({user,logout,admin,partner}) {
 
-export function Layout({ user, logout, admin, partner }) {
-
-  const [drawerOpen, setDrawerOpen] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const navigate = useNavigate();
+    const location=useLocation()
+    console.log(location.pathname);
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -26,15 +28,15 @@ export function Layout({ user, logout, admin, partner }) {
 
   const menuItems = (
     <List onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
-      {user && (
-        <><ListItem button component={Link} to="/myprofile">
-          <ListItemIcon>
-            <Avatar />
-          </ListItemIcon>
-          <ListItemText primary={user.email} />
-        </ListItem><Divider></Divider></>
-      )}
-
+         {user && (
+            <><ListItem button component={Link} to="/myprofile">
+                  <ListItemIcon>
+                      <Avatar />
+                  </ListItemIcon>
+                  <ListItemText primary={user.email} />
+              </ListItem><Divider></Divider></>
+         )}
+        
       <ListItem button component={Link} to="/etelek">
         <ListItemText primary="Ételek" />
       </ListItem>
@@ -61,149 +63,170 @@ export function Layout({ user, logout, admin, partner }) {
         </ListItem>
       )}
       <Divider></Divider>
-      {user ? (
+       {user ? (
         <ListItem button component={Link} to="/">
-          <ListItemText primary="Kijelentkezés" onClick={logout} />
+          <ListItemText primary="Kijelentkezés"  onClick={logout}/>
         </ListItem>
-      ) : <ListItem button component={Link} to="/auth/in">
-        <ListItemText primary="Bejelentkezés" />
-      </ListItem>}
+      )  : <ListItem button component={Link} to="/auth/in">
+      <ListItemText primary="Bejelentkezés"/>
+    </ListItem>}
     </List>
-  );
+ );
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+    const [anchorEl, setAnchorEl] =useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
+    const { pathname } = useLocation(); 
+      useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [pathname]);
+    function scrollUp(){
+      window.scrollTo(0, 0);
+    }
+
+    /*
+    var pScroll = window.pageYOffset
+    window.onscroll = function() {
+      var currentScrollPos = window.pageYOffset;
+      if(pScroll > currentScrollPos) {
+        document.getElementById('as').style.top = '0';
+      } else {
+        document.getElementById('as').style.top = '-80px';
+      }
+      pScroll = currentScrollPos
+    }*/
+    
 
   return (
     <>
-      <div className='menu shadow-md'>
-        <Box>
-          <div className='menu'>
-            <Toolbar>
-              <div className='buttons'>
-                <div className='logo '>
-                  <Link to="/"> <IconButton
-                    disableRipple
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                  >
-                    <FaPlateWheat />
-                    <h2 className='m-auto '>PlateShare</h2>
-                  </IconButton></Link>
+  
+       <div className='menu shadow-md'>
+       <Box>
+                    <div className='menu'>
+                        <Toolbar>
+                        <div className='buttons'>
+                            <div className='logo '>
+                            <Link to="/"> <IconButton
+                                disableRipple
+                                edge="start"
+                                color="inherit"
+                                aria-label="menu"
+                            >
+                            <FaPlateWheat />
+                            <h2 className='m-auto '>PlateShare</h2>
+                            </IconButton></Link>
 
-                </div>
-                <Divider orientation="vertical" />
-                <div className='pagesbutton'>
-                  <Link className='linkbutton' to="/etelek">Ételek</Link>
-                  <Link className='linkbutton' to="/partnereink">Partnereink</Link>
-                  <Link className='linkbutton' to="/blog">Blog</Link>
-                  <Link className='linkbutton' to="/charity">Charity</Link>
-                  <Link className='linkbutton' to="/kapcsolat">Kapcsolat</Link>
-                </div>
-                <div className='signbutton flex gap-3'>
-                  {admin ? <Link to="/admin" className='font-medium text-l logingomb'>Admin</Link> : null}
-                  {partner ? <Link to="/upload" className='font-medium text-l logingomb'>Feltöltés</Link> : null}
-                  {user ? <Fragment>
-                    <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-                      <Tooltip title="Fiók beállítások">
-                        <IconButton
-                          onClick={handleClick}
-                          size="small"
-                          sx={{ ml: 2 }}
-                          aria-controls={open ? 'account-menu' : undefined}
-                          aria-haspopup="true"
-                          aria-expanded={open ? 'true' : undefined}
-                        >
-                          <Avatar sx={{ width: 32, height: 32 }}></Avatar>
+                            </div>
+                            <Divider orientation="vertical"/>
+                            <div className='pagesbutton'>
+                                <Link className='linkbutton' to="/etelek">Ételek</Link>
+                                <Link className='linkbutton' to="/partnereink">Partnereink</Link>
+                                <Link className='linkbutton' to="/blog">Blog</Link>
+                                <Link className='linkbutton' to="/charity">Charity</Link>
+                                <Link className='linkbutton' to="/kapcsolat">Kapcsolat</Link>
+                            </div>
+                            <div className='signbutton flex gap-3'>
+                                {admin ? <Link to="/admin" className='font-medium text-l logingomb'>Admin</Link> :null}
+                                {partner ? <Link to="/upload" className='font-medium text-l logingomb'>Feltöltés</Link> :null}
+                                {user ? <Fragment>
+                                <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                                    <Tooltip title="Fiók beállítások">
+                                    <IconButton
+                                        onClick={handleClick}
+                                        size="small"
+                                        sx={{ ml: 2 }}
+                                        aria-controls={open ? 'account-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? 'true' : undefined}
+                                    >
+                                        <Avatar sx={{ width: 32, height: 32 }}></Avatar>
+                                    </IconButton>
+                                    </Tooltip>
+                                </Box>
+                                <Menu
+                                    anchorEl={anchorEl}
+                                    id="account-menu"
+                                    open={open}
+                                    onClose={handleClose}
+                                    onClick={handleClose}
+                                    slotProps={{
+                                    paper: {
+                                        elevation: 0,
+                                        sx: {
+                                        overflow: 'visible',
+                                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                        mt: 1.5,
+                                        '& .MuiAvatar-root': {
+                                            width: 32,
+                                            height: 32,
+                                            ml: -0.5,
+                                            mr: 1,
+                                        },
+                                        '&::before': {
+                                            content: '""',
+                                            display: 'block',
+                                            position: 'absolute',
+                                            top: 0,
+                                            right: 14,
+                                            width: 10,
+                                            height: 10,
+                                            bgcolor: 'background.paper',
+                                            transform: 'translateY(-50%) rotate(45deg)',
+                                            zIndex: 0,
+                                        },
+                                        },
+                                    },
+                                    }}
+                                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                                    >
+                                    <Link to="/myprofile"><MenuItem  onClick={handleClose}>
+                                    <Avatar /> Profilom 
+                                    </MenuItem></Link>
+                                    <MenuItem onClick={handleClose}>
+                                        Kedvencek
+                                    </MenuItem>
+                                    <Divider />
+                                    <MenuItem onClick={() => { handleClose(); logout(); }}>
+                                    <Link to="/"  >Kijelentkezés</Link> 
+                                    </MenuItem>
+                                </Menu>
+                                </Fragment> :<Link to="/auth/in" className='font-medium text-l logingomb' >Bejelentkezés</Link>}
+                            </div>
+                            <div className='hamburgermenu'>
+                            <IconButton edge="end" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
+                            <FaBars />
                         </IconButton>
-                      </Tooltip>
-                    </Box>
-                    <Menu
-                      anchorEl={anchorEl}
-                      id="account-menu"
-                      open={open}
-                      onClose={handleClose}
-                      onClick={handleClose}
-                      slotProps={{
-                        paper: {
-                          elevation: 0,
-                          sx: {
-                            overflow: 'visible',
-                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                            mt: 1.5,
-                            '& .MuiAvatar-root': {
-                              width: 32,
-                              height: 32,
-                              ml: -0.5,
-                              mr: 1,
-                            },
-                            '&::before': {
-                              content: '""',
-                              display: 'block',
-                              position: 'absolute',
-                              top: 0,
-                              right: 14,
-                              width: 10,
-                              height: 10,
-                              bgcolor: 'background.paper',
-                              transform: 'translateY(-50%) rotate(45deg)',
-                              zIndex: 0,
-                            },
-                          },
-                        },
-                      }}
-                      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                    >
-                      <Link to="/myprofile"><MenuItem onClick={handleClose}>
-                        <Avatar /> Profilom
-                      </MenuItem></Link>
-                      <MenuItem onClick={handleClose}>
-                        Kedvencek
-                      </MenuItem>
-                      <Divider />
-                      <MenuItem onClick={() => { handleClose(); logout(); }}>
-                        <Link to="/"  >Kijelentkezés</Link>
-                      </MenuItem>
-                    </Menu>
-                  </Fragment> : <Link to="/auth/in" className='font-medium text-l logingomb' >Bejelentkezés</Link>}
+                        <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+                            {menuItems}
+                        </Drawer>
+                        </div>
+                    </div>
+                    </Toolbar>
                 </div>
-                <div className='hamburgermenu'>
-                  <IconButton edge="end" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
-                    <FaBars />
-                  </IconButton>
-                  <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
-                    {menuItems}
-                  </Drawer>
-                </div>
-              </div>
-            </Toolbar>
-          </div>
-        </Box>
-
-      </div>
-      <div className='page'>
-        <Outlet />
-      </div>
-
-      <footer> 
+            </Box>
+            
+        </div>
+        <div className='page'>
+            <Outlet/>    
+        </div>  
+        <footer> 
         <Grid container className='block m-auto footer_container '>
           <Grid size={{ xs: 12, sm: 12, md: 6 }}>
-            <div className="footer_linkek">
+            <div className="footer_links">
               <Link className='footer_link' to="/etelek">Ételek</Link>
               <Link className='footer_link' to="/partnereink">Partnereink</Link>
               <Link className='footer_link' to="/blog">Blog</Link>
               <Link className='footer_link' to="/charity">Charity</Link>
               <Link className='footer_link' to="/kapcsolat">Kapcsolat</Link>
             </div>
-            
+
           </Grid>
           <Grid size={{ xs: 12, sm: 12, md: 6 }} className='footer_jobb'>
             <Link to='https://kkando.hu/' target='_blank'>Kecskeméti SZC Kandó Kálmán Technikum</Link>
@@ -216,13 +239,16 @@ export function Layout({ user, logout, admin, partner }) {
             </div>
           </Grid>
         </Grid>
-       
-       
+
+
        <p className='text-center'>© 2025 PlateShare</p>
       </footer>
+      <div className="up">
+        <Link to={pathname} onClick={scrollUp}><FaChevronUp className='upIcon' /></Link>
+      </div>
     </>
-  );
-
+    );
+   
 }
 
 

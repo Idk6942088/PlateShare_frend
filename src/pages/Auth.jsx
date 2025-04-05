@@ -11,9 +11,9 @@ export default function Auth({db,auth,sikertelen,setSikeres,setSikertelen,sikert
   const [password,setPassword] = useState("");
   const [kernev,setKernev] = useState("");
   const [veznev,setVeznev] = useState("");
+  const [usertype, setUsertype] = useState("");
   const [loginError,setLoginError] = useState(false);
   
-  const [usertype, setUsertype] = useState("");
 
 
   const navigate = useNavigate();
