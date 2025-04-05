@@ -28,10 +28,6 @@ html { scroll-behavior: smooth; }
   display: inline-block;
   position: relative;
 }
-.linkbutton {
-  display: inline-block;
-  position: relative;
-}
 .linkbutton::after {
   content: '';
   position: absolute;
@@ -51,22 +47,12 @@ html { scroll-behavior: smooth; }
 .hamburgermenu { display: none;}
 .menu { 
   background-color: white;
+  z-index: 3;
+  position: sticky;
+  width: 100%;
 }
 /*----------------------------------------------------------------------------*/
 
-.signbutton {
-    display: flex;
-    align-items: center;
-}
-.menu {
-  background-color: white;
-  z-index: 3;
-  position: sticky;
-  /*box-shadow: 0px 0px 10px black;*/
-  width: 100%;
-  height: 30px;
-}
-.nev_ar{ display: flex; justify-content: space-between; }
 
 /*-----------------------------------Login.jsx-----------------------------------*/
 
@@ -90,6 +76,7 @@ html { scroll-behavior: smooth; }
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 35%;
   background-color: white;
   padding: 20px;
   border-radius: 5px; 
@@ -120,6 +107,30 @@ html { scroll-behavior: smooth; }
   background-color: rgb(225, 1, 1);
 }
 
+#fileinput {
+  display: none;
+}
+.filebutton {
+  background-color: blue;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.37);
+  transition: 0.5s;
+  cursor: pointer;
+}
+.filebutton1 {
+  background-color: rgb(6, 206, 6);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.37);
+  transition: 0.5s;
+  cursor: pointer;
+}
+.filebutton1:hover {
+  background-color: rgb(4, 152, 4);
+}
 
 /*-------------------------------------------------------------------------------*/
 /*---------------------------------Upload----------------------------------------*/
@@ -254,6 +265,17 @@ html { scroll-behavior: smooth; }
     margin-top: 30px;
   }
 }
+  @media screen and (min-width: 800px) {
+    .kapcsolat {
+      width: fit-content;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .kapcsolat {
+      width: 90%;
+    }
+  }
+
 
 /*-------------------------------------------------------------------------------*/
 
@@ -672,12 +694,13 @@ footer .footer_img {
 }
 
 /*-----------------------------------Kapcsolat.jsx-----------------------------------*/
-  .kapcsolat {
+   .kapcsolat {
     display: flex;
     justify-content: space-between;
     background-color: white;
     margin: 20px auto;
     padding: 14px;
+    
     box-shadow: 0px 5px 10px rgba(138, 138, 138, 0.459);
     border-radius: 10px;
   }
