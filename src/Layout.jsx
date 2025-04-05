@@ -1,19 +1,21 @@
-import './App.css'
+import './App.css';
 import { Link, Outlet } from 'react-router-dom';
 import { Alert, AppBar, Avatar, Box, Button, Chip, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Menu, MenuItem, Snackbar, Toolbar, Tooltip, Typography, Badge } from '@mui/material';
-import { FaBars, FaCircleUser, FaGithub, FaPlateWheat, FaSquareInstagram} from 'react-icons/fa6';
-import {FaShoppingCart} from 'react-icons/fa';
-import {Grid} from "@mui/material";
+import { FaBars, FaCircleUser, FaGithub, FaPlateWheat, FaSquareInstagram } from 'react-icons/fa6';
+import { FaShoppingCart } from 'react-icons/fa';
+import { Grid } from "@mui/material";
 import { useState } from 'react';
 import { Fragment } from 'react';
 import { FaFacebookSquare } from 'react-icons/fa';
 import { AiFillTikTok } from 'react-icons/ai';
+import { useCart } from './pages/useCart';
 
-export function Layout({user,logout,admin,partner,userpfp}) {
+export function Layout({ user, logout, admin, partner, userpfp }) {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [cartOpen, setCartOpen] = useState(false);
-    const [cartItems, setCartItems] = useState([]);
+    const { cart, cartCount } = useCart();
 
+    // Kosár megnyitása/bezárása
     const toggleCart = (open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
@@ -21,22 +23,18 @@ export function Layout({user,logout,admin,partner,userpfp}) {
         setCartOpen(open);
     };
 
+    // Kosár tartalma
     const cartMenu = (
         <div className="w-64 p-3">
             <Typography variant="h6" component="div" className="font-bold mb-4">
                 Bevásárló kosár
             </Typography>
-            <Divider 
-            sx={{ 
-              height: 2,
-              borderWidth: 1,
-              borderColor: '#8c8c8c',                    
-            }} />
-            {cartItems.length === 0 ? (
+            <Divider sx={{ height: 2, borderWidth: 1, borderColor: '#8c8c8c' }} />
+            {cart.length === 0 ? (
                 <Typography className="text-center py-4">A kosár üres</Typography>
             ) : (
                 <List>
-                    {cartItems.map((item, index) => (
+                    {cart.map((item, index) => (
                         <ListItem key={index}>
                             <ListItemText 
                                 primary={item.name} 
@@ -46,27 +44,23 @@ export function Layout({user,logout,admin,partner,userpfp}) {
                     ))}
                 </List>
             )}
-            <Divider
-            sx={{ 
-              height: 2,
-              borderWidth: 1,
-              borderColor: '#8c8c8c',                    
-            }}  />
+            <Divider sx={{ height: 2, borderWidth: 1, borderColor: '#8c8c8c' }} />
             <div className="flex justify-between items-center mt-4">
                 <Typography variant="subtitle1">
-                    Összesen: {cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)} Ft
+                    Összesen: {cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)} Ft
                 </Typography>
                 <Button 
                     variant="contained" 
-                    color="primary"
-                    disabled={cartItems.length === 0}
+                    color="success"
+                    disabled={cart.length === 0}
                 >
-                    Rendelés
+                    Fizetés
                 </Button>
             </div>
         </div>
     );
 
+    // Menü megnyitása/bezárása (eredeti kód)
     const toggleDrawer = (open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
@@ -74,6 +68,7 @@ export function Layout({user,logout,admin,partner,userpfp}) {
         setDrawerOpen(open);
     };
 
+    // Menü tartalma (eredeti kód)
     const menuItems = (
         <List onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
             {user && (
@@ -82,7 +77,7 @@ export function Layout({user,logout,admin,partner,userpfp}) {
                         <Avatar src={userpfp} />
                     </ListItemIcon>
                     <ListItemText primary={user.email} />
-                </ListItem><Divider></Divider></>
+                </ListItem><Divider /></>
             )}
             
             <ListItem button component={Link} to="/etelek">
@@ -110,17 +105,20 @@ export function Layout({user,logout,admin,partner,userpfp}) {
                     <ListItemText primary="Feltölt" />
                 </ListItem>
             )}
-            <Divider></Divider>
+            <Divider />
             {user ? (
                 <ListItem button component={Link} to="/">
-                    <ListItemText primary="Kijelentkezés"  onClick={logout}/>
+                    <ListItemText primary="Kijelentkezés" onClick={logout} />
                 </ListItem>
-            )  : <ListItem button component={Link} to="/auth/in">
-                <ListItemText primary="Bejelentkezés"/>
-            </ListItem>}
+            ) : (
+                <ListItem button component={Link} to="/auth/in">
+                    <ListItemText primary="Bejelentkezés" />
+                </ListItem>
+            )}
         </List>
     );
 
+    // Profil menü (eredeti kód)
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -132,23 +130,26 @@ export function Layout({user,logout,admin,partner,userpfp}) {
 
     return (
         <>
+            {/* Fejléc (eredeti design) */}
             <div className='menu shadow-md'>
                 <Box>
                     <div className='menu'>
                         <Toolbar>
                             <div className='buttons'>
-                                <div className='logo '>
-                                    <Link to="/"> <IconButton
-                                        disableRipple
-                                        edge="start"
-                                        color="inherit"
-                                        aria-label="menu"
-                                    >
-                                        <FaPlateWheat />
-                                        <h2 className='m-auto '>PlateShare</h2>
-                                    </IconButton></Link>
+                                <div className='logo'>
+                                    <Link to="/">
+                                        <IconButton
+                                            disableRipple
+                                            edge="start"
+                                            color="inherit"
+                                            aria-label="menu"
+                                        >
+                                            <FaPlateWheat />
+                                            <h2 className='m-auto'>PlateShare</h2>
+                                        </IconButton>
+                                    </Link>
                                 </div>
-                                <Divider orientation="vertical"/>
+                                <Divider orientation="vertical" />
                                 <div className='pagesbutton'>
                                     <Link className='linkbutton' to="/etelek">Ételek</Link>
                                     <Link className='linkbutton' to="/partnereink">Partnereink</Link>
@@ -157,87 +158,92 @@ export function Layout({user,logout,admin,partner,userpfp}) {
                                     <Link className='linkbutton' to="/kapcsolat">Kapcsolat</Link>
                                 </div>
                                 <div className='signbutton flex gap-3'>
+                                    {/* Kosár ikon */}
                                     <Tooltip title="Bevásárló kosár">
                                         <IconButton
                                             onClick={toggleCart(true)}
                                             size="small"
                                             sx={{ ml: 2 }}
-                                            aria-controls={cartOpen ? 'cart-menu' : undefined}
-                                            aria-haspopup="true"
-                                            aria-expanded={cartOpen ? 'true' : undefined}
                                         >
-                                            <Badge badgeContent={cartItems.length} color="error">
+                                            <Badge badgeContent={cartCount} color="error">
                                                 <FaShoppingCart />
                                             </Badge>
                                         </IconButton>
                                     </Tooltip>
                                     
-                                    {admin ? <Link to="/admin" className='font-medium text-l logingomb'>Admin</Link> :null}
-                                    {partner ? <Link to="/upload" className='font-medium text-l logingomb'>Feltöltés</Link> :null}
-                                    {user ? <Fragment>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-                                            <Tooltip title="Fiók beállítások">
-                                                <IconButton
-                                                    onClick={handleClick}
-                                                    size="small"
-                                                    sx={{ ml: 2 }}
-                                                    aria-controls={open ? 'account-menu' : undefined}
-                                                    aria-haspopup="true"
-                                                    aria-expanded={open ? 'true' : undefined}
-                                                >
-                                                    <Avatar src={userpfp} sx={{ width: 32, height: 32 }}></Avatar>
-                                                </IconButton>
-                                            </Tooltip>
-                                        </Box>
-                                        <Menu
-                                            anchorEl={anchorEl}
-                                            id="account-menu"
-                                            open={open}
-                                            onClose={handleClose}
-                                            onClick={handleClose}
-                                            slotProps={{
-                                                paper: {
-                                                    elevation: 0,
-                                                    sx: {
-                                                        overflow: 'visible',
-                                                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                                                        mt: 1.5,
-                                                        '& .MuiAvatar-root': {
-                                                            width: 32,
-                                                            height: 32,
-                                                            ml: -0.5,
-                                                            mr: 1,
-                                                        },
-                                                        '&::before': {
-                                                            content: '""',
-                                                            display: 'block',
-                                                            position: 'absolute',
-                                                            top: 0,
-                                                            right: 14,
-                                                            width: 10,
-                                                            height: 10,
-                                                            bgcolor: 'background.paper',
-                                                            transform: 'translateY(-50%) rotate(45deg)',
-                                                            zIndex: 0,
+                                    {admin && <Link to="/admin" className='font-medium text-l logingomb'>Admin</Link>}
+                                    {partner && <Link to="/upload" className='font-medium text-l logingomb'>Feltöltés</Link>}
+                                    
+                                    {user ? (
+                                        <Fragment>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                                                <Tooltip title="Fiók beállítások">
+                                                    <IconButton
+                                                        onClick={handleClick}
+                                                        size="small"
+                                                        sx={{ ml: 2 }}
+                                                        aria-controls={open ? 'account-menu' : undefined}
+                                                        aria-haspopup="true"
+                                                        aria-expanded={open ? 'true' : undefined}
+                                                    >
+                                                        <Avatar src={userpfp} sx={{ width: 32, height: 32 }} />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </Box>
+                                            <Menu
+                                                anchorEl={anchorEl}
+                                                id="account-menu"
+                                                open={open}
+                                                onClose={handleClose}
+                                                onClick={handleClose}
+                                                slotProps={{
+                                                    paper: {
+                                                        elevation: 0,
+                                                        sx: {
+                                                            overflow: 'visible',
+                                                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                                            mt: 1.5,
+                                                            '& .MuiAvatar-root': {
+                                                                width: 32,
+                                                                height: 32,
+                                                                ml: -0.5,
+                                                                mr: 1,
+                                                            },
+                                                            '&::before': {
+                                                                content: '""',
+                                                                display: 'block',
+                                                                position: 'absolute',
+                                                                top: 0,
+                                                                right: 14,
+                                                                width: 10,
+                                                                height: 10,
+                                                                bgcolor: 'background.paper',
+                                                                transform: 'translateY(-50%) rotate(45deg)',
+                                                                zIndex: 0,
+                                                            },
                                                         },
                                                     },
-                                                },
-                                            }}
-                                            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                                            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                                        >
-                                            <Link to="/myprofile"><MenuItem  onClick={handleClose}>
-                                                <Avatar src={userpfp} /> Profilom 
-                                            </MenuItem></Link>
-                                            <MenuItem onClick={handleClose}>
-                                                Kedvencek
-                                            </MenuItem>
-                                            <Divider />
-                                            <MenuItem onClick={() => { handleClose(); logout(); }}>
-                                                <Link to="/"  >Kijelentkezés</Link> 
-                                            </MenuItem>
-                                        </Menu>
-                                    </Fragment> :<Link to="/auth/in" className='font-medium text-l logingomb' >Bejelentkezés</Link>}
+                                                }}
+                                                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                                            >
+                                                <Link to="/myprofile">
+                                                    <MenuItem onClick={handleClose}>
+                                                        <Avatar src={userpfp} /> Profilom
+                                                    </MenuItem>
+                                                </Link>
+                                                <MenuItem onClick={handleClose}>
+                                                    Kedvencek
+                                                </MenuItem>
+                                                <Divider />
+                                                <MenuItem onClick={() => { handleClose(); logout(); }}>
+                                                    <Link to="/">Kijelentkezés</Link>
+                                                </MenuItem>
+                                            </Menu>
+                                        </Fragment>
+                                    ) : (
+                                        <Link to="/auth/in" className='font-medium text-l logingomb'>Bejelentkezés</Link>
+                                    )}
                                 </div>
                                 <div className='hamburgermenu'>
                                     <IconButton edge="end" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
@@ -252,17 +258,21 @@ export function Layout({user,logout,admin,partner,userpfp}) {
                     </div>
                 </Box>
             </div>
-            
+
+            {/* Kosár menü */}
             <Drawer anchor="right" open={cartOpen} onClose={toggleCart(false)}>
                 {cartMenu}
             </Drawer>
-            
+
+            {/* Oldal tartalma */}
             <div className='page'>
-                <Outlet/>    
-            </div>  
-            <footer> 
-                <Grid container className='block m-auto footer_container '>
-                    <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                <Outlet />    
+            </div>
+
+            {/* Lábléc (eredeti kód) */}
+            <footer>
+                <Grid container className='block m-auto footer_container'>
+                    <Grid item xs={12} sm={12} md={6}>
                         <div className="footer_links">
                             <Link className='footer_link' to="/etelek">Ételek</Link>
                             <Link className='footer_link' to="/partnereink">Partnereink</Link>
@@ -271,7 +281,7 @@ export function Layout({user,logout,admin,partner,userpfp}) {
                             <Link className='footer_link' to="/kapcsolat">Kapcsolat</Link>
                         </div>
                     </Grid>
-                    <Grid size={{ xs: 12, sm: 12, md: 6 }} className='footer_jobb'>
+                    <Grid item xs={12} sm={12} md={6} className='footer_jobb'>
                         <Link to='https://kkando.hu/' target='_blank'>Kecskeméti SZC Kandó Kálmán Technikum</Link>
                         <p>Kecskemét, Bethlen krt. 63, 6000</p>
                         <div className="footer_imgs">
