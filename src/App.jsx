@@ -1,6 +1,6 @@
 import './App.css'
 import { Layout } from './Layout';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, useLocation } from 'react-router-dom';
 import { Home } from './pages/Home';
 import Etelek from './pages/Etelek';
 import Partnereink from './pages/Partnereink';
@@ -29,7 +29,8 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 
-function App() {
+
+export default function App() {
 
   const [user, setUser] = useState(null);
   const [admin, setAdmin] = useState(false);
@@ -104,6 +105,8 @@ function App() {
     
   }
 
+  
+  
   const router = createBrowserRouter([
     { path: "/", element: <Layout user={user} userpfp={userpfp} logout={logout} admin={admin} partner={partner} />, children: [
       { path: "/", element: <Home sikeres={sikeres} sikeresClose={sikeresClose}/> },
@@ -130,9 +133,7 @@ function App() {
 
   return (
     <div className='app'>
-      <RouterProvider router={router} />
+       <RouterProvider path="/" router={router} />
     </div>
   )
 }
-
-export default App
