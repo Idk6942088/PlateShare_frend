@@ -24,7 +24,7 @@ export function Home({sikeres,sikeresClose}) {
               Vásárolj kedvenc boltjaid kínálatából akár   
               <b className='text-green-400'> 60-80% kedvezménnyel</b> 
               , és élvezd a minőségi ételeket fenntartható módon. Különböző csomagok várnak rád – spórolj, segíts a környezetnek, és fedezd fel a legjobb ajánlatokat egy 
-              <Link to='/etelek' className='bg-green-400 ml-1 rounded-sm italic'> kattintással!</Link>
+              <Link to='/etelek' className='bg-green-400 ml-1 rounded-sm italic'>kattintással!</Link>
             </p>
         </Grid2>
         <Grid2 size={{ xs: 12, sm: 12, md: 6 }} >
