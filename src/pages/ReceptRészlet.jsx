@@ -8,6 +8,7 @@ const ReceptReszlet = ({db}) => {
   const [betoltes, setBetoltes] = useState(true);
 
   // Recept és értékelések betöltése
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,10 +57,10 @@ const ReceptReszlet = ({db}) => {
         {/* Recept kártya */}
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
           {/* Recept képe */}
-          {recept.kep && (
+          {recept.imageUrl && (
             <div className="h-64 md:h-80 overflow-hidden">
               <img 
-                src={recept.kep} 
+                src={recept.imageUrl} 
                 alt={recept.nev} 
                 className="w-full h-full object-cover"
               />

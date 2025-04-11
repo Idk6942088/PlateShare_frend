@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../App';
+import axios from 'axios';
 
 const ReceptUpload = () => {
   const [recipe, setRecipe] = useState({ 
@@ -12,6 +13,7 @@ const ReceptUpload = () => {
   });
   const [imageFile, setImageFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,19 +29,23 @@ const ReceptUpload = () => {
     setIsSubmitting(true);
 
     try {
-      // Kép feltöltése ide jönne, ha lenne képkezelés
-      // const imageUrl = await uploadImage(imageFile);
-      
-      // Recept mentése Firestore-ba
-      await addDoc(collection(db, 'receptek'), {
+      const formData = new FormData();
+      const add = await addDoc(collection(db, 'receptek'), {
         nev: recipe.nev,
         kategoria: recipe.kategoria,
         hozzavalok: recipe.hozzavalok,
         elkeszites: recipe.elkeszites,
-        // imageUrl: imageUrl || null,
+        imageUrl: "",
         createdAt: new Date()
       });
-
+      
+      if(add!= null) {
+        formData.append("fajl",imageFile);
+        formData.append("publicID",add._key.path.segments[1]);
+        const resp = await axios.post("http://localhost:88/recept",formData);
+        await updateDoc(doc(db, "receptek", add._key.path.segments[1]), { imageUrl:resp.data.url });
+      }
+      
       // Sikeres feltöltés üzenet
       alert('A receptet sikeresen feltöltötted!');
       
@@ -50,7 +56,6 @@ const ReceptUpload = () => {
         hozzavalok: '', 
         elkeszites: '' 
       });
-      setImageFile(null);
       
       // File input resetelése
       e.target.reset();
