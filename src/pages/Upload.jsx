@@ -25,7 +25,7 @@ export default function Upload({partner,db,user}) {
 
    async function elelmiszerkepupload() {
           const formData = new FormData();
-          const add =await addDoc(collection(db, "etelek"), {ar:ar,db:mennyiseg,helyszin:helyszin,mettol:kezdetdatum,meddig:vegedatum,lejarat:lejaratdatum,kategoria:kategoria,leiras:leiras,kepurl:"",partnernev:felhasznalo[0].partnernev}); // AutoID 
+          const add =await addDoc(collection(db, "etelek"), {nev:nev,ar:ar,db:mennyiseg,helyszin:helyszin,mettol:kezdetdatum,meddig:vegedatum,lejarat:lejaratdatum,kategoria:kategoria,leiras:leiras,kepurl:"",partnernev:felhasznalo[0].partnernev}); // AutoID 
           if(add!= null) {
             formData.append("fajl",file);
             formData.append("publicID",add._key.path.segments[1]);

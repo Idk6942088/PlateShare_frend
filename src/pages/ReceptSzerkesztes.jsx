@@ -1,28 +1,64 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { collection, addDoc, updateDoc, doc } from 'firebase/firestore';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../App';
 import axios from 'axios';
 
-const ReceptUpload = ({user}) => {
-  const [recipe, setRecipe] = useState({ 
-    nev: '', 
-    kategoria: 'Főétel', 
-    hozzavalok: '', 
-    elkeszites: '' 
+const ReceptSzerkesztes = ({ db, user }) => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [recept, setRecept] = useState({
+    nev: '',
+    kategoria: 'Főétel',
+    hozzavalok: '',
+    elkeszites: '',
+    kep: ''
   });
-  const [imageFile, setImageFile] = useState(null);
+  const [newImage, setNewImage] = useState(null);
   const [fileName, setFileName] = useState('Nincs fájl kiválasztva');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [betoltes, setBetoltes] = useState(true);
+
+  // Recept betöltése
+  useEffect(() => {
+    const betoltRecept = async () => {
+      try {
+        const docRef = doc(db, 'receptek', id);
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          // Tulajdonos ellenőrzése
+          if (data.userID !== user?.reloadUserInfo?.localId) {
+            navigate('/receptjeim');
+            return;
+          }
+          setRecept(data);
+          setFileName(data.kep ? 'Jelenlegi kép' : 'Nincs fájl kiválasztva');
+        } else {
+          navigate('/receptjeim');
+        }
+      } catch (error) {
+        console.error('Hiba a recept betöltésekor:', error);
+        navigate('/receptjeim');
+      } finally {
+        setBetoltes(false);
+      }
+    };
+
+    if (user) {
+      betoltRecept();
+    }
+  }, [id, db, user, navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setRecipe(prev => ({ ...prev, [name]: value }));
+    setRecept(prev => ({ ...prev, [name]: value }));
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setImageFile(file);
+    setNewImage(file);
     setFileName(file ? file.name : 'Nincs fájl kiválasztva');
   };
 
@@ -31,72 +67,77 @@ const ReceptUpload = ({user}) => {
     setIsSubmitting(true);
 
     try {
-      const formData = new FormData();
-      const add = await addDoc(collection(db, 'receptek'), {
-        nev: recipe.nev,
-        kategoria: recipe.kategoria,
-        hozzavalok: recipe.hozzavalok,
-        elkeszites: recipe.elkeszites,
-        imageUrl: "",
-        userID: user.reloadUserInfo.localId,
-        createdAt: new Date()
-      });
-      
-      if(add != null && imageFile) {
-        formData.append("fajl", imageFile);
-        formData.append("publicID", add._key.path.segments[1]);
+      const updateData = {
+        nev: recept.nev,
+        kategoria: recept.kategoria,
+        hozzavalok: recept.hozzavalok,
+        elkeszites: recept.elkeszites,
+        updatedAt: new Date()
+      };
+
+      if (newImage) {
+        const formData = new FormData();
+        formData.append("fajl", newImage);
+        formData.append("publicID", id);
         const resp = await axios.post("http://localhost:88/recept", formData);
-        await updateDoc(doc(db, "receptek", add._key.path.segments[1]), { 
-          imageUrl: resp.data.url 
-        });
+        updateData.kep = resp.data.url;
       }
-      
-      alert('A receptet sikeresen feltöltötted!');
-      
-      // Űrlap resetelése
-      setRecipe({ 
-        nev: '', 
-        kategoria: 'Főétel', 
-        hozzavalok: '', 
-        elkeszites: '' 
-      });
-      setImageFile(null);
-      setFileName('Nincs fájl kiválasztva');
-      e.target.reset();
+
+      await updateDoc(doc(db, 'receptek', id), updateData);
+      alert('A receptet sikeresen frissítettük!');
+      navigate('/receptjeim');
     } catch (error) {
-      console.error('Hiba a feltöltés során:', error);
-      alert('Hiba történt a feltöltés során!');
+      console.error('Hiba a frissítés során:', error);
+      alert('Hiba történt a frissítés során!');
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="bg-white p-6 rounded-lg shadow-md max-w-md text-center">
+          <h2 className="text-xl font-bold text-red-500 mb-4">Be kell jelentkezned a szerkesztéshez</h2>
+          <Link to="/auth/in" className="text-blue-500 hover:underline">
+            Bejelentkezés
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (betoltes) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Recept feltöltése</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Recept szerkesztése</h1>
         
         <form onSubmit={handleSubmit}>
-          {/* Recept neve */}
           <div className="mb-4">
             <label className="block text-gray-700 mb-2">Recept neve</label>
             <input
               type="text"
               name="nev"
-              value={recipe.nev}
+              value={recept.nev}
               onChange={handleInputChange}
               className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Pl. Tökfőzelék"
               required
             />
           </div>
 
-          {/* Kategória */}
           <div className="mb-4">
             <label className="block text-gray-700 mb-2">Kategória</label>
             <select
               name="kategoria"
-              value={recipe.kategoria}
+              value={recept.kategoria}
               onChange={handleInputChange}
               className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
@@ -110,37 +151,32 @@ const ReceptUpload = ({user}) => {
             </select>
           </div>
 
-          {/* Hozzávalók */}
           <div className="mb-4">
             <label className="block text-gray-700 mb-2">Hozzávalók (soronként egy)</label>
             <textarea
               name="hozzavalok"
-              value={recipe.hozzavalok}
+              value={recept.hozzavalok}
               onChange={handleInputChange}
               className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               rows="4"
-              placeholder="1 kg tök&#10;2 evőkanál olaj&#10;1 teáskanál só"
               required
             />
           </div>
 
-          {/* Elkészítés */}
           <div className="mb-4">
             <label className="block text-gray-700 mb-2">Elkészítés (soronként egy lépés)</label>
             <textarea
               name="elkeszites"
-              value={recipe.elkeszites}
+              value={recept.elkeszites}
               onChange={handleInputChange}
               className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               rows="6"
-              placeholder="Megpucoljuk a tököt&#10;Felvágjuk kockára&#10;Pároljuk olajon"
               required
             />
           </div>
 
-          {/* Fájl kiválasztó - új design */}
           <div className="mb-6">
-            <label className="block text-gray-700 mb-2">Recept képe (opcionális)</label>
+            <label className="block text-gray-700 mb-2">Recept képe</label>
             
             <div className="relative">
               <input
@@ -161,12 +197,14 @@ const ReceptUpload = ({user}) => {
               </div>
             </div>
             
-            <p className="mt-1 text-sm text-gray-500">
-              Kattints a feltöltéshez (JPG, PNG max. 5MB)
-            </p>
+            {recept.kep && !newImage && (
+              <div className="mt-2">
+                <p className="text-sm text-gray-500">Jelenlegi kép:</p>
+                <img src={recept.kep} alt="Jelenlegi kép" className="mt-1 h-24 object-cover rounded" />
+              </div>
+            )}
           </div>
 
-          {/* Gombok */}
           <div className="flex space-x-4">
             <button
               type="submit"
@@ -179,19 +217,18 @@ const ReceptUpload = ({user}) => {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  Feltöltés...
+                  Mentés...
                 </span>
-              ) : 'Recept feltöltése'}
+              ) : 'Mentés'}
             </button>
             
-            <Link to="/blog" className="flex-1">
-              <button
-                type="button"
-                className="w-full px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded transition-colors"
-              >
-                Mégse
-              </button>
-            </Link>
+            <button
+              type="button"
+              onClick={() => navigate('/receptjeim')}
+              className="flex-1 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded transition-colors"
+            >
+              Mégse
+            </button>
           </div>
         </form>
       </div>
@@ -199,4 +236,4 @@ const ReceptUpload = ({user}) => {
   );
 };
 
-export default ReceptUpload;
+export default ReceptSzerkesztes;

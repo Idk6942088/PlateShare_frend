@@ -23,6 +23,8 @@ import axios from 'axios';
 import ReceptUpload from './pages/ReceptUpload.jsx';
 import Receptek from './pages/Receptek.jsx';
 import ReceptRészlet from './pages/ReceptRészlet.jsx';
+import { Receptjeim } from './pages/Receptjeim.jsx';
+import ReceptSzerkesztes from './pages/ReceptSzerkesztes.jsx';
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -114,7 +116,7 @@ export default function App() {
       { path: "/etel/:id", element: <Etel db={db}/> },
       { path: "/partnereink", element: <Partnereink /> },
       { path: "/blog", element: <Blog /> },
-      { path: "/blog/receptupload", element: <ReceptUpload /> },
+      { path: "/blog/receptupload", element: <ReceptUpload user={user}/> },
       { path: "/blog/receptek", element: <Receptek db={db}/>},
       { path: "/blog/recipe/:id", element: <ReceptRészlet db={db} /> },
       { path: "/charity", element: <Charity /> },
@@ -127,6 +129,8 @@ export default function App() {
       { path: "/myprofile", element: <Myprofile user={user} setUserpfp={setUserpfp} db={db} userpfp={userpfp}/> },
       { path: "/auth/in", element: <Auth auth={auth} user={user} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth auth={auth} user={user} db={db} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose}/> },
+      { path: "/receptjeim", element: <Receptjeim db={db} user={user}/> },
+      { path: "/receptjeim/:id", element: <ReceptSzerkesztes db={db} user={user}/> },
       { path: "*", element: <Notfound /> }
     ]}
   ]);
