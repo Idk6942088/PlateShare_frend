@@ -99,7 +99,7 @@ export default function Myprofile({db,user,userpfp,setUserpfp}) {
                     </div>
                         <TextField disabled={disabled} label="Email" value={email} onChange={e => setEmail(e.target.value)}/>    
                         <TextField  disabled={disabled} label="Jelszó" placeholder='Jelszó' value={jelszo} onChange={e => setJelszo(e.target.value)}/>    
-                      {disabled==true ? <><Button variant="contained" onClick={()=> setDisabled(!disabled)} >Módosítás</Button> 
+                      {disabled==true ? <><Button variant="contained" className="updbutton" onClick={()=> setDisabled(!disabled)} >Módosítás</Button> 
                         <NavLink to="/" className="delbutton" onClick={()=> fioktorles()}>Fiók törlése</NavLink></>:
                         <div className='flex gap-5'>
                             <Button className='w-1/2' variant="contained" color='error' onClick={()=> helyreallit()} >Elvetés</Button>

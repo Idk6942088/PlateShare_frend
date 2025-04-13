@@ -9,7 +9,7 @@ export default function Partnereink() {
       <div className='partnereink'>
         <h1 className=''>Csatlakozz hozzánk, és csökkentsd az élelmiszer-pazarlást <span className='text-green-400'>nyereségesen!💸</span></h1>
         <p>Az élelmiszer-pazarlás világszerte <b className='text-red-500'>hatalmas probléma</b>, de együtt tehetünk ellene! <br /> Platformunk lehetőséget biztosít <b>boltoknak, pékségeknek és éttermeknek</b>, hogy a lejárathoz közeli, de még tökéletes minőségű termékeiket kedvezményes áron értékesítsék ahelyett, hogy kidobnák őket.</p>
-        <hr className='mt-3' />
+        <span className='hor'></span>
         <h3>Miért éri meg csatlakozni?</h3>
         <Grid container spacing={2}  className='partner_benefits'>
           <Grid size={{xs: 12, sm: 6, md: 3}}  className='partner_benefit' >

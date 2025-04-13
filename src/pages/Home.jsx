@@ -8,11 +8,15 @@ export function Home({sikeres,sikeresClose}) {
     <div className='home'>
       <div className="home_header_bg">
         <div className="home_bg">
-          <img src="src/img/home_bg.jpg" alt="" />
+          
         </div>
         <div className="home_bg_szoveg">
-          <h1>PlateShare</h1>
-          <Link to="/etelek"><button className="btn" >Ételek</button></Link>
+          <h1>Valami frappáns duma</h1>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores nihil magnam enim, voluptas iste nulla accusantium, veniam perspiciatis, corporis possimus et molestiae.</p>
+          <div className="home_bg_gombok">
+            <Link to='/etelek' className='home_bg_gombok_reg'><input type="button" value="Ételek" /></Link>
+            <Link to='/kapcsolat'><input type="button" value="Kapcsolat" /></Link>
+          </div>
         </div>
       </div>
      

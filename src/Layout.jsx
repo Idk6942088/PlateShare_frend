@@ -133,19 +133,59 @@ import { useCart } from './pages/useCart';
         const handleClose = () => {
             setAnchorEl(null);
         };
+
+        /*  header felfelegörgetős őrület  */
+        const [showMenu, setShowMenu] = useState(true);
+        const [scrollDirection, setScrollDirection] = useState(null);
+        const [atTop, setAtTop] = useState(true); // új állapot: felül vagyunk-e
+
+
+        useEffect(() => {
+            let lastScrollY = window.scrollY;
+          
+            const handleScroll = () => {
+              const currentScrollY = window.scrollY;
+          
+              setAtTop(currentScrollY === 0); // ha a tetején vagyunk
+          
+              if (currentScrollY > lastScrollY) {
+                setShowMenu(false); // lefelé: eltűnik
+                setScrollDirection('down');
+              } else if (currentScrollY < lastScrollY) {
+                setShowMenu(true); // felfelé: megjelenik
+                setScrollDirection('up');
+              }
+          
+              lastScrollY = currentScrollY;
+            };
+          
+            window.addEventListener('scroll', handleScroll);
+            return () => window.removeEventListener('scroll', handleScroll);
+          }, []);
+
+        /* felgörgetés */
         const { pathname } = useLocation();
+        const isHome = location.pathname === '/';
+        const [showButton, setShowButton] = useState(false);
         useEffect(() => {
             window.scrollTo(0, 0);
         }, [pathname]);
+        useEffect(() => {
+            const handleScroll = () => {
+            setShowButton(window.scrollY > 50);
+            };
+            window.addEventListener('scroll', handleScroll);
+            return () => window.removeEventListener('scroll', handleScroll);
+        }, []);
         function scrollUp() {
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         return (
 
             <>
                 {/* Fejléc (eredeti design) */}
-                <div className='menu shadow-md'>
+                <div className={` ${isHome ? 'menu homeMenu' : 'menu otherMenu'}  ${showMenu ? 'show-menu' : 'hide-menu'} ${scrollDirection === 'up' ? 'scrolled-up' : ''}${atTop ? 'at-top' : ''}` }>
                     <Box>
                         <div className='menu'>
                             <Toolbar>
@@ -282,6 +322,7 @@ import { useCart } from './pages/useCart';
                     <div className='page'>
                         <Outlet />
                     </div>
+                    
 
             {/* Lábléc (eredeti kód) */}
             <footer>
@@ -308,8 +349,10 @@ import { useCart } from './pages/useCart';
                 </Grid>
                 <p className='text-center'>© 2025 PlateShare</p>
             </footer>
-            <div className="up">
-                <Link to={pathname} onClick={scrollUp}><FaChevronUp className='upIcon' /></Link>
+            <div className={`up ${showButton ? 'fade-in' : 'fade-out'}`}>
+                <Link to={pathname} onClick={scrollUp}>
+                    <FaChevronUp className="upIcon" />
+                </Link>
             </div>
         </>
     );
