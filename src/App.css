@@ -92,6 +92,10 @@ html { scroll-behavior: smooth; }
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.37);
   border-radius: 5px;
 }
+.avatar:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
 .profilkep { min-width: 45%;}
 .profiladatok { min-width: 55%;}
 .delbutton {
@@ -164,6 +168,7 @@ html { scroll-behavior: smooth; }
     gap: 20px;
     font-size: medium;
   }
+  
 .szoveg {font-size: 22pt;}
 .loginpanel {  width: 50%;}
 .profilkep { min-width: 40%;}
@@ -171,6 +176,13 @@ html { scroll-behavior: smooth; }
   min-width: 60%;
 }
 }
+
+@media (max-width: 1300px) {
+  .feltoltes {
+    width: 45%;
+  }
+}
+
 
 @media (max-width: 768px) {
   .hamburgermenu { display: contents; }
@@ -199,6 +211,13 @@ html { scroll-behavior: smooth; }
     width: 90%;
     padding: 15px;
   }
+  
+}
+@media (max-width: 1000px) {
+  .datum {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 @media screen and (min-width: 767px) and (max-width: 1300px)   {
@@ -221,9 +240,11 @@ html { scroll-behavior: smooth; }
   .etel, .partnereink, .partnereink p, .home_szoveg, .footer_container {
     width: 80%;
   }
+  
 }
 
 @media screen and (max-width: 767px) {
+ 
   
   .etel {
     width: 80%; 
@@ -776,7 +797,7 @@ footer .footer_img {
 .adminmenu {
   background-color: white;
   margin: 10px auto;
-  width: 40%;
+  width: 43%;
   border-radius: 10px;
   box-shadow: 0px 5px 10px rgba(138, 138, 138, 0.459);
 }

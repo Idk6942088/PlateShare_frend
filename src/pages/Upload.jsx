@@ -4,11 +4,13 @@ import { addDoc, collection, doc, onSnapshot, query, Timestamp, updateDoc, where
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom'
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Upload({partner,db,user}) {
 
   const [ar,setAr] = useState("");
   const [meddig,setMeddig] = useState("");
+  const [toltes,setToltes] = useState(false);
   const [mettolkezdet,setMettolkezdet] = useState(Timestamp.now().toDate().toLocaleTimeString());
   const [mettolvege,setMettolvege] = useState(Timestamp.now().toDate().toLocaleTimeString());
   const [mettollejarat,setMettollejarat] = useState(Timestamp.now().toDate().toLocaleTimeString());
@@ -31,6 +33,7 @@ export default function Upload({partner,db,user}) {
             formData.append("publicID",add._key.path.segments[1]);
             const resp = await axios.post("http://localhost:88/etel",formData);
             await updateDoc(doc(db, "etelek", add._key.path.segments[1]), { kepurl:resp.data.url });
+            setToltes(false);
           }
       }
 
@@ -63,10 +66,12 @@ export default function Upload({partner,db,user}) {
   console.log(lejaratdatum);
  
   async function upload() {
-    if(nev=="" ||ar=="" ||mennyiseg=="" ||helyszin=="" ||kategoria=="" ||leiras=="") {
+    if(nev=="" ||ar=="" ||mennyiseg=="" ||helyszin=="" ||kategoria=="" ||leiras=="" || file=="") {
       console.log("Nincs kitöltve minden")
       setOpen(true);
+      
     } else {
+      setToltes(true);
       elelmiszerkepupload();
       
       console.log("uploading...");
@@ -107,16 +112,16 @@ export default function Upload({partner,db,user}) {
         </select>
         <input type="number" required min={1} placeholder='Élelmiszer mennyisége' value={mennyiseg} onChange={ e => setMennyiseg(e.target.value)} />
         <div className='flex gap-3 flex-col w-fit'>
-          <div className='flex gap-3 justify-between'> <label className=' my-auto'>Élelmiszer átvételi időpont kezdete: </label>
+          <div className='flex gap-3 justify-between datum'> <label className=' my-auto'>Élelmiszer átvételi időpont kezdete: </label>
           <input type="date" required placeholder='Élelmiszer átvehető' value={kezdet} onChange={e => setKezdet(e.target.value)} />
           <input type="time"  requiredplaceholder='Mettől' value={mettolkezdet} onChange={ e => setMettolkezdet(e.target.value)} />
           </div>
-        <div className='flex gap-3 justify-between'>
+        <div className='flex gap-3 justify-between datum'>
         <label className=' my-auto mr-5'>Élelmiszer átvételi időpont vége: </label>
           <input type="date" required placeholder='Élelmiszer vége' value={vege} onChange={e => setVege(e.target.value)} />
           <input type="time"  requiredplaceholder='meddig' value={mettolvege} onChange={ e => setMettolvege(e.target.value)} />
         </div>
-        <div className='flex gap-3 justify-between'>
+        <div className='flex gap-3 justify-between datum'>
         <label className=' my-auto mr-12'>Élelmiszer lejárati időpontja: </label>
           <input type="date" required placeholder='Élelmiszer lejárat' value={lejarat} onChange={ e => setLejarat(e.target.value)} />
           <input type="time"  requiredplaceholder='Lejárat' value={mettollejarat} onChange={ e => setMettollejarat(e.target.value)} />
@@ -127,7 +132,7 @@ export default function Upload({partner,db,user}) {
         <input type="text" required placeholder='Élelmiszer helyszíne' value={helyszin} onChange={ e => setHelyszin(e.target.value)}/>
         <label htmlFor="fileinput" className='etelkepupload'>Kép feltöltése az élelmiszerről {file.name}</label>
         <input type="file"  id="fileinput" accept='.jpg,.png,.jpeg'onChange={e => setFile(e.target.files[0])}/>
-        <button className='bg-amber-500 text-white p-2 rounded-md cursor-pointer uploadgomb' onClick={upload}>Feltöltés</button>
+        <button className='bg-amber-500 text-white p-2 rounded-md cursor-pointer uploadgomb flex justify-center' onClick={upload}>{toltes?<CircularProgress size="24px"/>:"Feltöltés"}</button>
     </div>
     <Dialog
       open={open}

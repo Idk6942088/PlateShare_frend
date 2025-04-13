@@ -1,4 +1,4 @@
-import { Box, Button, InputAdornment, TextField } from '@mui/material'
+import { Box, Button, InputAdornment, Menu, MenuItem, TextField } from '@mui/material'
 import React from 'react'
 import { IoSearch, IoFilter } from "react-icons/io5";
 import { BiSort } from "react-icons/bi";
@@ -14,6 +14,7 @@ export default function Etelek({db}) {
 
   const [etelek, setEtelek] = useState([]);
   const [userInput,setuserInput] = useState("");
+  const [kategoria, setKategoria] = useState("");
 
   useEffect(() => {
     const q = query(collection(db, "etelek"));
@@ -27,7 +28,7 @@ export default function Etelek({db}) {
   async function deleteExpiredEtelek() {
     
     for(let x of etelek) {
-        if(Timestamp.now().toDate()> x.meddig.toDate()) {
+        if(Timestamp.now().toDate() > x.meddig.toDate()) {
           console.log(x.id);
           const resp = await axios.delete("http://localhost:88/del/"+x.id);
           await deleteDoc(doc(db, "etelek", x.id));
@@ -36,6 +37,7 @@ export default function Etelek({db}) {
       }
   }
   
+console.log(kategoria);
 
   useEffect( () => {
     deleteExpiredEtelek();
@@ -43,16 +45,32 @@ export default function Etelek({db}) {
 
   console.log(etelek);
   const filteredEtelek = etelek.filter((el) => {
-    
     if (userInput === '') {
-        return el;
-    }
-    else {
+      if(kategoria === '') {
         return el.partnernev.toLowerCase().includes(userInput.toLowerCase())
         || el.helyszin.toLowerCase().includes(userInput.toLowerCase())
         || el.kategoria.toLowerCase().includes(userInput.toLowerCase())
         || el.leiras.toLowerCase().includes(userInput.toLowerCase());
-    }
+      } 
+      else {
+        return el.kategoria.toLowerCase().includes(kategoria.toLowerCase());
+      }
+  }
+  else {
+      if(kategoria === '') {
+        return el.partnernev.toLowerCase().includes(userInput.toLowerCase())
+        || el.helyszin.toLowerCase().includes(userInput.toLowerCase())
+        || el.kategoria.toLowerCase().includes(userInput.toLowerCase())
+        || el.leiras.toLowerCase().includes(userInput.toLowerCase());
+    } 
+    else {
+      return el.partnernev.toLowerCase().includes(userInput.toLowerCase())
+      || el.helyszin.toLowerCase().includes(userInput.toLowerCase())
+      && el.kategoria.toLowerCase().includes(kategoria.toLowerCase())
+      || el.leiras.toLowerCase().includes(userInput.toLowerCase());
+  }
+  }
+    
 })
 
 
@@ -74,7 +92,21 @@ export default function Etelek({db}) {
     } 
   }
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
+     
+ function kategoriaselect(kateg) {
+  setKategoria(kateg)
+  setAnchorEl(null);
+ }
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   
   return (
     <>
@@ -101,7 +133,26 @@ export default function Etelek({db}) {
         <div className="szurok">
           <div className="szures">
             <p>Filter:</p>
-            <span><IoFilter /> </span>
+            <span>
+                      <Menu
+                  id="long-menu"
+                  MenuListProps={{
+                    'aria-labelledby': 'long-button',
+                  }}
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={()=>setAnchorEl(null)}
+                >
+                  <MenuItem onClick={()=>kategoriaselect("")}>
+                      Összes
+                    </MenuItem>
+                  {etelek.map(x => (
+                    <MenuItem key={x.id} onClick={()=>kategoriaselect(x.kategoria)}>
+                      {x.kategoria}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              <IoFilter onClick={handleClick}/> </span>
           </div>
           <div className="rendezes">
             <p>Sort by:</p>
@@ -118,7 +169,6 @@ export default function Etelek({db}) {
                   <div className="kartyaKep">
                     <img src={e.kepurl} />
                     <span className='kartyaDb'>{e.db} db</span>
-                    <span className='kartyaErtekeles' title={`${e.ertekelesdb} értékelés`}><IoIosStar color='success' />{e.ertekeles}</span>
                   </div>
                   <div className="kartyaSzoveg">
                     <div className="nev_ar">

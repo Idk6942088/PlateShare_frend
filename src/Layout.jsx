@@ -246,9 +246,6 @@ import { useCart } from './pages/useCart';
                                                             <Avatar src={userpfp} /> Profilom
                                                         </MenuItem>
                                                     </Link>
-                                                    <MenuItem onClick={handleClose}>
-                                                        Kedvencek
-                                                    </MenuItem>
                                                     <Divider />
                                                     <MenuItem onClick={() => { handleClose(); logout(); }}>
                                                         <Link to="/">Kijelentkezés</Link>

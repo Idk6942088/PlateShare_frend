@@ -1,179 +1,375 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Stack } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Stack,TextField,Snackbar,Alert,CircularProgress,IconButton,Menu,MenuItem,ListItemIcon,Typography
+} from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { deleteUser } from 'firebase/auth';
-import { collection, deleteDoc, doc, getDoc, getDocs } from 'firebase/firestore';
-import React from 'react'
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { FaUserEdit } from 'react-icons/fa';
-import { MdDeleteForever } from 'react-icons/md';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { FaUserEdit, FaSave, FaEllipsisV } from 'react-icons/fa';
+import { MdDeleteForever, MdCancel } from 'react-icons/md';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 
-export default function Admin({admin,db}) {
-
-  const [users,setUsers] = useState([]);
-  const [userlist,setUserlist] = useState([]);
-  const [messages,setMessages] = useState([]);
-  const [uzenet,setUzenet] = useState(null);
+export default function Admin({ admin, db, auth }) {
+  const [users, setUsers] = useState([]);
+  const [userlist, setUserlist] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [editForm, setEditForm] = useState({
+    veznev: '',
+    kernev: '',
+    email: '',
+    tipus: ''
+  });
+  const [notification, setNotification] = useState({
+    open: false,
+    message: '',
+    severity: 'success'
+  });
+  const [loading, setLoading] = useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedRow, setSelectedRow] = useState(null);
 
-  let nextId=0;
-  let nextIdmessages=0;
+  const location = useLocation();
+  const userspage = location.pathname === '/admin/felhasznalok';
 
+
+  
+  // Fetch users data
   useEffect(() => {
-    async function getMessages() {
-      const snap = await getDocs(collection(db, "uzenetek"));
-      const lst = snap.docs.map(doc => ({ ...doc.data(), id:doc.id }));
-    setMessages(lst);
-    }
-    getMessages();
-
-},[]);
-
-useEffect(() => {
-  async function getUserList() {
-    const snap = await getDocs(collection(db, "users"));
-    const ls = snap.docs.map(doc => ({ ...doc.data(),userid:doc.id}));
-    for(let a of ls) {
-      if(a.tipus=="mszemely") a.tipus="Magánszemély";
-      a.nev=a.veznev+" "+a.kernev;
-      a.id=nextId++;
-    }
-    setUserlist(ls);
-  }
-  getUserList();
-
-  async function getUsers() {
-    let lst =[]
-    for(let a of messages) {
-      const snap = await getDoc(doc(db, "users", a.id));
-      if (snap.exists()){
-        lst.push(snap.data());
-        lst[nextIdmessages].nev=lst[nextIdmessages].veznev+" "+lst[nextIdmessages].kernev;
-        lst[nextIdmessages].id=nextIdmessages++;
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const usersSnap = await getDocs(collection(db, "users"));
+        const usersData = usersSnap.docs.map(doc => ({ 
+          ...doc.data(),
+          userid: doc.id,
+          id: doc.id,
+          nev: `${doc.data().veznev} ${doc.data().kernev}`,
+          tipus: doc.data().tipus === "mszemely" ? "Magánszemély" : doc.data().tipus
+        }));
+        
+        setUserlist(usersData);
+        
+        const messagesSnap = await getDocs(collection(db, "uzenetek"));
+        setMessages(messagesSnap.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+        
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setNotification({
+          open: true,
+          message: "Hiba történt az adatok betöltésekor",
+          severity: "error"
+        });
+        setLoading(false);
       }
-    }
-    setUsers(lst);
-  }
-  getUsers();
+    };
 
-},[userlist.length]);
+    fetchData();
+  }, [db]);
 
-  const location=useLocation()
-  const userspage=location.pathname=='/admin/felhasznalok';
-  const messagespage=location.pathname=='/admin/uzenetek';
-  const messagepage=location.pathname=='/admin/uzenetek/uzenet';
-  
-  const paginationModel = { page: 0, pageSize: 5 };
-
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = (e,row) => {
-    setOpen(true);
-    e.stopPropagation();
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  async function DeleteUser(index) {
-    for(let i=0;i<index.length;i++) {
-      
-      console.log(index[i]+" "+userlist[index[i]].userid+" "+userlist.length);
-      userlist.splice(index[i],1);
-      await deleteDoc(doc(db, "users", userlist[index[i]].userid));
-      
-    }
-    setOpen(false);
-
-  }
-
-  
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70,},
-    { field: 'email', headerName: 'Email', width: 200 },
-    { field: 'nev', headerName: 'Név', width: 100 },
-    { field: 'tipus', headerName: 'Felhasználó típus', width: 130 },
+    { field: 'id', headerName: 'ID', width: 100 },
+    { field: 'email', headerName: 'Email', width: 250 },
+    { field: 'nev', headerName: 'Név', width: 200 },
+    { field: 'tipus', headerName: 'Felhasználó típus', width: 150 },
+    {
+      field: 'actions',
+      headerName: 'Műveletek',
+      width: 100,
+      renderCell: (params) => (
+        <IconButton
+          onClick={(e) => {
+            e.stopPropagation();
+            setSelectedRow(params.row);
+            setAnchorEl(e.currentTarget);
+          }}
+        >
+          <FaEllipsisV />
+        </IconButton>
+      ),
+    },
   ];
 
-  
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedRow(null);
+  };
+
+  const handleEditClick = () => {
+    if (!selectedRow) return;
+    setCurrentUser(selectedRow);
+    setEditForm({
+      veznev: selectedRow.veznev,
+      kernev: selectedRow.kernev,
+      email: selectedRow.email,
+      tipus: selectedRow.tipus === "Magánszemély" ? "mszemely" : selectedRow.tipus
+    });
+    setOpenEditDialog(true);
+    handleMenuClose();
+  };
+
+  const handleDeleteClick = () => {
+    if (!selectedRow) return;
+    setCurrentUser(selectedRow);
+    setOpenDeleteDialog(true);
+    handleMenuClose();
+  };
+
+  const handleBulkDelete = () => {
+    if (rowSelectionModel.length === 0) {
+      setNotification({
+        open: true,
+        message: "Nincs kijelölt felhasználó",
+        severity: "warning"
+      });
+      return;
+    }
+    setOpenDeleteDialog(true);
+  };
+
+  const handleCloseNotification = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setNotification({...notification, open: false});
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      if (currentUser) {
+        // Single user deletion
+        await deleteDoc(doc(db, "users", currentUser.userid));
+        setUserlist(userlist.filter(user => user.userid !== currentUser.userid));
+        setNotification({
+          open: true,
+          message: "Felhasználó sikeresen törölve",
+          severity: "success"
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      setNotification({
+        open: true,
+        message: "Hiba történt a felhasználó(k) törlésekor",
+        severity: "error"
+      });
+    } finally {
+      setOpenDeleteDialog(false);
+      setCurrentUser(null);
+    }
+  };
+
+  const handleEditSave = async () => {
+    try {
+      if (!currentUser) return;
+      
+      await updateDoc(doc(db, "users", currentUser.userid), {
+        veznev: editForm.veznev,
+        kernev: editForm.kernev,
+        email: editForm.email,
+        tipus: editForm.tipus
+      });
+      
+      setUserlist(userlist.map(user => 
+        user.userid === currentUser.userid ? {
+          ...user,
+          veznev: editForm.veznev,
+          kernev: editForm.kernev,
+          email: editForm.email,
+          tipus: editForm.tipus === "mszemely" ? "Magánszemély" : editForm.tipus,
+          nev: `${editForm.veznev} ${editForm.kernev}`
+        } : user
+      ));
+      
+      setNotification({
+        open: true,
+        message: "Felhasználó sikeresen frissítve",
+        severity: "success"
+      });
+    } catch (error) {
+      console.error("Error updating user:", error);
+      setNotification({
+        open: true,
+        message: "Hiba történt a felhasználó frissítésekor",
+        severity: "error"
+      });
+    } finally {
+      setOpenEditDialog(false);
+      setCurrentUser(null);
+    }
+  };
+
+  const paginationModel = { page: 0, pageSize: 5 };
 
   return (
-    <div className='adminpage'>{admin ? 
-      <div>
-        <h1 className='text-3xl font-bold'>Admin Control Panel </h1>
-        <div className='adminmenu flex flex-col gap-5 justify-center mt-5 pt-5'>
-          <div className='adminmenu_content flex flex-row gap-5 justify-center'>
-          <Link to="/admin/felhasznalok">Felhasználók</Link>
-          <Link to="/admin/uzenetek">Üzenetek</Link>
-          </div>
-          <div className='admincontent'>
-            {userspage ? 
-            <>
-              <Box sx={{ width: '100%' }}>
-              
-              <Paper sx={{ height: 350, width: '100%'}}>
-                  <DataGrid
-                    rows={userlist}
-                    columns={columns}
-                    initialState={{ pagination: { paginationModel } }}
-                    pageSizeOptions={[5, 10]}
-                    checkboxSelection
-                    disableRowSelectionOnClick
-                    onRowSelectionModelChange={(newRowSelectionModel) => {
-                      setRowSelectionModel(newRowSelectionModel);
-                    }}
-                    rowSelectionModel={rowSelectionModel}
-                    sx={{ border: 1,borderColor:"white", borderRadius:"0px" }}
-                  />
+    <div className='adminpage'>
+      {!admin ? (
+        <Navigate to="/" />
+      ) : loading ? (
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+          <CircularProgress size={60} />
+        </Box>
+      ) : (
+        <div>
+          <h1 className='text-3xl font-bold'>Admin Control Panel</h1>
+          <div className='adminmenu flex flex-col gap-5 justify-center mt-5 pt-5'>
+            <div className='adminmenu_content flex flex-row gap-5 justify-center'>
+              <Link to="/admin/felhasznalok">Felhasználók</Link>
+            </div>
+            <div className='admincontent'>
+              {userspage && (
+                <Box sx={{ width: '100%' }}>
+                  <Paper sx={{ height: 400, width: '100%' }}>
+                    <DataGrid
+                      rows={userlist}
+                      columns={columns}
+                      initialState={{ pagination: { paginationModel } }}
+                      pageSizeOptions={[5, 10]}
+                      onRowSelectionModelChange={(newSelection) => {
+                        setRowSelectionModel(newSelection);
+                      }}
+                      rowSelectionModel={rowSelectionModel}
+                      sx={{ border: 1, borderColor: "white", borderRadius: "0px" }}
+                    />
                   </Paper>
-                  <Stack direction="row" spacing={1} sx={{padding:'10px',backgroundColor:'white',borderBottomLeftRadius:'10px',borderBottomRightRadius:'10px'}}>
-                <Button size="small" sx={{backgroundColor:"blue",color:'white',fontWeight:"bold",padding:'5px'}} >
-                  <FaUserEdit className=' m-auto my-0.1 text-white text-2xl rounded-md'/>
-                </Button>
-                  
-                <Button size="small" sx={{backgroundColor:"red",color:'white',fontWeight:"bold",padding:'5px'}}>
-                  <MdDeleteForever className=' m-auto text-white text-2xl rounded-md' onClick={(e) => handleClickOpen(e)}/>
-                </Button>
-                
-              </Stack>
-            </Box>
-            <Dialog
-              open={open}
-              onClose={()=>setOpen(false)}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
-              <DialogTitle id="alert-dialog-title">
-                 {"FELHASZNÁLÓI FIÓK TÖRLÉSE"}
-              </DialogTitle>
-              <DialogContent key={rowSelectionModel}>
-                 <DialogContentText key={rowSelectionModel} id="alert-dialog-description">
-                    {rowSelectionModel.length==0?"Nincs kijelölve felhasználó!":(<>
-                      {rowSelectionModel.length>1?"Biztosan törölni szeretéd ezeket a felhasználókat?"
-                   :"Biztosan törölni szeretéd ezt a felhasználót?"}
-                   <br/></>)}
-                   {rowSelectionModel.length!=0?(rowSelectionModel.map((x)=><p>{userlist[x].nev}</p>)):""}
-                 </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                 <Button onClick={()=>setOpen(false)}>Mégse</Button>
-                 {rowSelectionModel.length==0?"":<Button onClick={(e)=>DeleteUser(rowSelectionModel)} autoFocus>Törlés</Button>}
-                 
-              </DialogActions>
-            </Dialog>
-          </> 
-            : ""}
-            {messagespage && messages.length==0 ? "Nincsenek üzenetek" : 
-            <div className=''> {messagespage && users.map((x,i)=> <div className='uzenetbox'><span>{x.veznev} {x.kernev}</span> <span>{x.email}</span> {<Link to="/admin/uzenetek/uzenet"><Button variant="contained" onClick={()=>setUzenet(i)} >Megnyitás</Button></Link>} {<Button variant="contained" color='error'>Lezárás</Button>}</div>  )} </div>}
-            {messagepage ? <div className='uzenetcontent'>{messages.map((x,i)=> <div className='bg-blue-600 text-white font-medium  p-2 m-2 rounded-xl'>{x.uzenet}</div>)}<Button variant="contained">Válasz küldése</Button> </div> : ""}
+                </Box>
+              )}
+            </div>
           </div>
         </div>
-       
-      </div>
-      
-      
-      : <Navigate to="/"/>}</div>
-  )
+      )}
+
+      {/* Action Menu */}
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={handleEditClick}>
+          <ListItemIcon>
+            <FaUserEdit fontSize="small" />
+          </ListItemIcon>
+          <Typography variant="inherit">Szerkesztés</Typography>
+        </MenuItem>
+        <MenuItem onClick={handleDeleteClick}>
+          <ListItemIcon>
+            <MdDeleteForever fontSize="small" color="error" />
+          </ListItemIcon>
+          <Typography variant="inherit" color="error">Törlés</Typography>
+        </MenuItem>
+      </Menu>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+      >
+        <DialogTitle>
+          {currentUser ? "FELHASZNÁLÓ TÖRLÉSE" : "KIJELÖLT FELHASZNÁLÓK TÖRLÉSE"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {currentUser ? (
+              `Biztosan törölni szeretnéd a(z) ${currentUser.nev} felhasználót?`
+            ) : (
+              `Biztosan törölni szeretnéd a kijelölt ${rowSelectionModel.length} felhasználót?`
+            )}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDeleteDialog(false)}>Mégse</Button>
+          <Button onClick={handleDeleteConfirm} color="error" autoFocus>
+            Törlés
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Edit User Dialog */}
+      <Dialog
+        open={openEditDialog}
+        onClose={() => setOpenEditDialog(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>FELHASZNÁLÓ SZERKESZTÉSE</DialogTitle>
+        <DialogContent>
+          <Box component="form" sx={{ mt: 2 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Vezetéknév"
+              value={editForm.veznev}
+              onChange={(e) => setEditForm({...editForm, veznev: e.target.value})}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Keresztnév"
+              value={editForm.kernev}
+              onChange={(e) => setEditForm({...editForm, kernev: e.target.value})}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Email"
+              type="email"
+              value={editForm.email}
+              onChange={(e) => setEditForm({...editForm, email: e.target.value})}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              select
+              label="Felhasználó típusa"
+              value={editForm.tipus}
+              onChange={(e) => setEditForm({...editForm, tipus: e.target.value})}
+              SelectProps={{
+                native: true,
+              }}
+            >
+              <option value="mszemely">Magánszemély</option>
+              <option value="partner">Partner</option>
+            </TextField>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button 
+            onClick={() => setOpenEditDialog(false)}
+            startIcon={<MdCancel />}
+          >
+            Mégse
+          </Button>
+          <Button 
+            onClick={handleEditSave}
+            color="primary"
+            startIcon={<FaSave />}
+          >
+            Mentés
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Notification Snackbar */}
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={6000}
+        onClose={handleCloseNotification}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={handleCloseNotification}
+          severity={notification.severity}
+          sx={{ width: '100%' }}
+        >
+          {notification.message}
+        </Alert>
+      </Snackbar>
+    </div>
+  );
 }

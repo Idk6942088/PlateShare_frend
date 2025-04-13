@@ -23,6 +23,7 @@ import axios from 'axios';
 import ReceptUpload from './pages/ReceptUpload.jsx';
 import Receptek from './pages/Receptek.jsx';
 import ReceptRészlet from './pages/ReceptRészlet.jsx';
+import ForgotMyPassword from './pages/ForgotMyPassword.jsx';
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -45,18 +46,21 @@ export default function App() {
     async function getpfp() {
       if(user) {
         const snap = await getDoc(doc(db, "users", user.reloadUserInfo.localId));
-        if (snap.exists()) console.log(snap.data());
-        if(!snap.data().pfpURL == "") {
-          setUserpfp(snap.data().pfpURL);
-        } else {
-          setUserpfp("");
-        }
+        if (snap.exists()) {
+          if(!snap.data().pfpURL == "") {
+            setUserpfp(snap.data().pfpURL);
+          } else {
+            setUserpfp("");
+          }
+        } 
+        
     }
   }
     getpfp();
   },[user]);
 
- 
+  console.log(auth);
+
   
   const sikeresClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -127,6 +131,7 @@ export default function App() {
       { path: "/myprofile", element: <Myprofile user={user} setUserpfp={setUserpfp} db={db} userpfp={userpfp}/> },
       { path: "/auth/in", element: <Auth auth={auth} user={user} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose} setUser={setUser}/> },
       { path: "/auth/up", element: <Auth auth={auth} user={user} db={db} sikertelen={sikertelen} setSikeres={setSikeres} setSikertelen={setSikertelen} sikertelenClose={sikertelenClose}/> },
+      { path: "/pwreset", element: <ForgotMyPassword auth={auth}/> },
       { path: "*", element: <Notfound /> }
     ]}
   ]);
