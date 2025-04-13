@@ -149,57 +149,97 @@ export function Layout({ user, logout, admin, partner, userpfp }) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+        /*  header felfelegörgetős őrület  */
+        const [showMenu, setShowMenu] = useState(true);
+        const [scrollDirection, setScrollDirection] = useState(null);
+        const [atTop, setAtTop] = useState(true); // új állapot: felül vagyunk-e
+
+
+        useEffect(() => {
+            let lastScrollY = window.scrollY;
+          
+            const handleScroll = () => {
+              const currentScrollY = window.scrollY;
+          
+              setAtTop(currentScrollY === 0); // ha a tetején vagyunk
+          
+              if (currentScrollY > lastScrollY) {
+                setShowMenu(false); // lefelé: eltűnik
+                setScrollDirection('down');
+              } else if (currentScrollY < lastScrollY) {
+                setShowMenu(true); // felfelé: megjelenik
+                setScrollDirection('up');
+              }
+          
+              lastScrollY = currentScrollY;
+            };
+          
+            window.addEventListener('scroll', handleScroll);
+            return () => window.removeEventListener('scroll', handleScroll);
+          }, []);
+
+        /* felgörgetés */
     const { pathname } = useLocation();
+        const isHome = location.pathname === '/';
+        const [showButton, setShowButton] = useState(false);
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [pathname]);
+        useEffect(() => {
+            const handleScroll = () => {
+            setShowButton(window.scrollY > 50);
+            };
+            window.addEventListener('scroll', handleScroll);
+            return () => window.removeEventListener('scroll', handleScroll);
+        }, []);
     function scrollUp() {
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     return (
 
-        <>
-            {/* Fejléc (eredeti design) */}
-            <div className='menu shadow-md'>
-                <Box>
-                    <div className='menu'>
-                        <Toolbar>
-                            <div className='buttons'>
-                                <div className='logo'>
-                                    <Link to="/">
-                                        <IconButton
-                                            disableRipple
-                                            edge="start"
-                                            color="inherit"
-                                            aria-label="menu"
-                                        >
-                                            <FaPlateWheat />
-                                            <h2 className='m-auto'>PlateShare</h2>
-                                        </IconButton>
-                                    </Link>
-                                </div>
-                                <Divider orientation="vertical" />
-                                <div className='pagesbutton'>
-                                    <Link className='linkbutton' to="/etelek">Ételek</Link>
-                                    <Link className='linkbutton' to="/partnereink">Partnereink</Link>
-                                    <Link className='linkbutton' to="/blog">Blog</Link>
-                                    <Link className='linkbutton' to="/charity">Charity</Link>
-                                    <Link className='linkbutton' to="/kapcsolat">Kapcsolat</Link>
-                                </div>
-                                <div className='signbutton flex gap-3'>
-                                    {/* Kosár ikon */}
-                                    <Tooltip title="Bevásárló kosár">
-                                        <IconButton
-                                            onClick={toggleCart(true)}
-                                            size="small"
-                                            sx={{ ml: 2 }}
-                                        >
-                                            <Badge badgeContent={cartCount} color="error">
-                                                <FaShoppingCart />
-                                            </Badge>
-                                        </IconButton>
-                                    </Tooltip>
+            <>
+                {/* Fejléc (eredeti design) */}
+                <div className={` ${isHome ? 'menu homeMenu' : 'menu otherMenu'}  ${showMenu ? 'show-menu' : 'hide-menu'} ${scrollDirection === 'up' ? 'scrolled-up' : ''}${atTop ? 'at-top' : ''}` }>
+                    <Box>
+                        <div className='menu'>
+                            <Toolbar>
+                                <div className='buttons'>
+                                    <div className='logo'>
+                                        <Link to="/">
+                                            <IconButton
+                                                disableRipple
+                                                edge="start"
+                                                color="inherit"
+                                                aria-label="menu"
+                                            >
+                                                <FaPlateWheat />
+                                                <h2 className='m-auto'>PlateShare</h2>
+                                            </IconButton>
+                                        </Link>
+                                    </div>
+                                    <Divider orientation="vertical" />
+                                    <div className='pagesbutton'>
+                                        <Link className='linkbutton' to="/etelek">Ételek</Link>
+                                        <Link className='linkbutton' to="/partnereink">Partnereink</Link>
+                                        <Link className='linkbutton' to="/blog">Blog</Link>
+                                        <Link className='linkbutton' to="/charity">Charity</Link>
+                                        <Link className='linkbutton' to="/kapcsolat">Kapcsolat</Link>
+                                    </div>
+                                    <div className='signbutton flex gap-3'>
+                                        {/* Kosár ikon */}
+                                        <Tooltip title="Bevásárló kosár">
+                                            <IconButton
+                                                onClick={toggleCart(true)}
+                                                size="small"
+                                                sx={{ ml: 2 }}
+                                            >
+                                                <Badge badgeContent={cartCount} color="error">
+                                                    <FaShoppingCart />
+                                                </Badge>
+                                            </IconButton>
+                                        </Tooltip>
 
                                     {admin && <Link to="/admin" className='font-medium text-l logingomb'>Admin</Link>}
                                     {partner && <Link to="/upload" className='font-medium text-l logingomb'>Feltöltés</Link>}
@@ -312,10 +352,11 @@ export function Layout({ user, logout, admin, partner, userpfp }) {
                 {cartMenu}
             </Drawer>
 
-            {/* Oldal tartalma */}
-            <div className='page'>
-                <Outlet />
-            </div>
+                    {/* Oldal tartalma */}
+                    <div className='page'>
+                        <Outlet />
+                    </div>
+                    
 
             {/* Lábléc (eredeti kód) */}
             <footer>
@@ -342,8 +383,10 @@ export function Layout({ user, logout, admin, partner, userpfp }) {
                 </Grid>
                 <p className='text-center'>© 2025 PlateShare</p>
             </footer>
-            <div className="up">
-                <Link to={pathname} onClick={scrollUp}><FaChevronUp className='upIcon' /></Link>
+            <div className={`up ${showButton ? 'fade-in' : 'fade-out'}`}>
+                <Link to={pathname} onClick={scrollUp}>
+                    <FaChevronUp className="upIcon" />
+                </Link>
             </div>
         </>
     );

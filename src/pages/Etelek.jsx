@@ -109,15 +109,15 @@ console.log(kategoria);
   };
   
   return (
-    <>
+    <div className='etelek'>
       <div className='etelekFent'>
         <div className="kereso ">
           <Box>
-            <TextField
+          <TextField
               className="searchBTN"
               color="dark"
               variant="standard"
-              placeholder='Keresés... (Élelmiszer neve, helyszín, kategória)'
+              placeholder="Keresés... (Élelmiszer neve, helyszín, kategória)"
               value={userInput}
               onChange={e => setuserInput(e.target.value)}
               InputProps={{
@@ -126,8 +126,19 @@ console.log(kategoria);
                     <IoSearch />
                   </InputAdornment>
                 ),
+                sx: {
+                  '&:before': {
+                    borderBottom: '1px solid #d4af37', // inaktív állapot
+                  },
+                  '&:hover:not(.Mui-disabled):before': {
+                    borderBottom: '2px solid #ffc400', // hover állapot
+                  },
+                  '&:after': {
+                    borderBottom: '2px solid #ffc400', // aktív állapot (fókusz)
+                  },
+                },
               }}
-            />  
+            />
           </Box>
         </div>
         <div className="szurok">
@@ -188,6 +199,6 @@ console.log(kategoria);
         :<div className='pt-25'><h1 className='text-center text-6xl'>Nem található élelmiszer!</h1></div>}
        
       </div>
-    </>
+    </div>
   )
 }
