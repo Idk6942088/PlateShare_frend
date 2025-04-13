@@ -363,11 +363,11 @@ export function Layout({ user, logout, admin, partner, userpfp }) {
                 <Grid container className='block m-auto footer_container'>
                     <Grid item xs={12} sm={12} md={6}>
                         <div className="footer_links">
-                            <Link className='footer_link' to="/etelek">Ételek</Link>
-                            <Link className='footer_link' to="/partnereink">Partnereink</Link>
-                            <Link className='footer_link' to="/blog">Blog</Link>
-                            <Link className='footer_link' to="/charity">Charity</Link>
-                            <Link className='footer_link' to="/kapcsolat">Kapcsolat</Link>
+                            <Link className='footer_link' to="/etelek"><input type="button" value="Ételek" /></Link>
+                            <Link className='footer_link' to="/partnereink"><input type="button" value="Partnereink" /></Link>
+                            <Link className='footer_link' to="/blog"><input type="button" value="Blog" /></Link>
+                            <Link className='footer_link' to="/charity"><input type="button" value="Charity" /></Link>
+                            <Link className='footer_link' to="/kapcsolat"><input type="button" value="Kapcsolat" /></Link>
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} className='footer_jobb'>
