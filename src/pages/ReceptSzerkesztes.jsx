@@ -79,7 +79,7 @@ const ReceptSzerkesztes = ({ db, user }) => {
         const formData = new FormData();
         formData.append("fajl", newImage);
         formData.append("publicID", id);
-        const resp = await axios.post("http://localhost:88/recept", formData);
+        const resp = await axios.post("http://plateshare-bkend.onrender.com/recept", formData);
         updateData.kep = resp.data.url;
       }
 

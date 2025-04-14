@@ -31,7 +31,7 @@ export default function Upload({partner,db,user}) {
           if(add!= null) {
             formData.append("fajl",file);
             formData.append("publicID",add._key.path.segments[1]);
-            const resp = await axios.post("http://localhost:88/etel",formData);
+            const resp = await axios.post("http://plateshare-bkend.onrender.com/etel",formData);
             await updateDoc(doc(db, "etelek", add._key.path.segments[1]), { kepurl:resp.data.url });
             setToltes(false);
             showSnackbar('Élelmiszer sikeresen feltöltve!', 'success');

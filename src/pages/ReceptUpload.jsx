@@ -45,7 +45,7 @@ const ReceptUpload = ({user}) => {
       if(add != null && imageFile) {
         formData.append("fajl", imageFile);
         formData.append("publicID", add._key.path.segments[1]);
-        const resp = await axios.post("http://localhost:88/recept", formData);
+        const resp = await axios.post("http://plateshare-bkend.onrender.com/recept", formData);
         await updateDoc(doc(db, "receptek", add._key.path.segments[1]), { 
           imageUrl: resp.data.url 
         });

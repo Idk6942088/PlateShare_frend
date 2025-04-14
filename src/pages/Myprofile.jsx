@@ -67,7 +67,7 @@ export default function Myprofile({db, user, userpfp, setUserpfp}) {
             const formData = new FormData();
             formData.append("fajl", fajl);
             formData.append("publicID", felhasznalok[0].id);
-            const resp = await axios.post("http://localhost:88/pfp", formData);
+            const resp = await axios.post("http://plateshare-bkend.onrender.com/pfp", formData);
             await updateDoc(doc(db, "users", user.reloadUserInfo.localId), { pfpURL: resp.data.url });
             setUserpfp(resp.data.url);
             setFajl(null);
@@ -81,7 +81,7 @@ export default function Myprofile({db, user, userpfp, setUserpfp}) {
     async function fioktorles() {
         try {
             if(userpfp !== "") {
-                await axios.delete("http://localhost:88/del/"+felhasznalok[0].id);
+                await axios.delete("http://plateshare-bkend.onrender.com/del/"+felhasznalok[0].id);
             }
             await deleteDoc(doc(db, "users", user.reloadUserInfo.localId));
             await deleteUser(user);
@@ -96,7 +96,7 @@ export default function Myprofile({db, user, userpfp, setUserpfp}) {
     async function pfptorles() {
         try {
             await updateDoc(doc(db, "users", felhasznalok[0].id), { pfpURL: "" });
-            await axios.delete("http://localhost:88/del/"+felhasznalok[0].id);
+            await axios.delete("http://plateshare-bkend.onrender.com/del/"+felhasznalok[0].id);
             setUserpfp("");
             showNotification("Profilkép sikeresen törölve!");
         } catch (error) {

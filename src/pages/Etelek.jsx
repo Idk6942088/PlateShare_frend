@@ -32,7 +32,7 @@ export default function Etelek({db}) {
     for(let x of etelek) {
         if(Timestamp.now().toDate() > x.meddig.toDate()) {
           console.log(x.id);
-          const resp = await axios.delete("http://localhost:88/del/"+x.id);
+          const resp = await axios.delete("http://plateshare-bkend.onrender.com/del/"+x.id);
           await deleteDoc(doc(db, "etelek", x.id));
           console.log(resp.data)
         }
