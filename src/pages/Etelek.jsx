@@ -181,11 +181,11 @@ console.log(kategoria);
                   <MenuItem onClick={()=>kategoriaselect("")}>
                       Összes
                     </MenuItem>
-                  {etelek.map(x => (
-                    <MenuItem key={x.id} onClick={()=>kategoriaselect(x.kategoria)}>
-                      {x.kategoria}
+                    {Array.from(new Set(etelek.map(x => x.kategoria))).map((kategoria, index) => (
+                    <MenuItem key={index} onClick={() => kategoriaselect(kategoria)}>
+                    {kategoria}
                     </MenuItem>
-                  ))}
+                    ))}
                 </Menu>
               <IoFilter onClick={handleClick}/> </span>
           </div>

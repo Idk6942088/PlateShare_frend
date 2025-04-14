@@ -194,6 +194,9 @@
                 <ListItem button component={Link} to="/kapcsolat">
                     <ListItemText primary="Kapcsolat" />
                 </ListItem>
+                <ListItem button component={Link} to="/receptjeim">
+                    <ListItemText primary="Receptjeim" />
+                </ListItem>
                 {admin && (
                     <ListItem button component={Link} to="/admin">
                         <ListItemText primary="Admin" />
@@ -373,9 +376,6 @@
                                                             <Avatar src={userpfp} /> Profilom
                                                         </MenuItem>
                                                     </Link>
-                                                    <MenuItem onClick={handleClose}>
-                                                        Kedvencek
-                                                    </MenuItem>
                                                     <Link to="/receptjeim">
                                                         <MenuItem onClick={handleClose}>
                                                             Receptjeim
