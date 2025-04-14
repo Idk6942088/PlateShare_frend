@@ -1,6 +1,6 @@
 import './App.css'
 import { Layout } from './Layout';
-import { createBrowserRouter, RouterProvider, useLocation } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Home } from './pages/Home';
 import Etelek from './pages/Etelek';
 import Partnereink from './pages/Partnereink';
@@ -19,7 +19,6 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import Myprofile from './pages/Myprofile.jsx';
 import Etel from './pages/Etel.jsx';
-import axios from 'axios';
 import ReceptUpload from './pages/ReceptUpload.jsx';
 import Receptek from './pages/Receptek.jsx';
 import ReceptRészlet from './pages/ReceptRészlet.jsx';
@@ -40,6 +39,7 @@ export default function App() {
   const [partner, setPartner] = useState(false);
   const [userpfp,setUserpfp] = useState("");
 
+  const [kosarrefresh, setKosarrefresh] = useState(false);
 
   const [sikeres,setSikeres] = useState(false);
   const [sikertelen,setSikertelen] = useState(false);
@@ -114,10 +114,10 @@ export default function App() {
   
   
   const router = createBrowserRouter([
-    { path: "/", element: <Layout user={user} userpfp={userpfp} logout={logout} admin={admin} partner={partner} />, children: [
+    { path: "/", element: <Layout db={db}  setKosarrefresh={setKosarrefresh} kosarrefresh={kosarrefresh} user={user} userpfp={userpfp} logout={logout} admin={admin} partner={partner} />, children: [
       { path: "/", element: <Home sikeres={sikeres} sikeresClose={sikeresClose}/> },
       { path: "/etelek", element: <Etelek db={db}/> },
-      { path: "/etel/:id", element: <Etel db={db}/> },
+      { path: "/etel/:id", element: <Etel db={db} user={user} kosarrefresh={kosarrefresh} setKosarrefresh={setKosarrefresh}/> },
       { path: "/partnereink", element: <Partnereink /> },
       { path: "/blog", element: <Blog /> },
       { path: "/blog/receptupload", element: <ReceptUpload user={user}/> },

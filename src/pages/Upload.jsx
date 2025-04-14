@@ -1,4 +1,4 @@
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, Snackbar } from '@mui/material';
+import { Alert, Button, Dialog, DialogActions, DialogTitle, Snackbar } from '@mui/material';
 import axios from 'axios';
 import { addDoc, collection, doc, onSnapshot, query, Timestamp, updateDoc, where } from 'firebase/firestore';
 import React, { useEffect } from 'react'
@@ -34,6 +34,7 @@ export default function Upload({partner,db,user}) {
             const resp = await axios.post("http://localhost:88/etel",formData);
             await updateDoc(doc(db, "etelek", add._key.path.segments[1]), { kepurl:resp.data.url });
             setToltes(false);
+            showSnackbar('Élelmiszer sikeresen feltöltve!', 'success');
           }
       }
 
@@ -64,6 +65,22 @@ export default function Upload({partner,db,user}) {
   lejaratdatum.setSeconds(mettollejarat.split(":")[2]);
   
   console.log(lejaratdatum);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+          const [snackbarMessage, setSnackbarMessage] = useState('');
+          const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+};
+const handleSnackbarClose = (event, reason) => {
+  if (reason === 'clickaway') {
+      return;
+  }
+  setSnackbarOpen(false);
+};
  
   async function upload() {
     if(nev=="" ||ar=="" ||mennyiseg=="" ||helyszin=="" ||kategoria=="" ||leiras=="" || file=="") {
@@ -72,6 +89,7 @@ export default function Upload({partner,db,user}) {
       
     } else {
       setToltes(true);
+      
       elelmiszerkepupload();
       
       console.log("uploading...");
@@ -91,8 +109,8 @@ export default function Upload({partner,db,user}) {
   return (
    
    
-    <div>{partner ? <div className='feltoltes loginpanel m-auto p-5 drop-shadow-xl'>
-  
+    <div>{partner ? <><div className='feltoltes loginpanel m-auto p-5 drop-shadow-xl'>
+    
     <h1 className='text-2xl font-bold text-center mb-1'>Élelmiszer feltöltése</h1>
     
     <div  className='flex flex-col gap-3'>
@@ -134,6 +152,7 @@ export default function Upload({partner,db,user}) {
         <input type="file"  id="fileinput" accept='.jpg,.png,.jpeg'onChange={e => setFile(e.target.files[0])}/>
         <button className='bg-amber-500 text-white p-2 rounded-md cursor-pointer uploadgomb flex justify-center' onClick={upload}>{toltes?<CircularProgress size="24px"/>:"Feltöltés"}</button>
     </div>
+     
     <Dialog
       open={open}
       onClose={handleClose}
@@ -151,7 +170,21 @@ export default function Upload({partner,db,user}) {
       </DialogActions>
     </Dialog>
     </div>
-    
+    <Snackbar
+    open={snackbarOpen}
+    autoHideDuration={3000}
+    onClose={handleSnackbarClose}
+    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+>
+    <Alert 
+        onClose={handleSnackbarClose} 
+        severity={snackbarSeverity}
+        sx={{ width: '100%' }}
+    >
+        {snackbarMessage}
+    </Alert>
+  </Snackbar>
+  </>
    
      : <Navigate to="/"/>}</div>
     
