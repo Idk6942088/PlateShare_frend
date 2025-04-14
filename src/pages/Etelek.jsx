@@ -31,21 +31,21 @@ export default function Etelek({db}) {
     
     for(let x of etelek) {
         if(Timestamp.now().toDate() > x.meddig.toDate()) {
-          console.log(x.id);
+          
           const resp = await axios.delete("http://plateshare-bkend.onrender.com/del/"+x.id);
           await deleteDoc(doc(db, "etelek", x.id));
-          console.log(resp.data)
+         
         }
       }
   }
   
-console.log(kategoria);
+
 
   useEffect( () => {
     deleteExpiredEtelek();
   },[etelek.length]);
 
-  console.log(etelek);
+
   const filteredEtelek = etelek.filter((el) => {
     if (userInput === '') {
       if(kategoria === '') {

@@ -119,18 +119,6 @@ export default function Admin({ admin, db, auth }) {
     handleMenuClose();
   };
 
-  const handleBulkDelete = () => {
-    if (rowSelectionModel.length === 0) {
-      setNotification({
-        open: true,
-        message: "Nincs kijelölt felhasználó",
-        severity: "warning"
-      });
-      return;
-    }
-    setOpenDeleteDialog(true);
-  };
-
   const handleCloseNotification = (event, reason) => {
     if (reason === 'clickaway') return;
     setNotification({...notification, open: false});

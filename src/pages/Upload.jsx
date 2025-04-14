@@ -63,8 +63,6 @@ export default function Upload({partner,db,user}) {
   lejaratdatum.setHours(mettollejarat.split(":")[0]);
   lejaratdatum.setMinutes(mettollejarat.split(":")[1]);
   lejaratdatum.setSeconds(mettollejarat.split(":")[2]);
-  
-  console.log(lejaratdatum);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
           const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -84,7 +82,7 @@ const handleSnackbarClose = (event, reason) => {
  
   async function upload() {
     if(nev=="" ||ar=="" ||mennyiseg=="" ||helyszin=="" ||kategoria=="" ||leiras=="" || file=="") {
-      console.log("Nincs kitöltve minden")
+    
       setOpen(true);
       
     } else {
@@ -92,7 +90,7 @@ const handleSnackbarClose = (event, reason) => {
       
       elelmiszerkepupload();
       
-      console.log("uploading...");
+   
     }
     
   }

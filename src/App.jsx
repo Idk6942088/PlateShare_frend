@@ -61,9 +61,6 @@ export default function App() {
     getpfp();
   },[user]);
 
-  console.log(auth);
-
-  
   const sikeresClose = (event, reason) => {
     if (reason === 'clickaway') {
     return;

@@ -11,7 +11,7 @@ export const Receptjeim = ({ db, user }) => {
 
   // Felhasználó ID lekérése
 
-  console.log(user);
+
 
   // Receptek betöltése
   useEffect(() => {

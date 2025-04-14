@@ -34,7 +34,7 @@ export default function Kapcsolat({user,db}) {
     } 
   },[user]);
 
-  console.log(user);
+ 
 
   async function kuldes() {
     if(uzenet=="")  {
