@@ -76,12 +76,6 @@ export default function Kapcsolat({user,db}) {
               <li><MdEmail />@plateshare@gmail.com</li>
               <li><FaPhoneAlt /> +36 12 345 6789</li>
             </ul>
-            <div className="kapcsolat_img">
-              <span>Kövess minket:</span>
-              <img src="src/img/instagram.png" alt="" />
-              <img src="src/img/facebook.png" alt="" />
-              <img src="src/img/tiktok.png" alt="" />
-            </div>
           </div>
         </Grid>
       </Grid>):(<Grid container spacing={2}>
@@ -108,12 +102,6 @@ export default function Kapcsolat({user,db}) {
               <li><MdEmail />@plateshare@gmail.com</li>
               <li><FaPhoneAlt /> +36 12 345 6789</li>
             </ul>
-            <div className="kapcsolat_img">
-              <span>Kövess minket:</span>
-              <img src="src/img/instagram.png" alt="" />
-              <img src="src/img/facebook.png" alt="" />
-              <img src="src/img/tiktok.png" alt="" />
-            </div>
           </div>
         </Grid>
       </Grid>)}

@@ -15,6 +15,8 @@ export default function Etelek({db}) {
   const [etelek, setEtelek] = useState([]);
   const [userInput,setuserInput] = useState("");
   const [kategoria, setKategoria] = useState("");
+  const [rendezes, setRendezes] = useState("");
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   useEffect(() => {
     const q = query(collection(db, "etelek"));
@@ -92,7 +94,7 @@ console.log(kategoria);
     } 
   }
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -107,7 +109,29 @@ console.log(kategoria);
   const handleClose = () => {
     setAnchorEl(null);
   };
-  
+
+  /**/
+  const rendezettEtelek = [...filteredEtelek].sort((a, b) => {
+    if (rendezes === "arNovekvo") {
+      return a.ar - b.ar;
+    } else if (rendezes === "arCsokkeno") {
+      return b.ar - a.ar;
+    }
+    return 0; // nincs rendezés
+  });
+
+  const [anchorElSort, setAnchorElSort] = useState(null);
+  const openSort = Boolean(anchorElSort);
+
+  const handleSortClick = (event) => {
+    setAnchorElSort(event.currentTarget);
+  };
+
+  const handleSortSelect = (value) => {
+    setRendezes(value);
+    setAnchorElSort(null);
+  };
+
   return (
     <div className='etelek'>
       <div className='etelekFent'>
@@ -143,9 +167,9 @@ console.log(kategoria);
         </div>
         <div className="szurok">
           <div className="szures">
-            <p>Filter:</p>
+            <p onClick={handleClick}>Filter:</p>
             <span>
-                      <Menu
+                <Menu
                   id="long-menu"
                   MenuListProps={{
                     'aria-labelledby': 'long-button',
@@ -166,15 +190,23 @@ console.log(kategoria);
               <IoFilter onClick={handleClick}/> </span>
           </div>
           <div className="rendezes">
-            <p>Sort by:</p>
-            <span ><BiSort /> </span>
+            <p onClick={handleSortClick}>Sort by:</p>
+            <BiSort onClick={handleSortClick} />
+            <Menu
+              anchorEl={anchorElSort}
+              open={openSort}
+              onClose={() => setAnchorElSort(null)}
+            >
+              <MenuItem onClick={() => handleSortSelect("arNovekvo")}>Ár szerint növekvő</MenuItem>
+              <MenuItem onClick={() => handleSortSelect("arCsokkeno")}>Ár szerint csökkenő</MenuItem>
+            </Menu>
           </div>
         </div>
       </div>
 
       <div className="etelekLent">
         {filteredEtelek.length!=0? <Grid container spacing={2}>
-          {filteredEtelek.map( e => (  
+          {rendezettEtelek.map( e => (  
               <Grid size={{xs: 12, sm: 6, md: 3}} className='kartya' key={e.id}>
                 <Link to={`/etel/${e.id}`} >
                   <div className="kartyaKep">

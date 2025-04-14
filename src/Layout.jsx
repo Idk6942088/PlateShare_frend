@@ -451,11 +451,11 @@
                     </Grid>
                     <p className='text-center'>© 2025 PlateShare</p>
                 </footer>
-                <div className={`up ${showButton ? 'fade-in' : 'fade-out'}`}>
-                    <Link to={pathname} onClick={scrollUp}>
+                <Link to={pathname} onClick={scrollUp}>
+                    <div className={`up ${showButton ? 'fade-in' : 'fade-out'}`}>
                         <FaChevronUp className="upIcon" />
-                    </Link>
-                </div>
+                    </div>
+                </Link>
                 <Snackbar
                     open={snackbarOpen}
                     autoHideDuration={3000}

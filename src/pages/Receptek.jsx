@@ -57,12 +57,12 @@ const Receptek = ({db}) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen py-8 receptek">
       <div className="text-center mb-6">
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="p-2 border border-gray-300 rounded-md"
+          className="p-2 rounded-md"
         >
           <option value="all">Összes recept</option>
           <option value="Főétel">Főétel</option>
@@ -74,13 +74,13 @@ const Receptek = ({db}) => {
         </select>
 
         <Link to="/blog" className="ml-4">
-          <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+          <button className="px-4 py-2 text-white rounded-md">
             Vissza
           </button>
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 receptek_kartyak">
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe) => (
             <div key={recipe.id} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">

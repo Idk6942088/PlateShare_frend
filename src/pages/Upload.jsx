@@ -150,7 +150,7 @@ const handleSnackbarClose = (event, reason) => {
         <input type="text" required placeholder='Élelmiszer helyszíne' value={helyszin} onChange={ e => setHelyszin(e.target.value)}/>
         <label htmlFor="fileinput" className='etelkepupload'>Kép feltöltése az élelmiszerről {file.name}</label>
         <input type="file"  id="fileinput" accept='.jpg,.png,.jpeg'onChange={e => setFile(e.target.files[0])}/>
-        <button className='bg-amber-500 text-white p-2 rounded-md cursor-pointer uploadgomb flex justify-center' onClick={upload}>{toltes?<CircularProgress size="24px"/>:"Feltöltés"}</button>
+        <button className='etel_feltoltes_gomb text-white p-2 rounded-md cursor-pointer  flex justify-center' onClick={upload}>{toltes?<CircularProgress size="24px"/>:"Feltöltés"}</button>
     </div>
      
     <Dialog

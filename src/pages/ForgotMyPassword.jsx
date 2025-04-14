@@ -81,7 +81,8 @@ export default function ForgotMyPassword({auth}) {
                 />
                 
                 <Button 
-                    variant="contained" 
+                    className=' jelszoIgenyles_gomb'
+                    variant="" 
                     onClick={forgotPassword}
                 >
                     Új jelszó igénylése

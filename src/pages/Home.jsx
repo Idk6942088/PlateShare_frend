@@ -11,8 +11,8 @@ export function Home({sikeres,sikeresClose}) {
           
         </div>
         <div className="home_bg_szoveg">
-          <h1>Valami frappáns duma</h1>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores nihil magnam enim, voluptas iste nulla accusantium, veniam perspiciatis, corporis possimus et molestiae.</p>
+          <h1>Ne pazarolj többé!</h1>
+          <p>Az élelmiszer nem hulladék! Segíts csökkenteni a pazarlást úgy, hogy közeli lejáratú termékeket vásárolsz kedvezményes áron. Böngéssz kategóriák szerint, spórolj, és légy része a változásnak!</p>
           <div className="home_bg_gombok">
             <Link to='/etelek' className='home_bg_gombok_reg'><input type="button" value="Ételek" /></Link>
             <Link to='/kapcsolat'><input type="button" value="Kapcsolat" /></Link>

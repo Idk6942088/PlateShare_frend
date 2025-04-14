@@ -97,7 +97,7 @@ const ReceptSzerkesztes = ({ db, user }) => {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="bg-white p-6 rounded-lg shadow-md max-w-md text-center">
+        <div className="p-6 rounded-lg shadow-md max-w-md text-center">
           <h2 className="text-xl font-bold text-red-500 mb-4">Be kell jelentkezned a szerkesztéshez</h2>
           <Link to="/auth/in" className="text-blue-500 hover:underline">
             Bejelentkezés
@@ -116,8 +116,8 @@ const ReceptSzerkesztes = ({ db, user }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+    <div className="min-h-screen py-8 px-4">
+      <div className="max-w-md mx-auto p-6 rounded-lg shadow-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Recept szerkesztése</h1>
         
         <form onSubmit={handleSubmit}>
@@ -209,7 +209,7 @@ const ReceptSzerkesztes = ({ db, user }) => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`flex-1 px-4 py-2 rounded ${isSubmitting ? 'bg-blue-300' : 'bg-blue-500 hover:bg-blue-600'} text-white transition-colors`}
+              className={`flex-1 px-4 py-2 rounded ${isSubmitting ? 'bg-blue-300' : 'receptek_szerkeszt_gomb'} text-white transition-colors`}
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center">

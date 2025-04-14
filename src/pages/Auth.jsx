@@ -237,9 +237,9 @@ export default function Auth({db, user, auth}) {
         />
         
         {!isSignIn ? (
-          <Button variant="contained" onClick={register}>Regisztráció</Button>
+          <Button variant="contained be_reg_gombok" onClick={register}>Regisztráció</Button>
         ) : (
-          <Button variant="contained" onClick={login}>Bejelentkezés</Button>
+          <Button variant="contained be_reg_gombok" onClick={login}>Bejelentkezés</Button>
         )}
        
         <Link className='m-auto font-light' to="/pwreset">Elfelejtetted a jelszód?</Link>

@@ -72,7 +72,7 @@ export const Receptjeim = ({ db, user }) => {
 
   if (betoltes) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center receptjeim">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
@@ -80,8 +80,8 @@ export const Receptjeim = ({ db, user }) => {
 
   if (hiba) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="bg-white p-6 rounded-lg shadow-md max-w-md text-center">
+      <div className="min-h-screen flex items-center justify-center receptjeim">
+        <div className="p-6 rounded-lg shadow-md max-w-md text-center">
           <h2 className="text-xl font-bold text-red-500 mb-4">{hiba}</h2>
           {!user && (
             <Link
@@ -98,8 +98,8 @@ export const Receptjeim = ({ db, user }) => {
 
   if (receptek.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="bg-white p-6 rounded-lg shadow-md max-w-md text-center">
+      <div className="min-h-screen flex items-center justify-center receptjeim">
+        <div className="p-6 rounded-lg shadow-md max-w-md text-center">
           <h2 className="text-xl font-bold mb-4">Még nincsenek receptjeid</h2>
           <Link
             to="/blog/receptupload"
@@ -113,10 +113,10 @@ export const Receptjeim = ({ db, user }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen py-8 px-4 receptjeim">
+      <div className="max-w-4xl mx-auto shadow-md p-5 rounded-xl">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Receptjeim</h1>
+          <h1 className="text-2xl md:text-3xl font-bold">Receptjeim</h1>
           <Link
             to="/blog/receptupload"
             className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
@@ -146,7 +146,7 @@ export const Receptjeim = ({ db, user }) => {
                 <div className="flex justify-between mt-4">
                   <Link
                     to={`/receptjeim/${recept.id}`}
-                    className="text-sm text-blue-500 hover:underline"
+                    className="text-sm szerkeztes_gomb"
                   >
                     Szerkesztés
                   </Link>
@@ -154,7 +154,7 @@ export const Receptjeim = ({ db, user }) => {
                   <button
                     onClick={() => torolReceptet(recept.id)}
                     disabled={torlesFolyamatban === recept.id}
-                    className={`text-sm ${torlesFolyamatban === recept.id ? 'text-gray-400' : 'text-red-500 hover:underline'}`}
+                    className={`torol_gomb text-sm ${torlesFolyamatban === recept.id ? 'nemTorol_gomb' : 'torles_gomb'}`}
                   >
                     {torlesFolyamatban === recept.id ? 'Törlés...' : 'Törlés'}
                   </button>
