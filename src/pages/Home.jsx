@@ -32,7 +32,7 @@ export function Home({sikeres,sikeresClose}) {
             </p>
         </Grid2>
         <Grid2 size={{ xs: 12, sm: 12, md: 6 }} >
-          <img className='home_img' src="src/img/usingPhone.jpg" alt="" />
+          <img className='home_img' src="usingPhone.jpg" alt="" />
         </Grid2>
       </Grid2>
       
