@@ -3,7 +3,6 @@ import React from 'react'
 import { IoSearch, IoFilter } from "react-icons/io5";
 import { BiSort } from "react-icons/bi";
 import Grid from '@mui/material/Grid2';
-import { IoIosStar } from "react-icons/io";
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { collection, deleteDoc, doc, onSnapshot, query, Timestamp } from 'firebase/firestore';
@@ -47,26 +46,24 @@ export default function Etelek({db}) {
 
 
   const filteredEtelek = etelek.filter((el) => {
+    if(el.mettol > Timestamp.now()) return false;
     if (userInput === '') {
-      if(kategoria === '') {
-        return el.partnernev.toLowerCase().includes(userInput.toLowerCase())
-        || el.helyszin.toLowerCase().includes(userInput.toLowerCase())
-        || el.kategoria.toLowerCase().includes(userInput.toLowerCase())
-        || el.leiras.toLowerCase().includes(userInput.toLowerCase());
-      } 
-      else {
-        return el.kategoria.toLowerCase().includes(kategoria.toLowerCase());
-      }
+      if(kategoria === '') return true; 
+      else return el.kategoria.toLowerCase().includes(kategoria.toLowerCase());
   }
   else {
       if(kategoria === '') {
         return el.partnernev.toLowerCase().includes(userInput.toLowerCase())
+        || el.nev.toLowerCase().includes(userInput.toLowerCase())
         || el.helyszin.toLowerCase().includes(userInput.toLowerCase())
         || el.kategoria.toLowerCase().includes(userInput.toLowerCase())
         || el.leiras.toLowerCase().includes(userInput.toLowerCase());
     } 
     else {
-      return el.partnernev.toLowerCase().includes(userInput.toLowerCase())
+      if(!el.kategoria.toLowerCase().includes(kategoria.toLowerCase())) return false;
+      if(kategoria!==''&&kategoria=== userInput) return true; 
+      else return el.partnernev.toLowerCase().includes(userInput.toLowerCase())
+      || el.nev.toLowerCase().includes(userInput.toLowerCase())
       || el.helyszin.toLowerCase().includes(userInput.toLowerCase())
       && el.kategoria.toLowerCase().includes(kategoria.toLowerCase())
       || el.leiras.toLowerCase().includes(userInput.toLowerCase());
@@ -75,23 +72,15 @@ export default function Etelek({db}) {
     
 })
 
-
   const convertTimestamp = ( mettol,meddig ) => {
-    let ma = Timestamp.now().toDate().toDateString();
     let atveheto = mettol.toDate();
     let atvehetodate = atveheto.toDateString();
-    let atvehetodate2 = atveheto;
     let atveheto1 = meddig.toDate();
-    let atvehetodate1 = atveheto1.getMonth();
     let ora1 = atveheto.getHours();
     let perc1 = atveheto.getMinutes();
     let ora2 = atveheto1.getHours();
     let perc2 = atveheto1.getMinutes();
-    if(atvehetodate!=ma) {
-      return "Lejárt";
-    }else {
-        return mettol.toDate().toLocaleDateString()+" " + (ora1 < "10" ? "0" + ora1 : ora1) + ":" + (perc1 < "10" ? "0" + perc1 : perc1) + "-től - " + meddig.toDate().toLocaleDateString()+" " + (ora2 < "10" ? "0" + ora2 : ora2) + ":" + (perc2 < "10" ? "0" + perc2 : perc2) + "-ig";
-    } 
+    return mettol.toDate().toLocaleDateString()+" " + (ora1 < "10" ? "0" + ora1 : ora1) + ":" + (perc1 < "10" ? "0" + perc1 : perc1) + "-től - " + meddig.toDate().toLocaleDateString()+" " + (ora2 < "10" ? "0" + ora2 : ora2) + ":" + (perc2 < "10" ? "0" + perc2 : perc2) + "-ig";
   }
 
 
@@ -106,9 +95,6 @@ export default function Etelek({db}) {
   setAnchorEl(null);
  }
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   /**/
   const rendezettEtelek = [...filteredEtelek].sort((a, b) => {
@@ -166,7 +152,7 @@ export default function Etelek({db}) {
           </Box>
         </div>
         <div className="szurok">
-          <div className="szures">
+          <div  className="szures">
             <p onClick={handleClick}>Filter:</p>
             <span>
                 <Menu
@@ -176,12 +162,12 @@ export default function Etelek({db}) {
                   }}
                   anchorEl={anchorEl}
                   open={open}
-                  onClose={()=>setAnchorEl(null)}
+                  onClose={() => setAnchorEl(null)}
                 >
                   <MenuItem onClick={()=>kategoriaselect("")}>
                       Összes
                     </MenuItem>
-                    {Array.from(new Set(etelek.map(x => x.kategoria))).map((kategoria, index) => (
+                    {Array.from(new Set(filteredEtelek.map(x => x.kategoria))).map((kategoria, index) => (
                     <MenuItem key={index} onClick={() => kategoriaselect(kategoria)}>
                     {kategoria}
                     </MenuItem>
@@ -205,28 +191,28 @@ export default function Etelek({db}) {
       </div>
 
       <div className="etelekLent">
-        {filteredEtelek.length!=0? <Grid container spacing={2}>
-          {rendezettEtelek.map( e => (  
-              <Grid size={{xs: 12, sm: 6, md: 3}} className='kartya' key={e.id}>
-                <Link to={`/etel/${e.id}`} >
-                  <div className="kartyaKep">
-                    <img src={e.kepurl} />
-                    <span className='kartyaDb'>{e.db} db</span>
+        {filteredEtelek.length>0? <Grid container spacing={2}>
+          {rendezettEtelek.map( e =>
+            <Grid size={{xs: 12, sm: 6, md: 3}} className='kartya' key={e.id}>
+              <Link to={`/etel/${e.id}`} >
+                <div className="kartyaKep">
+                  <img src={e.kepurl} />
+                  <span className='kartyaDb'>{e.db} db</span>
+                </div>
+                <div className="kartyaSzoveg">
+                  <div className="nev_ar">
+                  <h3>{e.partnernev}</h3>
+                  <span>{e.ar},-Ft</span>
                   </div>
-                  <div className="kartyaSzoveg">
-                    <div className="nev_ar">
-                    <h3>{e.partnernev}</h3>
-                    <span>{e.ar},-Ft</span>
-                    </div>
 
-                    <p>{e.helyszin}</p>
-                    <p>Élelmiszer átvehető: {convertTimestamp(e.mettol,e.meddig)}</p>
-                    <Button className='kartyaGomb' variant="contained">Lefoglalás</Button>
-                  </div>
-                </Link>
-              </Grid>
+                  <p>{e.helyszin}</p>
+                  <p>Élelmiszer átvehető: {convertTimestamp(e.mettol,e.meddig)}</p>
+                  <Button className='kartyaGomb' variant="contained">Lefoglalás</Button>
+                </div>
+              </Link>
+            </Grid>
            
-          ))} 
+        )} 
         </Grid>
         :<div className='pt-25'><h1 className='text-center text-6xl'>Nem található élelmiszer!</h1></div>}
        

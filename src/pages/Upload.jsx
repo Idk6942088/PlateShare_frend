@@ -9,20 +9,19 @@ import CircularProgress from '@mui/material/CircularProgress';
 export default function Upload({partner,db,user}) {
 
   const [ar,setAr] = useState("");
-  const [meddig,setMeddig] = useState("");
   const [toltes,setToltes] = useState(false);
-  const [mettolkezdet,setMettolkezdet] = useState(Timestamp.now().toDate().toLocaleTimeString());
-  const [mettolvege,setMettolvege] = useState(Timestamp.now().toDate().toLocaleTimeString());
-  const [mettollejarat,setMettollejarat] = useState(Timestamp.now().toDate().toLocaleTimeString());
+  const [mettolkezdet,setMettolkezdet] = useState(Timestamp.now().toDate().toTimeString().split(" ")[0]);
+  const [mettolvege,setMettolvege] = useState(Timestamp.now().toDate().toTimeString().split(" ")[0]);
+  const [mettollejarat,setMettollejarat] = useState(Timestamp.now().toDate().toTimeString().split(" ")[0]);
   const [mennyiseg,setMennyiseg] = useState("");
   const [leiras,setLeiras] = useState("");
   const [nev,setNev] = useState("");
   const [helyszin,setHelyszin] = useState("");
   const [kategoria,setKategoria] = useState("");
   const [file,setFile] = useState("");
-  const[kezdet,setKezdet] = useState(Timestamp.now().toDate().toJSON().split("T")[0]);
-  const[vege,setVege] = useState(Timestamp.now().toDate().toJSON().split("T")[0]);
-  const[lejarat,setLejarat] = useState(Timestamp.now().toDate().toJSON().split("T")[0]);
+  const[kezdet,setKezdet] = useState(Timestamp.now().toDate().toLocaleDateString("hu-HU").replaceAll(". ","-").replace(".",""));
+  const[vege,setVege] = useState(Timestamp.now().toDate().toLocaleDateString("hu-HU").replaceAll(". ","-").replace(".",""));
+  const[lejarat,setLejarat] = useState(Timestamp.now().toDate().toLocaleDateString("hu-HU").replaceAll(". ","-").replace(".",""));
   const [felhasznalo, setFelhasznalo] = useState([]);
 
    async function elelmiszerkepupload() {
@@ -48,6 +47,8 @@ export default function Upload({partner,db,user}) {
       }, [user]);
 
   
+    console.log();
+
   const kezdetdatum = new Date(kezdet);
   let ma = Timestamp.now().toDate();
   kezdetdatum.setHours(mettolkezdet.split(":")[0]);
@@ -63,6 +64,8 @@ export default function Upload({partner,db,user}) {
   lejaratdatum.setHours(mettollejarat.split(":")[0]);
   lejaratdatum.setMinutes(mettollejarat.split(":")[1]);
   lejaratdatum.setSeconds(mettollejarat.split(":")[2]);
+  console.log("Kezdet: "+kezdetdatum);
+  console.log("Meddig: "+vegedatum);  
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
           const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -107,7 +110,7 @@ const handleSnackbarClose = (event, reason) => {
   return (
    
    
-    <div>{partner ? <><div className='feltoltes loginpanel m-auto p-5 drop-shadow-xl'>
+    <div>{partner ? <><div className='feltoltes m-auto p-5 drop-shadow-xl'>
     
     <h1 className='text-2xl font-bold text-center mb-1'>Élelmiszer feltöltése</h1>
     
@@ -127,20 +130,20 @@ const handleSnackbarClose = (event, reason) => {
           <option value="Gyümölcs">Gyümölcs</option>
         </select>
         <input type="number" required min={1} placeholder='Élelmiszer mennyisége' value={mennyiseg} onChange={ e => setMennyiseg(e.target.value)} />
-        <div className='flex gap-3 flex-col w-fit'>
+        <div className='flex gap-3 flex-col datumok'>
           <div className='flex gap-3 justify-between datum'> <label className=' my-auto'>Élelmiszer átvételi időpont kezdete: </label>
           <input type="date" required placeholder='Élelmiszer átvehető' value={kezdet} onChange={e => setKezdet(e.target.value)} />
-          <input type="time"  requiredplaceholder='Mettől' value={mettolkezdet} onChange={ e => setMettolkezdet(e.target.value)} />
+          <input type="time"  required placeholder='Mettől' value={mettolkezdet} onChange={ e => setMettolkezdet(e.target.value)} />
           </div>
         <div className='flex gap-3 justify-between datum'>
         <label className=' my-auto mr-5'>Élelmiszer átvételi időpont vége: </label>
-          <input type="date" required placeholder='Élelmiszer vége' value={vege} onChange={e => setVege(e.target.value)} />
-          <input type="time"  requiredplaceholder='meddig' value={mettolvege} onChange={ e => setMettolvege(e.target.value)} />
+          <input type="date"  required placeholder='Élelmiszer vége' value={vege} onChange={e => setVege(e.target.value)} />
+          <input type="time"  required placeholder='meddig' value={mettolvege} onChange={ e => setMettolvege(e.target.value)} />
         </div>
         <div className='flex gap-3 justify-between datum'>
         <label className=' my-auto mr-12'>Élelmiszer lejárati időpontja: </label>
           <input type="date" required placeholder='Élelmiszer lejárat' value={lejarat} onChange={ e => setLejarat(e.target.value)} />
-          <input type="time"  requiredplaceholder='Lejárat' value={mettollejarat} onChange={ e => setMettollejarat(e.target.value)} />
+          <input type="time" required placeholder='Lejárat' value={mettollejarat} onChange={ e => setMettollejarat(e.target.value)} />
         </div>
          
          

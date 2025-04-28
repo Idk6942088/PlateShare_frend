@@ -186,6 +186,16 @@ html { scroll-behavior: smooth; }
 }
 .etel_feltoltes_gomb{ width: 100% !important;  }
 .feltoltes .etelkepupload { cursor: pointer; }
+.feltoltes {
+  margin: 25px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 35%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px; 
+}
 /*-------------------------------------------------------------------------------*/
 
 /*--------------------------------Layout.jsx--footer--------------------------*/
@@ -1136,6 +1146,21 @@ footer .footer_img {
 .loginpanel { width: 50%; border-radius: 50px; }
 .profilkep { min-width: 40%;}
 .adminmenu { min-width: 60%; }
+
+}
+
+@media (max-width: 1150px) {
+  .datumok {
+    width: fit-content;
+  }
+  .feltoltes{
+    min-width: 50%;
+  }
+}
+@media (max-width: 920px) {
+  .feltoltes{
+    min-width: 60%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1150,6 +1175,13 @@ footer .footer_img {
     width: 70%;
     }
     .adminmenu { min-width: 60%; }
+    .datum {
+      display: flex;
+      flex-direction: column;
+    }
+    .datumok {
+      width:  100%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1172,6 +1204,7 @@ footer .footer_img {
   .home_img { margin-top: 30px; }
   .partner_list img { height: 3vh; }
   .etel, .partnereink, .partnereink p, .home_szoveg, .footer_container { width: 80%; }
+  .feltoltes {width: 40%;}
 }
 
 @media screen and (max-width: 767px) {
